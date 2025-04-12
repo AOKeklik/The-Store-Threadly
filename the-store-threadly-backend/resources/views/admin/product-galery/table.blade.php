@@ -1,7 +1,7 @@
 @foreach($galeries as $galery)
     <tr class="table-light font-weight-bold">
         <td>{{ $galery->id }}</td>
-        <td><img src="{{ $galery->image() }}" style="height: 100px" alt=""></td>
+        <td><img src="{{ $galery->getImage() }}" style="height: 100px" alt=""></td>
         <td class="pt_10 pb_10">
             <a href="{{ route("admin.product.galery.edit.view",$galery->id) }}" class="btn btn-primary">Edit</a>
             <a 

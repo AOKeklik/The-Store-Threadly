@@ -10,8 +10,19 @@ class Attribute extends Model
     use HasFactory;
 
     protected $guarded  = [];
+    
+    protected static function boot()
+    {
+        parent::boot();
 
-    public function values()
+        static::saving(function ($attribute) {
+            if (!empty($attribute->name)) {
+                $attribute->slug = \Illuminate\Support\Str::slug($attribute->name);
+            }
+        });
+    }
+    
+    public function attributeValues()
     {
         return $this->hasMany(AttributeValue::class);
     }

@@ -19,7 +19,7 @@ Route::prefix("")/* ->middleware('auth:sanctum') */->group(function () {
     Route::controller(FrontendController::class)->group(function(){
         /* product */
         Route::get("product/all","product_get_all");
-        Route::get('product/{id}/{slug}','product_get_one_by_slug');
-        Route::get('product/filter','product_filter'); // ?color=red&size=large 
+        Route::get('product/filter','product_filter');
+        Route::get('product/{slug}','product_get_one_by_slug');
     });
 });

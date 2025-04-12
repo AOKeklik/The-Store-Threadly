@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AttributeResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
@@ -10,55 +11,94 @@ use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
-    public function product_get_all () {
-        return ProductResource::collection(
-            Product::
-                with('variants',"galeries")->
-                latest()->
-                get()
-        );
-    }
-
-    public function product_get_one_by_slug ($id,$slug) 
+    public function product_get_all () 
     {
-        return ProductResource::make(
-            Product::
-                with('variants',"galeries")->
-                where('id', $id)->
-                where('slug', $slug)->
-                firstOrFail()
-        );
+        try{
+            $products=Product::
+                with('galeries','variants')->
+                latest()->
+                get();
+
+            $colorAttribute = Attribute::where('slug', 'color')->first();
+            $usedColorAttributes = [];
+            if ($colorAttribute)
+                $usedColorAttributes=$colorAttribute->attributeValues()
+                    ->whereHas('variants')
+                    ->get()
+                    ->unique('id');
+
+            $sizeAttribute = Attribute::where('slug', 'size')->first();
+            $usedSizeAttributes = [];
+            if ($sizeAttribute)
+                $usedSizeAttributes=$sizeAttribute->attributeValues()
+                    ->whereHas('variants')
+                    ->get()
+                    ->unique('id');
+            
+            return response()->json([
+                "message"=>"Products retrieved successfully.",
+                "data"=>ProductResource::collection($products),
+                "colors"=>AttributeResource::collection($usedColorAttributes),
+                "sizes"=>AttributeResource::collection($usedSizeAttributes),
+            ],200);
+        }catch(\Exception $err) {
+            return response()->json(["message"=>$err->getMessage()], 500);
+        }
     }
 
+    public function product_get_one_by_slug ($slug) 
+    {
+        try{
+            $product= Product::
+                with('galeries','variants')->
+                where('slug', $slug)->
+                firstOrFail();
+
+            return response()->json([
+                "message"=>"Product retrieved successfully.",
+                "data"=>new ProductResource($product),
+            ],200);
+        }catch(\Exception $err) {
+            return response()->json(["message"=>$err->getMessage()], 500);
+        }
+    }
 
     public function product_filter(Request $request)
     {
-        $color = $request->query('color');
-        $size = $request->query('size');
+        try {
+            $color = $request->input('color');
+            $size = $request->input('size');
+    
+            $productsQuery = Product::
+                with('galeries','variants');
+    
+            if ($color) {
+                $productsQuery->whereHas('variants.attributeValues', function ($query) use ($color) {
+                    $query->whereHas('attribute', function ($q) {
+                        $q->where('slug', 'color');
+                    })
+                    ->where('slug', $color);
+                });
+            }
 
-        $products = Product::with(['variants', 'galeries'])
-            ->when($color, function ($query) use ($color) {
-                $attribute = Attribute::where('name', 'color')->first();
-                $value = AttributeValue::where('id', $color)->first();
-                if ($attribute && $value) {
-                    $query->whereHas('variants', function ($q) use ($attribute, $value) {
-                        $q->whereJsonContains("attribute_value_ids->{$attribute->id}", $value->id);
-                    });
-                }
-            })
-            ->when($size, function ($query) use ($size) {
-                $attribute = Attribute::where('name', 'size')->first();
-                $value = AttributeValue::where('id', $size)->first();
-                if ($attribute && $value) {
-                    $query->whereHas('variants', function ($q) use ($attribute, $value) {
-                        $q->whereJsonContains("attribute_value_ids->{$attribute->id}", $value->id);
-                    });
-                }
-            })
-            ->get();
+            if ($size) {
+                $productsQuery->whereHas('variants.attributeValues', function ($query) use ($size) {
+                    $query->whereHas('attribute', function ($q) {
+                        $q->where('slug', 'size');
+                    })
+                    ->where('slug', $size);
+                });
+            }
+    
+            $products=$productsQuery->latest()->get();
 
-        return $products->isEmpty()
-            ? response()->json(['message' => 'No products found for the selected filters.'], 404)
-            : ProductResource::collection($products);
+            return response()->json([
+                "message" => "Products retrieved successfully.",
+                "data" => ProductResource::collection($products),
+            ], 200);
+    
+        } catch (\Exception $err) {
+            return response()->json(["message" => $err->getMessage()], 500);
+        }
     }
 }

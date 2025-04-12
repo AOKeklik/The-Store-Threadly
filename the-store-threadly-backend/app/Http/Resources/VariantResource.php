@@ -14,15 +14,14 @@ class VariantResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // return parent::toArray($request);
 
         return [
             'id' => $this->id,
             'price' => $this->price,
             'offer_price' => $this->offer_price,
-            'stock' => $this->stock(),
-            'thumbnail' => $this->image(),
-            'attributes' => $this->attributes_info,
+            'stock' => $this->getStock(),
+            'thumbnail' => $this->getImage(),
+            'attributes' => AttributeResource::collection($this->attributeValues),
             'status' => $this->status,
         ];
     }

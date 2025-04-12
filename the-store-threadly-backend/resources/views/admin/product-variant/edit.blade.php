@@ -14,47 +14,53 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form>
-                                <div class="form-group mb-3">
-                                    <img src="{{ $variant->image() }}" alt="" style="max-height:250px" class="d-block mx-auto">
+                            <form class="row">
+                                <input type="hidden" name="id" id="id" value="{{ request('id') }}">
+                                <div class="col-md-4 form-group mb-3">
+                                    <img src="{{ $variant->getImage() }}" alt="" style="max-height:250px" class="d-block mx-auto">
+                                    <label for="image">Image</label>
                                     <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="image" name="image">
                                     <small data-app-alert="image" class="form-text text-danger"></small>
                                 </div>
-                                @foreach($attributes as $attribute)
-                                    <div class="form-group mb-3">
-                                        <label for="attribute_{{ $attribute->id }}">{{ ucfirst($attribute->name) }}</label>
-                                        <select class="form-control select2" 
-                                            id="attribute_{{ $attribute->id }}" 
-                                            name="attributes[{{ $attribute->id }}]"
-                                        >
-                                            <option value=""></option>
-                                            @foreach($attribute->values as $value)
-                                                <option 
-                                                    @if(in_array($value->id, $variant->attribute_value_ids)) selected @endif 
-                                                    value="{{ $value->id }}"
-                                                >{{ $value->value }}</option>
-                                            @endforeach
-                                        </select>
-                                        <small data-app-alert="attributes" class="form-text text-danger"></small>
-                                    </div>
-                                @endforeach
-                                <div class="form-group mb-3">
-                                    <label for="price">Price*</label>
-                                    <input type="text" class="form-control" id="price" name="price" value="{{ $variant->price }}">
-                                    <small data-app-alert="price" class="form-text text-danger"></small>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="offer_price">Offer Price</label>
-                                    <input type="text" class="form-control" id="offer_price" name="offer_price" alue="{{ $variant->offer_price }}">
-                                    <small data-app-alert="offer_price" class="form-text text-danger"></small>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="stock">Stock</label>
-                                    <input type="text" class="form-control" id="stock" name="stock" alue="{{ $variant->stock }}">
-                                    <small data-app-alert="stock" class="form-text text-danger"></small>
-                                </div>
-                                <div class="form-group">
-                                    <button onclick="handlerSubmit(event, {{ request('id') }})" type="button" class="btn btn-primary">Submit</button>
+                                <div class="col-md-8">
+                                   <div class="row">
+                                        @foreach($attributes as $attribute)
+                                            <div class="col-md-6 form-group mb-3">
+                                                <label for="attribute_{{ $attribute->id }}">{{ ucfirst($attribute->name) }}</label>
+                                                <select class="form-control select2" 
+                                                    id="attribute_{{ $attribute->id }}" 
+                                                    name="attributes[{{ $attribute->id }}]"
+                                                >
+                                                    <option value=""></option>
+                                                    @foreach($attribute->attributeValues as $value)
+                                                        <option 
+                                                            @if(in_array($value->id,$variant->attributeValues->pluck('id')->toArray())) selected @endif 
+                                                            value="{{ $value->id }}"
+                                                        >{{ $value->value }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <small data-app-alert="attributes" class="form-text text-danger"></small>
+                                            </div>
+                                        @endforeach
+                                        <div class="col-md-6 form-group mb-3">
+                                            <label for="price">Price*</label>
+                                            <input type="text" class="form-control" id="price" name="price" value="{{ $variant->price }}">
+                                            <small data-app-alert="price" class="form-text text-danger"></small>
+                                        </div>
+                                        <div class="col-md-6 form-group mb-3">
+                                            <label for="offer_price">Offer Price</label>
+                                            <input type="text" class="form-control" id="offer_price" name="offer_price" alue="{{ $variant->offer_price }}">
+                                            <small data-app-alert="offer_price" class="form-text text-danger"></small>
+                                        </div>
+                                        <div class="col-md-6 form-group mb-3">
+                                            <label for="stock">Stock</label>
+                                            <input type="text" class="form-control" id="stock" name="stock" alue="{{ $variant->stock }}">
+                                            <small data-app-alert="stock" class="form-text text-danger"></small>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <button onclick="handlerSubmit(event)" type="button" class="btn btn-primary">Submit</button>
+                                        </div>
+                                   </div>
                                 </div>
                             </form>
                         </div>
@@ -74,7 +80,7 @@
                 .attr("src",URL.createObjectURL(e.target.files[0]))
         }
 
-        async function handlerSubmit (e, id) {
+        async function handlerSubmit (e) {
             try {
                 e.preventDefault()
 
@@ -84,7 +90,6 @@
                 const csrf_token=await uptdateCSRFToken()
 
                 formData.append("_token",csrf_token)
-                formData.append("id",id)
                     
                 const submit=await submitFrom({url:"{{ route('admin.product.variant.update') }}",formData})
 

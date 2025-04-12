@@ -11,7 +11,7 @@ class ProductGalery extends Model
 
     protected $guarded  = [];
 
-    public function image()
+    public function getImage()
     {
         if($this->image)
             return asset("uploads/galery/".$this->image);

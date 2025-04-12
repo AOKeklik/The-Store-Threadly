@@ -49,8 +49,8 @@ class AdminAttributeController extends Controller
     public function attribute_store(Request $request) 
     {
         try{
-            $validator = \Validator::make($request->all(),[
-                "name"=>"required|string|unique:attributes",
+            $validator = \Validator::make($request->all(), [
+                "name" => "required|string|unique:attributes,name",
             ]);
 
             if(!$validator->passes())
@@ -101,7 +101,7 @@ class AdminAttributeController extends Controller
         try{
             $validator = \Validator::make($request->all(),[
                 "attribute_id"=>"required|numeric|exists:attributes,id",
-                "value"=>"required|string|unique:attribute_values",
+                "value"=>"required|string|unique:attribute_values,value",
                 "icon"=>"nullable|string",
             ]);
 
@@ -175,7 +175,8 @@ class AdminAttributeController extends Controller
             $attributeValues=AttributeValue::where("attribute_id",$request->attribute_id)->get();
 
             foreach ($attributeValues as $value)
-                $value->delete();
+                if(!$value->delete())
+                    throw new \Exception("Failed to delete the attribute.");
 
             if(!$attribute->delete())
                 throw new \Exception("Failed to delete the attribute.");
@@ -189,7 +190,7 @@ class AdminAttributeController extends Controller
     {
         try{
             $validator = \Validator::make($request->all(), [
-                "attribute_child_id" => "required|numeric|exists:attribute_values,id",
+                "id" => "required|numeric|exists:attribute_values,id",
                 "attribute_id" => "required|numeric|exists:attributes,id",
             ]);
     
@@ -197,7 +198,7 @@ class AdminAttributeController extends Controller
                 throw new \Exception($validator->errors()->first());
     
             $attributeValues=AttributeValue::
-                where("id",$request->attribute_child_id)->
+                where("id",$request->id)->
                 where("attribute_id",$request->attribute_id)->
                 first();
     

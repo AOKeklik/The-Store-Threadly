@@ -18,11 +18,16 @@
                                 <input type="hidden" name="id" id="id" value="{{ $attribute->id }}">
                                 <div class="form-group mb-3">
                                     <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="{{ $attribute->name }}">
+                                    <input onchange="handlerChangeValue(event)" type="text" class="form-control" id="name" name="name" value="{{ $attribute->name }}">
                                     <small data-app-alert="name" class="form-text text-danger"></small>
                                 </div>
+                                <div class="form-group mb-3">
+                                    <label for="name">Slug*</label>
+                                    <input type="text" class="form-control" id="slug" name="slug" readonly disabled value="{{ $attribute->slug }}">
+                                    <small data-app-alert="slug" class="form-text text-danger"></small>
+                                </div>
                                 <div data-app-btn="attribute-update" class="form-group">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button onclick="handlerParentSubmit(event)" type="button" class="btn btn-primary">Submit</button>
                                 </div>
                             </form>
                         </div>
@@ -35,23 +40,28 @@
 @endsection
 @push("scripts")
     <script>
-        $(document).ready(function(){
-            $(document)
-                .on("click","[data-app-btn=attribute-update]",handlerParentSubmit)
+        function handlerChangeValue (e) {
+            $(e.target).closest("form").find("input#slug").val(
+                $(e.target)
+                    .val()
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^\w\- ]/g,"")
+                    .replace(/[\s-]+/g,"-")
+                    .replace(/-$/, "")
+            )
+        }
 
-
-            async function handlerParentSubmit (e) {
+        async function handlerParentSubmit (e) {
                 try {
                     e.preventDefault()
 
-                    const formData=new FormData()
-                    const form = $("[data-app-form=attribute-update]")
+                    const form = $(e.target).closest("form")
+                    const formData=new FormData(form[0])
 
                     const csrf_token=await uptdateCSRFToken()
 
                     formData.append("_token",csrf_token)
-                    formData.append("id",form.find("#id").val())
-                    formData.append("name",form.find("#name").val())
                         
                     const submit=await submitFrom({url:"{{ route('admin.attribute.update') }}",formData})
 
@@ -156,6 +166,5 @@
             function reloadJqueryPlugins () {
                 $('.datatable').DataTable()
             }
-        })
     </script>
 @endpush

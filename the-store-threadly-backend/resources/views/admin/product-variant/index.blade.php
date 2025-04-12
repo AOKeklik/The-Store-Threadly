@@ -15,8 +15,10 @@
                     <div class="card">
                         <div class="card-body">                
                             <form>
+                                <input type="hidden" name="product_id" id="product_id" value="{{ request('product_id') }}">
                                 <div class="form-group mb-3">
                                     <img src="https://placehold.co/600x400?text=Hello+World" alt="" style="max-height:250px" class="d-block mx-auto">
+                                    <label for="image">Image</label>
                                     <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="image" name="image">
                                     <small data-app-alert="image" class="form-text text-danger"></small>
                                 </div>
@@ -28,7 +30,7 @@
                                             name="attributes[{{ $attribute->id }}]"
                                         >
                                             <option value=""></option>
-                                            @foreach($attribute->values as $value)
+                                            @foreach($attribute->attributeValues as $value)
                                                 <option value="{{ $value->id }}">{{ $value->value }}</option>
                                             @endforeach
                                         </select>
@@ -51,7 +53,7 @@
                                     <small data-app-alert="stock" class="form-text text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <button onclick="handlerSubmit(event, {{ request('product_id') }})" type="button" class="btn btn-primary">Submit</button>
+                                    <button onclick="handlerSubmit(event,{{ request('product_id') }})" type="button" class="btn btn-primary">Submit</button>
                                 </div>
                             </form>
                         </div>
@@ -68,8 +70,9 @@
                                         <th>SL</th>
                                         <th>Image</th>
                                         <th>Price</th>
-                                        <th>Color</th>
-                                        <th>Size</th>
+                                        @foreach(\App\Models\ProductVariant::getCommonAttributes() as $attributeName)
+                                            <th>{{ $attributeName }}</th>
+                                        @endforeach
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -95,7 +98,7 @@
                 .attr("src",URL.createObjectURL(e.target.files[0]))
         }
 
-        async function handlerSubmit (e, id) {
+        async function handlerSubmit (e,product_id) {
             try {
                 e.preventDefault()
 
@@ -105,10 +108,9 @@
                 const csrf_token=await uptdateCSRFToken()
 
                 formData.append("_token",csrf_token)
-                formData.append("product_id",id)
                     
                 const submit=await submitFrom({url:"{{ route('admin.product.variant.store') }}",formData})
-                await fetchTable(id)
+                await fetchTable(product_id)
 
                 await resetForm(form)
                 await showNotification(submit)

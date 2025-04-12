@@ -2,10 +2,10 @@
     <tr class="table-light font-weight-bold">
         <td>{{ $product->id }}</td>
         <td>
-            <img style="height: 100px" src="{{ $product->image() }}" alt="">
+            <img style="height: 100px" src="{{ $product->getImage() }}" alt="">
         </td>
         <td>{{ $product->title }}</td>
-        <td>{{ $product->stock() }}</td>
+        <td>{{ $product->getStock() }}</td>
         <td class="pt_10 pb_10">
             <a href="{{ route("admin.product.variant.view",[$product->id]) }}" class="btn btn-sm btn-primary">Variant</a>
             <a href="{{ route("admin.product.galery.view",[$product->id]) }}" class="btn btn-sm btn-primary">Galeria</a>

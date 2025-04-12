@@ -1,10 +1,11 @@
 @foreach($variants as $variant)
     <tr class="table-light font-weight-bold">
         <td>{{ $variant->id }}</td>
-        <td><img src="{{ $variant->image() }}" style="height: 100px" alt=""></td>
-        <td>{!! $variant->price() !!}</td>
-        <td>{!! $variant->getAttributeValueByAttributeId(9)->icon() !!}</td>
-        <td>{!! $variant->getAttributeValueByAttributeId(12)->icon() !!}</td>
+        <td><img src="{{ $variant->getImage() }}" style="height: 100px" alt=""></td>
+        <td>{!! $variant->getPrice() !!}</td>
+        @foreach($variant->getOrderedAttributeValues() as $attr)
+            <td>{!! $attr->getIcon() !!}</td>
+        @endforeach
         <td class="pt_10 pb_10">
             <a href="{{ route("admin.product.variant.edit.view",$variant->id) }}" class="btn btn-primary">Edit</a>
             <a 

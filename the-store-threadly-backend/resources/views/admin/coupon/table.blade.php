@@ -2,8 +2,8 @@
     <tr class="table-light font-weight-bold">
         <td>{{ $coupon->id }}</td>
         <td>{{ $coupon->code }}</td>
-        <td>{{ $coupon->expire_date() }}</td>
-        <td>{{ $coupon->discount() }}</td>
+        <td>{{ $coupon->getExpireDate() }}</td>
+        <td>{{ $coupon->getDiscount() }}</td>
         <td class="pt_10 pb_10">
             <a href="{{ route("admin.coupon.edit.view",$coupon->id) }}" class="btn btn-primary">Edit</a>
             <a 

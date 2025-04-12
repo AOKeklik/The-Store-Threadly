@@ -9,38 +9,6 @@ class Coupon extends Model
 {
     use HasFactory;
 
-    public function expire_date($format = 'd M, Y')
-    {
-        if (is_null($this->expire_date)) 
-        return null;
-
-        try {
-            return \Carbon\Carbon::parse($this->expire_date)->format($format);
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-
-    public function discount()
-    {
-        if ($this->discount_type === 'percent') {
-            if ($this->discount == floor($this->discount))
-                $formattedDiscount = (int)$this->discount;
-            else
-                $formattedDiscount = $this->discount;
-    
-            return $formattedDiscount . '%';
-        }
-        
-        $currencyIcon = setting('site_currency_icon'); 
-        $currencyPosition = setting('site_currency_icon_position');
-    
-        if ($currencyPosition === 'right')
-            return $currencyIcon . ' ' . $this->discount;
-    
-        return $this->discount . ' ' . $currencyIcon;
-    }
-
     protected static function booted()
     {
         static::saving(function ($coupon) {
@@ -60,5 +28,37 @@ class Coupon extends Model
                 $coupon->min_purchase_amount = 0;
             }
         });
+    }
+
+    public function getExpireDate($format = 'd M, Y')
+    {
+        if (is_null($this->expire_date)) 
+        return null;
+
+        try {
+            return \Carbon\Carbon::parse($this->expire_date)->format($format);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getDiscount()
+    {
+        if ($this->discount_type === 'percent') {
+            if ($this->discount == floor($this->discount))
+                $formattedDiscount = (int)$this->discount;
+            else
+                $formattedDiscount = $this->discount;
+    
+            return $formattedDiscount . '%';
+        }
+        
+        $currencyIcon = setting('site_currency_icon'); 
+        $currencyPosition = setting('site_currency_icon_position');
+    
+        if ($currencyPosition === 'right')
+            return $currencyIcon . ' ' . $this->discount;
+    
+        return $this->discount . ' ' . $currencyIcon;
     }
 }

@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('attribute_values', function (Blueprint $table) {
             $table->id();
             $table->integer("attribute_id");
-            $table->string("value");
+            $table->string("slug")->unique();
+            $table->string("value")->unique();
             $table->string("icon")->nullable();
             $table->timestamps();
             $table->foreign("attribute_id")->references("id")->on("attributes")->onDelete("restrict")->onUpdate("cascade");
