@@ -63,9 +63,9 @@ class Product extends Model
         $currencyPosition = setting('site_currency_icon_position');
     
         if ($currencyPosition === 'right')
-            return $currencyIcon . ' ' . $this->discount;
+            return $currencyIcon . ' ' . $this->price;
     
-        return $this->discount . ' ' . $currencyIcon;
+        return $this->price . ' ' . $currencyIcon;
     }
 
     public function getStock()

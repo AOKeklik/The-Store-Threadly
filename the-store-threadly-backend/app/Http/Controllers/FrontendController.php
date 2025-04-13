@@ -15,6 +15,7 @@ class FrontendController extends Controller
         try{
             $products=Product::
                 with('galeries','variants')->
+                where('status',1)->
                 latest()->
                 get();
 

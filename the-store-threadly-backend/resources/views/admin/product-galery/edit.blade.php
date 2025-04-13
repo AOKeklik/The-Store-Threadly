@@ -18,7 +18,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group mb-3">
-                                            <img style="height:200px" src="{{ $galery->image() }}" alt="" class="mx-auto d-block">
+                                            <img style="height:200px" src="{{ $galery->getImage() }}" alt="" class="mx-auto d-block">
                                             <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="image" name="image">
                                             <small data-app-alert="image" class="form-text text-danger"></small>
                                         </div>

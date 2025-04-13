@@ -1,7 +1,8 @@
 import React from 'react'
 
-import Products from './products/Products'
+import FeaturedProducts from './products/FeaturedProducts'
 import HeroSlider from './hero-slider/HeroSlider'
+import SectionTitle from './SectionTitle/SectionTitle'
 
 export default function Home() {
     
@@ -9,7 +10,8 @@ export default function Home() {
     return (
         <>
             <HeroSlider />
-            <Products />
+            <SectionTitle title="Featured Products" />
+            <FeaturedProducts />
         </>
     )
 }

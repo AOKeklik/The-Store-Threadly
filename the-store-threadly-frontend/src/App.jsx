@@ -8,12 +8,10 @@ import Home from './components/Home'
 function App() {
     return  <BrowserRouter>
         <Header/>
-        <div id='page' className='container-fluid'>
-            <Routes>
-                <Route path="/" element={<Home/>} />
-                <Route path="*" element={<PageNotFound/>} />
-            </Routes>
-        </div>
+        <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="*" element={<PageNotFound/>} />
+        </Routes>
     </BrowserRouter>
 }
 

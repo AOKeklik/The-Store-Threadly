@@ -1,0 +1,26 @@
+.section-title-wrapper {
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.section-title {
+    position: relative;
+    color: var(--color-gray);
+    font-weight: 700;
+    padding-bottom: 0.5rem;
+    width: fit-content;
+}
+
+.section-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -.5rem;
+    width: 5rem;
+    height: .2rem;
+    background-color: var(--color-red);
+    border-radius: 4px;
+    margin-left: calc(50% - 2.5rem);
+}
+  

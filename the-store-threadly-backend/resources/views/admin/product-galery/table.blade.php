@@ -3,10 +3,10 @@
         <td>{{ $galery->id }}</td>
         <td><img src="{{ $galery->getImage() }}" style="height: 100px" alt=""></td>
         <td class="pt_10 pb_10">
-            <a href="{{ route("admin.product.galery.edit.view",$galery->id) }}" class="btn btn-primary">Edit</a>
+            <a href="{{ route("admin.product.galery.edit.view",$galery->id) }}" class="btn btn-sm btn-primary">Edit</a>
             <a 
                 onclick="handlerDelete(event,{{ $galery->id }},{{ request('product_id') }})"
-                href="#" class="btn btn-danger"
+                href="#" class="btn btn-sm btn-danger"
             >Delete</a>
             <input 
                 onchange="handlerChange(event,{{ $galery->id }})"
@@ -18,7 +18,7 @@
                 data-onstyle="success" 
                 data-offstyle="danger" 
                 name="status" 
-                data-size="medium"
+                data-size="small"
                 value="Yes"
             >
         </td>

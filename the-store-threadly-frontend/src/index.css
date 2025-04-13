@@ -100,6 +100,11 @@
 /* ////////////////////////
             HERO
 //////////////////////// */
+@media (min-width:768px) {
+    #section-hero-slider {
+        padding: 0 5rem;
+    }
+}
 #section-hero-slider .swiper img {
     height: 500px;
     width: 100%;
@@ -115,7 +120,7 @@
 #section-hero-slider  .swiper-pagination-bullet-active {
     background-color: var(--color-red);
 }
-#section-hero-slider > div:first-of-type img {
+#section-hero-slider > section > div:first-of-type img {
     height: 15rem;
     width: 100%;
     object-fit: cover;
@@ -123,14 +128,45 @@
 /* ////////////////////////
     FEATURED PRODUCTS
 //////////////////////// */
-#section-featured-product {
+#section-featured-products {
     
+}
+/* ////////////////////////
+        PRODUCTS ITEM
+//////////////////////// */
+.section-product-item img {
+    height: 18rem;
+    width: auto;
+    object-fit: contain;
+}
+.section-product-item i[class^="bi bi-star"] {
+    font-size: .8rem;
+    color: var(--color-red);
+}
+/* box */
+.section-product-item .icon-box i {
+    color: var(--color-gray);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.section-product-item .icon-box i:hover {
+    color: var(--color-red);
+}
+.section-product-item .icon-box-container {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    opacity: 0;
+    transition: all 0.4s ease;
+    pointer-events: none;
+}
+.section-product-item:hover .icon-box-container {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    pointer-events: auto;
 }
 /* ////////////////////////
             PAGES
 //////////////////////// */
-@media (min-width:768px) {
-    #page {
-        padding: 0 5rem;
-    }
-}

@@ -5,10 +5,10 @@
         <td>{{ $cat->name }}</td>
         <td>{{ $cat->slug }}</td>
         <td class="pt_10 pb_10">
-            <a href="{{ route("admin.category.edit.view",$cat->id) }}" class="btn btn-primary">Edit</a>
+            <a href="{{ route("admin.category.edit.view",$cat->id) }}" class="btn btn-sm btn-primary">Edit</a>
             <a 
                 onclick="handlerDelete(event,{{ $cat->id }})"
-                href="#" class="btn btn-danger"
+                href="#" class="btn btn-sm btn-danger"
             >Delete</a>
             <input 
                 onchange="handlerChange(event,{{ $cat->id }})"
@@ -21,6 +21,7 @@
                 data-offstyle="danger" 
                 name="status" 
                 value="Yes"
+                data-size="small"
             >
         </td>
     </tr>

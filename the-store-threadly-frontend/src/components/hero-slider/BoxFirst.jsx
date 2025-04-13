@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import ButtonPrimary from '../buttons/ButtonPrimary'
 import useInViewAnimation from '../hooks/useInViewAnimation'
 
@@ -10,11 +10,11 @@ export default function BoxFirst () {
     return <div 
             ref={ref} 
 		    style={style}
-            className="col-lg-12 col-md-6 mb-3"
+            className="col-lg-12 col-md-6 mb-lg-3"
         >
         <div className="card border-light-subtle">
             <div className="card-header d-flex justify-content-between p-2 w-100 border-0">
-                <span class="badge p-2 bg-danger">New</span>
+                <span className="badge p-2 bg-danger">New</span>
                 <span className='fw-bold'>55.87 PLN</span>
             </div>
             <div className="card-body p-0">

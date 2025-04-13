@@ -20,12 +20,14 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
             'desc' => $this->desc,
             'price' => $this->price,
+            'price_html' => $this->getPrice(),
             'offer_price' => $this->offer_price,
             'stock' => $this->getStock(),
             'reviews' => $this->reviews,
             'thumbnail' => $this->getImage(),
             'galeries' => GaleryResource::collection($this->galeries),
             'variants' => VariantResource::collection($this->variants),
+            'category_name' => $this->category->name,
             'status' => $this->status,
         ];
     }
