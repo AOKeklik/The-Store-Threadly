@@ -5,14 +5,14 @@ import useScrollFixedHeader from '../hooks/useScrollFixedHeader'
 export default function Header() {
     const fixedHeader = useScrollFixedHeader()   
 
-    return <>
+    return <div id='section-header-wrapper'>
         <nav
             id='section-header' 
-            className={`${fixedHeader ? 'fixed' : ''} navbar bg-body-tertiary`}
+            className={`${fixedHeader ? 'fixed' : ''} navbar`}
         >
             <div className="container">
                 <button className="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-                    <i class="bi bi-list"></i>
+                    <i className="bi bi-list"></i>
                 </button>
                 <a className="navbar-brand" href="#">
                     <img className='logo' src={logo} alt="" />
@@ -24,8 +24,8 @@ export default function Header() {
                     </span>
                 </a>
                 <div className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-                    <div class="offcanvas-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <div className="offcanvas-header">
+                        <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div className="offcanvas-body">
                         <ul className="navbar-nav">
@@ -46,5 +46,5 @@ export default function Header() {
                 </div>
             </div>
         </nav>
-    </>
+    </div>
 }

@@ -21,7 +21,7 @@ const useInViewAnimation = ({ direction = "up", once = true } = {}) => {
     };
 
     const style = {
-        transition: "all .7s cubic-bezier(.17,.55,.55,1) .3s",
+        transition: "transform .7s cubic-bezier(.17,.55,.55,1) .3s",
         transform: isInView ? "translate(0,0)" : getTransform(),
         opacity: isInView ? 1 : 0,
     }

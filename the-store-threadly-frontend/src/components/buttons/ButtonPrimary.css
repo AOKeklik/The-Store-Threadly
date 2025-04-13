@@ -2,24 +2,30 @@
     display: flex;
     justify-content: start;
     align-items: center;
-  }
-  
-  .slider-button {
+}
+
+.button-primary {
     background-color: #808080;
     color: white;
-    border: 2px solid #808080; 
+    border: 2px solid #808080;
+    border-radius: .1rem;
     padding: 12px 24px;
-    font-size: 16px;
-    font-weight: bold;
     text-transform: uppercase;
     cursor: pointer;
     position: relative;
     overflow: hidden;
     transition: color 0.4s, border-color 0.4s; 
     z-index: 1; 
-  }
-  
-  .slider-button::before {
+}
+
+.button-primary.small {
+    font-size: .8rem;
+}
+.button-primary.big {
+    font-size: .9rem;
+}
+
+.button-primary::before {
     content: '';
     position: absolute;
     top: 0;
@@ -29,13 +35,13 @@
     background-color: var(--color-red); 
     transition: left 0.4s ease;
     z-index: -1; 
-  }
-  
-  .slider-button:hover::before {
+}
+
+.button-primary:hover::before {
     left: 0; 
-  }
-  
-  .slider-button:hover {
+}
+
+.button-primary:hover {
     color: #fff; 
     border-color: var(--color-red); 
-  }
+}
