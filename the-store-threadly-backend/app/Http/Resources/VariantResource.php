@@ -19,9 +19,10 @@ class VariantResource extends JsonResource
             'id' => $this->id,
             'price' => $this->price,
             'offer_price' => $this->offer_price,
+            'price_html' => $this->getPrice(),
             'stock' => $this->getStock(),
             'thumbnail' => $this->getImage(),
-            'attributes' => AttributeResource::collection($this->attributeValues),
+            'attributes' => AttributeValueResource::collection($this->attributeValues),
             'status' => $this->status,
         ];
     }

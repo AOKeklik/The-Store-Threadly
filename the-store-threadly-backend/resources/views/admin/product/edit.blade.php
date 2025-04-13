@@ -18,7 +18,7 @@
                                 <input type="hidden" name="id" id="id" value="{{ request("id") }}">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img src="{{ $product->image() }}" alt="" class="profile-photo w_100_p">
+                                        <img src="{{ $product->getImage() }}" alt="" class="profile-photo w_100_p">
                                         <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="image" name="image">
                                         <small data-app-alert="image" class="form-text text-danger"></small>
                                     </div>

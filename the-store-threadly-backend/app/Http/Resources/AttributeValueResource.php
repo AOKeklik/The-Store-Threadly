@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AttributeResource extends JsonResource
+class AttributeValueResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,11 +14,16 @@ class AttributeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return  [
-            'name' => $this->attribute->name,
-            'value' => $this->value,
+        return [
+            'id' => $this->id,
             'slug' => $this->slug,
+            'value' => $this->value,
             'icon' => $this->getIcon(),
+            'attribute' => [
+                'id' => $this->attribute->id,
+                'slug' => $this->attribute->slug,
+                'name' => $this->attribute->name,
+            ],
         ];
     }
 }

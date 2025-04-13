@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AttributeResource;
+use App\Http\Resources\AttributeValueResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Attribute;
-use App\Models\AttributeValue;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -38,8 +37,8 @@ class FrontendController extends Controller
             return response()->json([
                 "message"=>"Products retrieved successfully.",
                 "data"=>ProductResource::collection($products),
-                "colors"=>AttributeResource::collection($usedColorAttributes),
-                "sizes"=>AttributeResource::collection($usedSizeAttributes),
+                "colors"=>AttributeValueResource::collection($usedColorAttributes),
+                "sizes"=>AttributeValueResource::collection($usedSizeAttributes),
             ],200);
         }catch(\Exception $err) {
             return response()->json(["message"=>$err->getMessage()], 500);

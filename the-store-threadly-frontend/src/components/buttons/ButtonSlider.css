@@ -1,0 +1,41 @@
+.button-container {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+  
+  .slider-button {
+    background-color: #808080;
+    color: white;
+    border: 2px solid #808080; 
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.4s, border-color 0.4s; 
+    z-index: 1; 
+  }
+  
+  .slider-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-red); 
+    transition: left 0.4s ease;
+    z-index: -1; 
+  }
+  
+  .slider-button:hover::before {
+    left: 0; 
+  }
+  
+  .slider-button:hover {
+    color: #fff; 
+    border-color: var(--color-red); 
+  }

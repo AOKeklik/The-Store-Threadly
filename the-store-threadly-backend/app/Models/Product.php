@@ -57,6 +57,17 @@ class Product extends Model
         return "https://placehold.co/600x400?text=Hello+World";
     }
 
+    public function getPrice()
+    {
+        $currencyIcon = setting('site_currency_icon'); 
+        $currencyPosition = setting('site_currency_icon_position');
+    
+        if ($currencyPosition === 'right')
+            return $currencyIcon . ' ' . $this->discount;
+    
+        return $this->discount . ' ' . $currencyIcon;
+    }
+
     public function getStock()
     {
         return is_null($this->stock) || $this->stock <= 0

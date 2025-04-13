@@ -53,7 +53,7 @@ class AdminProductController extends Controller
             $validator = \Validator::make($request->all(),[
 	            "category_id"=>"required|numeric|exists:categories,id",
 	            "sku"=>"nullable|string",
-	            "image"=>"required|file|mimes:jpg,jpeg,png|max:1048576",
+	            "image"=>"nullable|file|mimes:jpg,jpeg,png|max:1048576",
 	            "title"=>"required|string",
 	            "desc"=>"nullable|string",
 	            "seo_title"=>"nullable|string",
