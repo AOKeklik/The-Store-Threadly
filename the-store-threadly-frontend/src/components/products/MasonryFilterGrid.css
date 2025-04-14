@@ -1,0 +1,46 @@
+#section-masonry-filter-grid .filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+#section-masonry-filter-grid .filter-buttons button {
+    background-color: var(--color-gray);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#section-masonry-filter-grid .filter-buttons button:hover {
+    background-color: var(--color-red);
+}
+
+#section-masonry-filter-grid .filter-buttons button.active {
+    background-color: var(--color-red);
+    color: white;
+}
+
+/* Grid Masonry Style */
+#section-masonry-filter-grid .masonry-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    #section-masonry-filter-grid .masonry-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    #section-masonry-filter-grid .masonry-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+

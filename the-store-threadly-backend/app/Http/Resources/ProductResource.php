@@ -28,7 +28,9 @@ class ProductResource extends JsonResource
             'galeries' => GaleryResource::collection($this->galeries),
             'variants' => VariantResource::collection($this->variants),
             'category_name' => $this->category->name,
-            'status' => $this->status,
+            'is_new' => $this->is_new,
+            'is_featured' => $this->is_featured,
+            'is_best_seller' => $this->is_bestseller,
         ];
     }
 }

@@ -24,6 +24,9 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->decimal('offer_price', 10, 2)->nullable();
             $table->integer('stock')->nullable();
+            $table->boolean('is_new')->default(1);
+            $table->boolean('is_featured')->default(0);
+            $table->boolean('is_bestseller')->default(0);
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

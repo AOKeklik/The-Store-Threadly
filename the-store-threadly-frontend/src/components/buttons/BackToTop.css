@@ -1,0 +1,27 @@
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--color-red);
+    border: 2px solid var(--color-gray);
+    color: var(--color-white);
+    border-radius: 50%;
+    padding: 10px 14px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, background-color .3s;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background-color: var(--color-red-light);
+    color: var(--color-red-dark);
+}
+  

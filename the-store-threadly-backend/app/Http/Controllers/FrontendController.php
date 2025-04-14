@@ -16,7 +16,7 @@ class FrontendController extends Controller
             $products=Product::
                 with('galeries','variants')->
                 where('status',1)->
-                latest()->
+                inRandomOrder()->
                 get();
 
             $colorAttribute = Attribute::where('slug', 'color')->first();

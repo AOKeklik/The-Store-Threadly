@@ -9,9 +9,17 @@ import img2 from '../../assets/discount-slider/2.jpg'
 import img3 from '../../assets/discount-slider/3.jpg'
 import ButtonPrimary from '../buttons/ButtonPrimary'
 
-export default function DiscountProducts() {
+import useInViewAnimation from "../hooks/useInViewAnimation"
 
-    return <section id="section-discount-products" className='container-md mb-5'>
+export default function DiscountProducts() {
+    const { ref, style } = useInViewAnimation({ direction: "top" })
+
+    return <section 
+        ref={ref} 
+        style={style}
+        id="section-discount-products" 
+        className='container-md mb-5'
+    >
         <Swiper
 	        spaceBetween={16}
 	        slidesPerView={1} 

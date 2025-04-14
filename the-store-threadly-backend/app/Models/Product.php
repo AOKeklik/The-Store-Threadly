@@ -26,6 +26,15 @@ class Product extends Model
         });
     }
 
+    protected static function booted()
+    {
+        static::saving(function ($product) {
+            if ($product->is_new && $product->created_at->diffInDays(now()) > 30) {
+                $product->is_new = false;
+            }
+        });
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

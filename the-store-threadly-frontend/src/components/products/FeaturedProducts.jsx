@@ -19,7 +19,6 @@ export default function FeaturedProducts() {
     console.log(data)
 
     if(loading) return <Loader />
-
     return <section id="section-featured-products" className='container-md mb-5'>
         <Swiper
 	        spaceBetween={10}

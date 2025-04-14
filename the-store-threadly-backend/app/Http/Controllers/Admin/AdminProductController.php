@@ -135,21 +135,22 @@ class AdminProductController extends Controller
     public function product_status_update(Request $request)
     {
         try{
-            $validator = \Validator::make($request->all(),[
-                "status"=>"nullable|string|in:1,0",
+            $validated = \Validator::make($request->all(),[
+                'status_type' => 'required|string|in:status,is_new,is_featured,is_bestseller',
+                'status_value' => 'required|boolean'
             ]);
 
-            if($validator->fails())
-                throw new \Exception($validator->errors()->first());
+            if($validated->fails())
+                throw new \Exception($validated->errors()->first());
     
             $product=Product::find($request->id);
     
             if(!$product)
                 throw new \Exception("Product not found.");
-
-            $product->status=$request->status;
         
-            if(!$product->save())
+            if(!$product->update([
+                $request->status_type => $request->status_value
+            ]))
                 throw new \Exception("Failed to save status."); 
     
             return response()->json(["message"=>"Status updated successfully."],200);

@@ -35,11 +35,11 @@ export default function ProductItem({product}) {
                 <div className='d-flex justify-content-between'>
                     <h3 className='fs-6 p-0 m-0 text-danger'>{product.price_html}</h3>
                     <div>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-half"></i>
-                        <i class="bi bi-star"></i>
+                        <i className="bi bi-star-fill"></i>
+                        <i className="bi bi-star-fill"></i>
+                        <i className="bi bi-star-fill"></i>
+                        <i className="bi bi-star-half"></i>
+                        <i className="bi bi-star"></i>
                     </div>
                 </div>
             </div>

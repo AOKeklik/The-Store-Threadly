@@ -40,18 +40,17 @@
 @endsection
 @push("scripts")
     <script>
-        async function handlerChange (e, id) {
+        async function handlerChange (e, id, statusType) {
             try {
                 e.preventDefault()
 
                 const formData=new FormData()                    
                 const csrf_token=await uptdateCSRFToken()
 
-                console.log(id,$(e.target).prop("checked") ? 1 : 0)
-
                 formData.append("_token",csrf_token)
                 formData.append("id",id)
-                formData.append("status",$(e.target).prop("checked") ? 1 : 0)
+                formData.append("status_type",statusType)
+                formData.append("status_value",$(e.target).prop("checked") ? 1 : 0)
                     
                 const submit=await submitFrom({url:"{{ route('admin.product.status.update') }}",formData})
 
@@ -124,7 +123,7 @@
         }
 
         function errorHandler (err) {
-            console.log(res)
+            // console.log(err)
             if (err.status === 422)
                     throw { form_message: err.responseJSON.message }
 
