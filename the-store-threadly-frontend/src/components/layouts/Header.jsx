@@ -1,6 +1,8 @@
 import React from 'react'
+import "./Header.css"
 import logo from '../../assets/logo.png'
 import useScrollFixedHeader from '../hooks/useScrollFixedHeader'
+import { Link, NavLink } from 'react-router-dom'
 
 export default function Header() {
     const fixedHeader = useScrollFixedHeader()   
@@ -14,9 +16,9 @@ export default function Header() {
                 <button className="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
                     <i className="bi bi-list"></i>
                 </button>
-                <a className="navbar-brand" href="#">
+                <Link to="/" className="navbar-brand">
                     <img className='logo' src={logo} alt="" />
-                </a>
+                </Link>
                 <a  href='javasicript:void()' className="position-relative">
                     <i className="bi bi-cart-fill"></i>
                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ">
@@ -29,18 +31,12 @@ export default function Header() {
                     </div>
                     <div className="offcanvas-body">
                         <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <a className="nav-link active" href="#">Home</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Shirt</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">T-Shirt</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Contact</a>
-                        </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/">Home</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/products">Products</NavLink>
+                            </li>
                         </ul>
                     </div>
                 </div>

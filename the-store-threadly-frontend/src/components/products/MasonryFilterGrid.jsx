@@ -1,19 +1,13 @@
 import React, { useState } from 'react'
 import "./MasonryFilterGrid.css"
 
-import useFetch from '../hooks/useFetch'
-import { URL_PRODUCT } from '../../config'
-import Loader from '../loader/Loader'
-import ProductItem from './ProductItem'
+import ProductPrymaryItem from './ProductPrymaryItem'
+import AnimateInView from '../hooks/AnimateInView'
 
-export default function MasonryFilterGrid() {
-    const [data, loading, error ] = useFetch(`${URL_PRODUCT}/all`)
+export default function MasonryFilterGrid({data}) {
     const [filter, setFilter] = useState("all");
 
-    if(loading) return <Loader />
-    
-    console.log(data)
-    const filteredData = data.data.filter(product => {
+    const filteredData = data.filter(product => {
         if (filter === "all") return true
         if (filter === "new") return product.is_new
         if (filter === "best") return product.is_best_seller
@@ -23,7 +17,7 @@ export default function MasonryFilterGrid() {
     
     return (
         <section id="section-masonry-filter-grid" className="container-md mb-5">
-            <div className="filter-buttons">
+            <AnimateInView className="filter-buttons">
                 <button 
                     onClick={() => setFilter("new")} 
                     className={filter === "new" ? "active" : ""}
@@ -40,12 +34,14 @@ export default function MasonryFilterGrid() {
                     onClick={() => setFilter("all")} 
                     className={filter === "all" ? "active" : ""}
                 >All</button>
-            </div>
+            </AnimateInView>
 
             <div className="masonry-grid">
                 {filteredData.map((product, i) => (
                     <div className="masonry-item" key={i}>
-                        <ProductItem product={product} />
+                        <AnimateInView direction="up">
+                            <ProductPrymaryItem product={product} />
+		                </AnimateInView>
                     </div>
                 ))}
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -69,4 +70,13 @@ class Kernel extends HttpKernel
         'admin.redirect' => \App\Http\Middleware\AdminRedirect::class,
         'admin.authenticate' => \App\Http\Middleware\AdminAuthenticate::class,
     ];
+
+    protected $commands = [
+        \App\Console\Commands\DeactivateOldNewProducts::class,
+    ];
+
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('products:deactivate-old-new')->everyMinute();
+    }
 }

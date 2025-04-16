@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Admin\AdminAttributeController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminCouponController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminProductGaleryController;
 use App\Http\Controllers\Admin\AdminProductVariantController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Admin\AdminVariantGaleryController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix("admin")->middleware("admin.redirect")->group(function(){
@@ -76,7 +78,7 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
         Route::post("coupon/delete", "coupon_delete")->name("admin.coupon.delete");
     });
 
-    /* products */
+    /* Product */
     Route::controller(AdminProductController::class)->group(function(){
         Route::get("product","index")->name("admin.product.view");
         Route::get("product/section/table","product_section_table_view")->name("admin.product.section.table.view");
@@ -108,6 +110,28 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
         Route::post("product/variant/update","product_variant_update")->name("admin.product.variant.update");
         Route::post("product/variant/status/update","product_variant_status_update")->name("admin.product.variant.status.update");
         Route::post("product/variant/delete","product_variant_delete")->name("admin.product.variant.delete");
+    });
+
+    /* Variant Galery */
+    Route::controller(AdminVariantGaleryController::class)->group(function(){
+        Route::get("product/variant/galery/{variant_id}","index")->name("admin.product.variant.galery.view");
+        Route::get("product/variant/galery/section/table/{variant_id}","variant_galery_section_table_view")->name("admin.product.variant.galery.section.table.view");
+        Route::get("product/variant/galery/edit/{id}","variant_galery_edit_view")->name("admin.product.variant.galery.edit.view");
+        Route::post("product/variant/galery/store","variant_galery_store")->name("admin.product.variant.galery.store");
+        Route::post("product/variant/galery/update","variant_galery_update")->name("admin.product.variant.galery.update");
+        Route::post("product/variant/galery/status/update","variant_galery_status_update")->name("admin.product.variant.galery.status.update");
+        Route::post("product/variant/galery/delete","variant_galery_delete")->name("admin.product.variant.galery.delete");
+    });
+
+    /* Blog */
+    Route::controller(AdminBlogController::class)->group(function(){
+        Route::get("blog","index")->name("admin.blog.view");
+        Route::get("blog/section/table","blog_section_table_view")->name("admin.blog.section.table.view");
+        Route::get("blog/edit/{id}","blog_edit_view")->name("admin.blog.edit.view");
+        Route::post("blog/store","blog_store")->name("admin.blog.store");
+        Route::post("blog/update","blog_update")->name("admin.blog.update");
+        Route::post("blog/status/update","blog_status_update")->name("admin.blog.status.update");
+        Route::post("blog/delete","blog_delete")->name("admin.blog.delete");
     });
 });
 

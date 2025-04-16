@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductGalery;
+use App\Models\ProductVariant;
 use App\Models\Variant;
 use App\Services\ImageService;
 use Illuminate\Contracts\View\View;
@@ -25,7 +26,14 @@ class AdminProductController extends Controller
     }
     public function product_add_view()
     {
-        $categories=Category::orderBy("id","desc")->get();
+        $categories=Category::
+            with('parent')
+            ->whereHas('parent', function ($query) {
+                $query->where('slug', 'product');
+            })
+            ->where('status', 1)
+            ->orderBy('id', 'desc')
+            ->get();
 
         if($categories->isEmpty())
             return redirect()->route("admin.product.view")->with("error","Please create at least one category before creating a product.");
@@ -35,7 +43,14 @@ class AdminProductController extends Controller
     public function product_edit_view($id)
     {
         $product=Product::find($id);
-        $categories=Category::orderBy("id","desc")->get();
+        $categories=Category::
+            with('parent')
+            ->whereHas('parent', function ($query) {
+                $query->where('slug', 'product');
+            })
+            ->where('status', 1)
+            ->orderBy('id', 'desc')
+            ->get();
 
         if(!$product)
             return redirect()->route("admin.product.view")->with("error","The product not found.");
@@ -52,6 +67,7 @@ class AdminProductController extends Controller
         try{
             $validator = \Validator::make($request->all(),[
 	            "category_id"=>"required|numeric|exists:categories,id",
+	            "gender"=>"required|string|in:men,women,kids",
 	            "sku"=>"nullable|string",
 	            "image"=>"nullable|file|mimes:jpg,jpeg,png|max:1048576",
 	            "title"=>"required|string",
@@ -70,6 +86,7 @@ class AdminProductController extends Controller
             $image = $imageService->uploadPhoto($request,null,"product");
 
             $product->category_id=$request->category_id;
+            $product->gender=$request->gender;
             $product->image=$image;
             $product->title=$request->title;
             $product->desc=$request->desc;
@@ -189,7 +206,7 @@ class AdminProductController extends Controller
                     throw new \Exception("Failed to delete the product.");
             }
 
-            $variants=Variant::where("product_id",$request->id)->get();
+            $variants=ProductVariant::where("product_id",$request->id)->get();
 
             foreach($variants as $variant) {
                 $variantImage=public_path("uploads/variant/").$variant->image;

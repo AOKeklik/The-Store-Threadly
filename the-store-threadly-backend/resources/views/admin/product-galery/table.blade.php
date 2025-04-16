@@ -13,8 +13,8 @@
                 @if($galery->status == 1) checked @endif
                 type="checkbox" 
                 data-toggle="toggle" 
-                data-on="Yes" 
-                data-off="No" 
+                data-on="Status" 
+                data-off="Status" 
                 data-onstyle="success" 
                 data-offstyle="danger" 
                 name="status" 

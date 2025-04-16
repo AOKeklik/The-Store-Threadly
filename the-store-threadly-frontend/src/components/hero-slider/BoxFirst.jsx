@@ -1,6 +1,6 @@
 import React from 'react'
 import ButtonPrimary from '../buttons/ButtonPrimary'
-import useInViewAnimation from '../hooks/useInViewAnimation'
+import useInViewAnimation from '../hooks/AnimateInView'
 
 import img4 from '../../assets/hero-slider/4.jpg'
 

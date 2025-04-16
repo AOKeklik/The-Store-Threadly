@@ -31,4 +31,39 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function getDepthAttribute()
+    {
+        $depth = 0;
+        $current = $this->parent;
+        
+        while ($current) {
+            $depth++;
+            $current = $current->parent;
+        }
+        
+        return $depth;
+    }
+
+    public function getFullHierarchyAttribute()
+    {
+        if (!$this->parent) {
+            return $this->name;
+        }
+
+        $hierarchy = [];
+        $current = $this;
+        
+        do {
+            array_unshift($hierarchy, $current->name);
+            $current = $current->parent;
+        } while ($current);
+
+        return implode(' > ', $hierarchy);
+    }
 }

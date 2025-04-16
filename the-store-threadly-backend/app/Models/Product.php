@@ -26,15 +26,6 @@ class Product extends Model
         });
     }
 
-    protected static function booted()
-    {
-        static::saving(function ($product) {
-            if ($product->is_new && $product->created_at->diffInDays(now()) > 30) {
-                $product->is_new = false;
-            }
-        });
-    }
-
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -70,11 +61,17 @@ class Product extends Model
     {
         $currencyIcon = setting('site_currency_icon'); 
         $currencyPosition = setting('site_currency_icon_position');
+
+        $format = function ($price) use ($currencyIcon, $currencyPosition) {
+            return $currencyPosition === 'right'
+                ? $currencyIcon . ' ' . $price
+                : $price . ' ' . $currencyIcon;
+        };
+
+        if ($this->offer_price && $this->offer_price < $this->price)
+            return '<del class="text-secondary">' . $format($this->price) . '</del> <span class="text-danger fw-bold">' . $format($this->offer_price) . '</span>';
     
-        if ($currencyPosition === 'right')
-            return $currencyIcon . ' ' . $this->price;
-    
-        return $this->price . ' ' . $currencyIcon;
+        return $format($this->price);
     }
 
     public function getStock()

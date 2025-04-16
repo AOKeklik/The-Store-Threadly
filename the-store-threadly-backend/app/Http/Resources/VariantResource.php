@@ -14,7 +14,6 @@ class VariantResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
             'id' => $this->id,
             'price' => $this->price,
@@ -23,7 +22,7 @@ class VariantResource extends JsonResource
             'stock' => $this->getStock(),
             'thumbnail' => $this->getImage(),
             'attributes' => AttributeValueResource::collection($this->attributeValues),
-            'status' => $this->status,
+            'galeries' => GaleryResource::collection($this->galeries),
         ];
     }
 }

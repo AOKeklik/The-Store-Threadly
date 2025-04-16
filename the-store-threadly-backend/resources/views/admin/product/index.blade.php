@@ -20,7 +20,8 @@
                                     <tr>
                                         <th>SL</th>
                                         <th>Img</th>
-                                        <th>Title</th>
+                                        <th>Gender</th>
+                                        <th>Slug</th>
                                         <th>Stock</th>
                                         <th>Action</th>
                                     </tr>

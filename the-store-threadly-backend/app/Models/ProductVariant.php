@@ -16,6 +16,11 @@ class ProductVariant extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function galeries()
+    {
+        return $this->hasMany(VariantGalery::class);
+    }
+
     public function attributeValues()
     {
         return $this->belongsToMany(
@@ -46,11 +51,17 @@ class ProductVariant extends Model
     {
         $currencyIcon = setting('site_currency_icon'); 
         $currencyPosition = setting('site_currency_icon_position');
+
+        $format = function ($price) use ($currencyIcon, $currencyPosition) {
+            return $currencyPosition === 'right'
+                ? $currencyIcon . ' ' . $price
+                : $price . ' ' . $currencyIcon;
+        };
+
+        if ($this->offer_price && $this->offer_price < $this->price)
+            return '<del class="text-secondary">' . $format($this->price) . '</del> <span class="text-danger fw-bold">' . $format($this->offer_price) . '</span>';
     
-        if ($currencyPosition === 'right')
-            return $currencyIcon . ' ' . $this->price;
-    
-        return $this->price . ' ' . $currencyIcon;
+        return $format($this->price);
     }
 
     public function getImage()

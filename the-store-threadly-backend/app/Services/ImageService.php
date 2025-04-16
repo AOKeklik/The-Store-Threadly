@@ -9,10 +9,13 @@ class ImageService
     {
         try{
             $image = $model?->image ?? null;
-            $uploadPath = public_path("uploads/".$path."/");
-
+            
             if($request->hasFile("image")){
+                $uploadPath = public_path("uploads/".$path."/");
                 $file = $request->file("image");
+
+                if (!file_exists($uploadPath))
+                    mkdir($uploadPath, 0755, true);
 
                 if($image && file_exists($uploadPath.$image))
                     unlink($uploadPath.$image);

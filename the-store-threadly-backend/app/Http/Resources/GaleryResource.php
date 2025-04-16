@@ -20,7 +20,6 @@ class GaleryResource extends JsonResource
             'id' => $this->id,
             'caption' => $this->caption,
             'thumbnail' => $this->getImage(),
-            'status' => $this->status,
         ];
     }
 }

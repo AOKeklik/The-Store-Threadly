@@ -13,12 +13,22 @@ class AdminCategoryController extends Controller
 {
     public function index() :View
     {
-        $categories=Category::orderBy("id","desc")->get();
+        $categories= Category::
+            with('parent')->
+            get()->
+            sortBy(function($category) {
+                return $category->full_hierarchy;
+            });
         return view("admin.category.index",compact("categories"));
     }
     public function category_section_table_view() :View
     {
-        $categories=Category::orderBy("id","desc")->get();
+        $categories= Category::
+            with('parent')->
+            get()->
+            sortBy(function($category) {
+                return $category->full_hierarchy;
+            });
         return view("admin.category.table",compact("categories"));
     }
     public function category_section_select_view() :View

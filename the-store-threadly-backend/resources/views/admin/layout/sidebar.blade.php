@@ -32,6 +32,9 @@
                     </li>
                 </ul>
             </li>
+            <li class="{{ Request::routeIs('admin.blog.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route("admin.blog.view") }}"><i class="fas fa-pen"></i> <span>Blog</span></a>
+            </li>
         </ul>
     </aside>
 </div>

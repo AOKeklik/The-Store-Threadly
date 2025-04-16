@@ -18,7 +18,7 @@ class AttributeValueResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'value' => $this->value,
-            'icon' => $this->getIcon(),
+            'icon' => $this->icon,
             'attribute' => [
                 'id' => $this->attribute->id,
                 'slug' => $this->attribute->slug,

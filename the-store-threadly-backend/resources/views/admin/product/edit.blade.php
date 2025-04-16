@@ -38,6 +38,19 @@
                                                 <small data-app-alert="attribute_id" class="form-text text-danger"></small>
                                             </div>
                                             <div class="col-md-6 mb-4">
+                                                <label for="gender" class="form-label">Gender*</label>
+                                                <select class="form-control select2" id="gender" name="gender">
+                                                    <option value=""></option>
+                                                    @foreach(["men","women","kids"] as $gender)
+                                                        <option 
+                                                            @if($gender == $product->gender) selected @endif
+                                                            value="{{  $gender }}"
+                                                        >{{  $gender }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <small data-app-alert="gender" class="form-text text-danger"></small>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
                                                 <label class="form-label">Title*</label>
                                                 <input onchange="handlerChangeTitle(event)" type="text" class="form-control" id="title" name="title" value="{{ $product->title }}">
                                                 <small data-app-alert="title" class="form-text text-danger"></small>
@@ -84,7 +97,7 @@
                                             </div>
                                             <div class="col-12 mb-4">
                                                 <label class="form-label"></label>
-                                                <button onclick="handlerParentSubmit(event)" type="submit" class="btn btn-primary">Update</button>
+                                                <button onclick="handlerSubmit(event)" type="submit" class="btn btn-primary">Update</button>
                                             </div>
                                         </div>
                                     </div>
@@ -119,28 +132,16 @@
                 .attr("src",URL.createObjectURL(e.target.files[0]))
         }
 
-        async function handlerParentSubmit (e) {
+        async function handlerSubmit (e) {
             try {
                 e.preventDefault()
 
-                const formData=new FormData()
                 const form = $(e.target).closest("form")
+                const formData=new FormData(form[0])
 
                 const csrf_token=await uptdateCSRFToken()
 
                 formData.append("_token",csrf_token)
-                formData.append("id",form.find("#id").val() ?? "")
-                formData.append("category_id",form.find("#category_id").val() ?? "")
-                formData.append("slug",form.find("#slug").val())
-                formData.append("sku",form.find("#sku").val())
-                formData.append("image",form.find("#image")[0].files[0] ?? "")
-                formData.append("title",form.find("#title").val())
-                formData.append("desc",form.find("#desc").val())
-                formData.append("seo_title",form.find("#seo_title").val())
-                formData.append("seo_desc",form.find("#seo_desc").val())
-                formData.append("price",form.find("#price").val())
-                formData.append("offer_price",form.find("#offer_price").val())
-                formData.append("stock",form.find("#stock").val())
                     
                 const submit=await submitFrom({url:"{{ route('admin.product.update') }}",formData})
 

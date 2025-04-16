@@ -4,7 +4,8 @@
         <td>
             <img style="height: 100px" src="{{ $product->getImage() }}" alt="">
         </td>
-        <td>{{ $product->title }}</td>
+        <td>{{ $product->gender }}</td>
+        <td>{{ $product->slug }}</td>
         <td>{{ $product->getStock() }}</td>
         <td class="pt_10 pb_10">
             <a href="{{ route("admin.product.variant.view",[$product->id]) }}" class="btn btn-sm btn-primary">Variant</a>

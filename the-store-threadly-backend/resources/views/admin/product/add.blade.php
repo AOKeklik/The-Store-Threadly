@@ -14,7 +14,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form data-app-form="profile-update">
+                            <form>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <img src="https://placehold.co/600x400?text=Hello+World" alt="" class="profile-photo w_100_p">
@@ -24,14 +24,24 @@
                                     <div class="col-md-9">
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
-                                                <label class="form-label">Category*</label>
+                                                <label for="category_id" class="form-label">Category*</label>
                                                 <select class="form-control select2" id="category_id" name="category_id">
                                                     <option value=""></option>
                                                     @foreach($categories as $cat)
                                                         <option value="{{  $cat->id }}">{{  $cat->name }}</option>
                                                     @endforeach
                                                 </select>
-                                                <small data-app-alert="attribute_id" class="form-text text-danger"></small>
+                                                <small data-app-alert="category_id" class="form-text text-danger"></small>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <label for="gender" class="form-label">Gender*</label>
+                                                <select class="form-control select2" id="gender" name="gender">
+                                                    <option value=""></option>
+                                                    @foreach(["men","women","kids"] as $gender)
+                                                        <option value="{{  $gender }}">{{  $gender }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <small data-app-alert="gender" class="form-text text-danger"></small>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <label class="form-label">Title*</label>
@@ -80,7 +90,7 @@
                                             </div>
                                             <div class="col-12 mb-4">
                                                 <label class="form-label"></label>
-                                                <button onclick="handlerParentSubmit(event)" type="submit" class="btn btn-primary">Update</button>
+                                                <button onclick="handlerSubmit(event)" type="submit" class="btn btn-primary">Update</button>
                                             </div>
                                         </div>
                                     </div>
@@ -115,27 +125,16 @@
                 .attr("src",URL.createObjectURL(e.target.files[0]))
         }
 
-        async function handlerParentSubmit (e) {
+        async function handlerSubmit (e) {
             try {
                 e.preventDefault()
 
-                const formData=new FormData()
                 const form = $(e.target).closest("form")
+                const formData=new FormData(form[0])
 
                 const csrf_token=await uptdateCSRFToken()
 
                 formData.append("_token",csrf_token)
-                formData.append("category_id",form.find("#category_id").val() ?? "")
-                formData.append("slug",form.find("#slug").val())
-                formData.append("sku",form.find("#sku").val())
-                formData.append("image",form.find("#image")[0].files[0] ?? "")
-                formData.append("title",form.find("#title").val())
-                formData.append("desc",form.find("#desc").val())
-                formData.append("seo_title",form.find("#seo_title").val())
-                formData.append("seo_desc",form.find("#seo_desc").val())
-                formData.append("price",form.find("#price").val())
-                formData.append("offer_price",form.find("#offer_price").val())
-                formData.append("stock",form.find("#stock").val())
                     
                 const submit=await submitFrom({url:"{{ route('admin.product.store') }}",formData})
 

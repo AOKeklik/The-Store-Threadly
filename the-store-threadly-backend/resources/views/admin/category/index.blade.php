@@ -45,7 +45,6 @@
                                     <tr>
                                         <th>SL</th>
                                         <th>Parent</th>
-                                        <th>Name</th>
                                         <th>Slug</th>
                                         <th>Action</th>
                                     </tr>
@@ -281,8 +280,8 @@
             })
         }
 
-        function reloadJqueryPlugins () {
-            $('.datatable').DataTable()
+        function reloadJqueryPlugins () {      
+            $('.datatable').DataTable();
 
             $('[data-toggle="toggle"]').each(function () {
                 const $toggle = $(this)
