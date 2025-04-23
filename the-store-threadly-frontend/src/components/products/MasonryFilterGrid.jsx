@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import "./MasonryFilterGrid.css"
 
 import ProductPrymaryItem from './ProductPrymaryItem'
-import AnimateInView from '../hooks/AnimateInView'
+import AnimateInView from '../../hooks/AnimateInView'
 
 export default function MasonryFilterGrid({data}) {
     const [filter, setFilter] = useState("all");

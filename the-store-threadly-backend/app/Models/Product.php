@@ -57,6 +57,14 @@ class Product extends Model
         return "https://placehold.co/600x400?text=Hello+World";
     }
 
+    public function getCover()
+    {
+        if($this->cover)
+            return asset("uploads/product-cover/".$this->cover);
+        
+        return "https://placehold.co/1200x400?text=Hello+World";
+    }
+
     public function getPrice()
     {
         $currencyIcon = setting('site_currency_icon'); 

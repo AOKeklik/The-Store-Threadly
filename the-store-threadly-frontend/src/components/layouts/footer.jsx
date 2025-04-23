@@ -8,8 +8,11 @@ import img4 from "../../assets/payment/4.webp"
 import ProductThirdItem from '../products/ProductThirdItem'
 
 import Subscribe from '../subscribe/Subscribe'
+import { useSettings } from '../../context/settingContext'
 
 export default function footer() {
+    const { settings } = useSettings()
+
     return <div>
         <Subscribe />
         <footer id='section-footer'>
@@ -22,17 +25,16 @@ export default function footer() {
                                 <li className='d-flex gap-2 hover-text-danger'>
                                     <i className="bi bi-geo-alt"></i>
                                     <a href='#'>
-                                        28 Green Tower, Street Name, <br />
-                                        New York City, USA
+                                        <div dangerouslySetInnerHTML={{ __html: settings.site_address }} />
                                     </a>
                                 </li>
                                 <li className='d-flex gap-2 hover-text-danger'>
                                     <i className="bi bi-envelope"></i>
-                                    <a href='#'>management@info.com</a> 
+                                    <a href='#'>{settings.site_email}</a> 
                                 </li>
                                 <li className='d-flex gap-2 hover-text-danger'>
                                     <i className="bi bi-telephone"></i>
-                                    <a href="#">+48 444 543 34 54</a>
+                                    <a href="#">{settings.site_phone}</a>
                                 </li>
                             </ul>
                         </div>
@@ -98,7 +100,7 @@ export default function footer() {
                     </div>
                 </div>
                 <div className='d-flex justify-content-between'>
-                    <span>© AbdullahOnurKeklik 2024. All Rights Reserved.</span>
+                    <span>{settings.site_copy}</span>
                     <div className='d-flex gap-2'>
                         <img src={img1} alt="" />
                         <img src={img2} alt="" />

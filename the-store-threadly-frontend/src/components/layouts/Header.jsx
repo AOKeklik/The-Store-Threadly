@@ -1,11 +1,16 @@
 import React from 'react'
 import "./Header.css"
-import logo from '../../assets/logo.png'
-import useScrollFixedHeader from '../hooks/useScrollFixedHeader'
+import useScrollFixedHeader from '../../hooks/useScrollFixedHeader'
 import { Link, NavLink } from 'react-router-dom'
 
+import { useSettings } from '../../context/settingContext'
+import { useWishlist } from '../../context/wishlistContext'
+import DisplayCartPopover from '../../displays/DisplayCartPopover'
+
 export default function Header() {
-    const fixedHeader = useScrollFixedHeader()   
+    const { wishlistCount, isWishlistEmpty } = useWishlist();
+    const { settings } = useSettings()
+    const fixedHeader = useScrollFixedHeader()
 
     return <div id='section-header-wrapper'>
         <nav
@@ -17,14 +22,28 @@ export default function Header() {
                     <i className="bi bi-list"></i>
                 </button>
                 <Link to="/" className="navbar-brand">
-                    <img className='logo' src={logo} alt="" />
+                    <img className='logo' src={settings.site_logo_url} alt="" />
                 </Link>
-                <a  href='javasicript:void()' className="position-relative">
-                    <i className="bi bi-cart-fill"></i>
-                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ">
-                        3
-                    </span>
-                </a>
+                <div className='d-flex align-items-center gap-3'>
+                    {/* ///////////// WISHLIST ///////////// */}
+                    <Link href='javasicript:void()' className="position-relative text-secondary hover-text-gray-800">
+                        {
+                            isWishlistEmpty ? (
+                                <i className="bi bi-heart"></i>
+                            ) : (
+                                <i className="bi bi-heart-fill"></i>
+                            )
+                        }
+                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {wishlistCount}
+                        </span>
+                    </Link>
+                    {/* ///////////// WISHLIST ///////////// */}
+
+                    {/* ///////////// CART ///////////// */}
+                    <DisplayCartPopover />
+                    {/* ///////////// CART ///////////// */}
+                </div>
                 <div className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
                     <div className="offcanvas-header">
                         <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -36,6 +55,9 @@ export default function Header() {
                             </li>
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/products">Products</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/blogs">Blogs</NavLink>
                             </li>
                         </ul>
                     </div>

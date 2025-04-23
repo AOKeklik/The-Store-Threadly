@@ -17,6 +17,7 @@ return new class extends Migration
 	        $table->integer("user_id");
 	        $table->string('slug')->unique();
 	        $table->string("image")->nullable();
+	        $table->string("cover")->nullable();
 	        $table->string("title");
 	        $table->text("desc")->nullable();
 	        $table->string("seo_title")->nullable();

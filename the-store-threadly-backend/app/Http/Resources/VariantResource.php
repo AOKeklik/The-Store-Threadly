@@ -19,10 +19,10 @@ class VariantResource extends JsonResource
             'price' => $this->price,
             'offer_price' => $this->offer_price,
             'price_html' => $this->getPrice(),
-            'stock' => $this->getStock(),
+            'stock' => $this->stock,
             'thumbnail' => $this->getImage(),
             'attributes' => AttributeValueResource::collection($this->attributeValues),
-            'galeries' => GaleryResource::collection($this->galeries),
+            'galleries' => GaleryResource::collection($this->galeries),
         ];
     }
 }

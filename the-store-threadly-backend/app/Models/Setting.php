@@ -25,7 +25,19 @@ class Setting extends Model
     public static function allSettings()
     {
         return cache()->rememberForever('settings_all', function () {
-            return self::pluck('value', 'key')->toArray();
+            $settings = self::pluck('value', 'key')->toArray();
+
+            // Favicon URL
+            $settings['site_favicon_url'] = $settings['site_favicon']
+                ? asset('uploads/setting/' . $settings['site_favicon'])
+                : 'https://placehold.co/32x32?text=Favicon';
+
+            // Logo URL
+            $settings['site_logo_url'] = $settings['site_logo']
+                ? asset('uploads/setting/' . $settings['site_logo'])
+                : 'https://placehold.co/150x50?text=Logo';
+
+            return $settings;
         });
     }
     public static function clearCache()

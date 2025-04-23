@@ -1,13 +1,42 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import axios from "axios"
-import { URL_BLOG } from "../config"
+import axiosClient from "../config"
 
 export const fetchAllBlogs = createAsyncThunk(
-    "blogs/fetchAll",
+    "blog/fetchAll",
     async(_, {rejectWithValue}) => {
         try{
             await new Promise(resolve => setTimeout(resolve, 1000))
-            const res = await axios.get(`${URL_BLOG}/all`)
+            const res = await axiosClient.get(`/blog/all`)
+            return res.data
+        }catch(err){
+            return rejectWithValue(err.response?.data || err.message)
+        }
+    }
+)
+
+export const fetchFilteredBlogs = createAsyncThunk(
+    'blog/fetchFiltered',
+    async (filters, { rejectWithValue }) => {
+        try {
+            const query = new URLSearchParams();
+            if (filters.category) query.append("category", filters.category)
+            if (filters.page) query.append("page", filters.page)
+
+            await new Promise(resolve => setTimeout(resolve, 1000))
+            const response = await axiosClient.get(`blog/filter?${query.toString()}`)
+            return response.data
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message)
+        }
+    }
+)
+
+export const fetchOneBlog = createAsyncThunk(
+    "blog/fetchOne",
+    async(slug, {rejectWithValue}) => {
+        try{
+            await new Promise(resolve => setTimeout(resolve, 1000))
+            const res = await axiosClient.get(`/blog/${slug}`)
             return res.data
         }catch(err){
             return rejectWithValue(err.response?.data || err.message)
@@ -16,32 +45,77 @@ export const fetchAllBlogs = createAsyncThunk(
 )
 
 const initialState = {
-    blogData: [],
-    blogLoading: true,
-    blogError: null,
+    /* ALL */
+    dataAllBlog: [],
+    loadingAllBlog: true,
+    errorAllBlog: null,
+
+    /* ONE */
+    dataBlog: {},
+    dataRelatedBlog: [],
+    loadingBlog: true,
+    errorBlog: null,
+
+    /* FILTERED */
+    dataFilteredBlog: [],
+    metaFilteredBlog: {},
+    loadingFilteredBlog: true,
+    errorFilteredBlog: null,
 }
 
 const blogsSlice = createSlice({
-    name: "blogs",
+    name: "blog",
     initialState,
     reducers: {
         // Extra reducers dışında özel işlemler eklenecekse buraya yazılır
     },
     extraReducers: (builder) => {
         builder
-            /* blog All */
+            /* Blog All */
             .addCase(fetchAllBlogs.pending, (state) => {
-                state.blogLoading = true
-                state.blogError = null
+                state.loadingAllBlog = true
+                state.errorAllBlog = null
             })
             .addCase(fetchAllBlogs.fulfilled, (state, action) => {
                 const {data} = action.payload
-                state.blogData=data
-                state.blogLoading = false
+                state.dataAllBlog=data
+                state.loadingAllBlog = false
             })
             .addCase(fetchAllBlogs.rejected, (state, action) => {
-                state.blogLoading = false
-                state.blogError = action.payload || "Accoure unexected error."
+                state.loadingAllBlog = false
+                state.errorAllBlog = action.payload || "Accoure unexected error."
+            })
+
+            /* Blog One */
+            .addCase(fetchOneBlog.pending, (state) => {
+                state.loadingBlog = true
+                state.errorBlog = null
+            })
+            .addCase(fetchOneBlog.fulfilled, (state, action) => {
+                const {data,dataRelated} = action.payload
+                state.dataBlog=data
+                state.dataRelatedBlog=dataRelated
+                state.loadingBlog = false
+            })
+            .addCase(fetchOneBlog.rejected, (state, action) => {
+                state.loadingBlog = false
+                state.errorBlog = action.payload || "Accoure unexected error."
+            })
+
+            /* Blog Filtered */
+            .addCase(fetchFilteredBlogs.pending, (state) => {
+                state.loadingFilteredBlog = true
+                state.errorFilteredBlog = null
+            })
+            .addCase(fetchFilteredBlogs.fulfilled, (state, action) => {
+                const {data, meta} = action.payload
+                state.dataFilteredBlog=data
+                state.metaFilteredBlog=meta
+                state.loadingFilteredBlog = false
+            })
+            .addCase(fetchFilteredBlogs.rejected, (state, action) => {
+                state.loadingFilteredBlog = false
+                state.errorFilteredBlog = action.payload || "Accoure unexected error."
             })
     }
 })

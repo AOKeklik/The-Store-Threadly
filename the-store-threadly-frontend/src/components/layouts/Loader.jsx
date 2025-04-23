@@ -8,7 +8,7 @@ const Loader = ({fullHeight=true}) => {
     `
     return (
         <div className={containerClass}>
-            <BounceLoader color='#09f' size={60} />  
+            <BounceLoader color='#dc3545' size={60} />  
         </div>
     )
 }

@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('sku')->unique()->nullable();
             $table->string('image')->nullable();
+            $table->string('cover')->nullable();
             $table->string('title');
             $table->text('desc')->nullable();
+            $table->text('short_desc')->nullable();
             $table->string('seo_title')->nullable();
             $table->text('seo_desc')->nullable();
             $table->decimal('price', 10, 2);

@@ -4,7 +4,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header justify-content-between">
-            <h1>Variant</h1>
+            <h1>Variant - <span class="text-muted">{{ $product->title }}</span></h1>
             <div class="ml-auto">
                 <a href="{{ route("admin.product.view") }}" class="btn btn-primary"><i class="fas fa-eye"></i> Product</a>
             </div>

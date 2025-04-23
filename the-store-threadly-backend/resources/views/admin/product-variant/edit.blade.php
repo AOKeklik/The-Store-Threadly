@@ -49,12 +49,12 @@
                                         </div>
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="offer_price">Offer Price</label>
-                                            <input type="text" class="form-control" id="offer_price" name="offer_price" alue="{{ $variant->offer_price }}">
+                                            <input type="text" class="form-control" id="offer_price" name="offer_price" value="{{ $variant->offer_price }}">
                                             <small data-app-alert="offer_price" class="form-text text-danger"></small>
                                         </div>
                                         <div class="col-md-6 form-group mb-3">
                                             <label for="stock">Stock</label>
-                                            <input type="text" class="form-control" id="stock" name="stock" alue="{{ $variant->stock }}">
+                                            <input type="text" class="form-control" id="stock" name="stock" value="{{ $variant->stock }}">
                                             <small data-app-alert="stock" class="form-text text-danger"></small>
                                         </div>
                                         <div class="col-md-12 form-group">

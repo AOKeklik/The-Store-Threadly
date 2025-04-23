@@ -70,8 +70,10 @@ class AdminProductController extends Controller
 	            "gender"=>"required|string|in:men,women,kids",
 	            "sku"=>"nullable|string",
 	            "image"=>"nullable|file|mimes:jpg,jpeg,png|max:1048576",
+	            "cover"=>"nullable|file|mimes:jpg,jpeg,png|max:1048576",
 	            "title"=>"required|string",
 	            "desc"=>"nullable|string",
+	            "short_desc"=>"nullable|string",
 	            "seo_title"=>"nullable|string",
 	            "seo_desc"=>"nullable|string|",
 	            "price"=>"required|numeric",
@@ -84,12 +86,15 @@ class AdminProductController extends Controller
     
             $product=new Product();
             $image = $imageService->uploadPhoto($request,null,"product");
+            $cover = $imageService->uploadCover($request,null,"product-cover");
 
             $product->category_id=$request->category_id;
             $product->gender=$request->gender;
             $product->image=$image;
+            $product->cover=$cover;
             $product->title=$request->title;
             $product->desc=$request->desc;
+            $product->short_desc=$request->short_desc;
             $product->seo_title=$request->seo_title;
             $product->seo_desc=$request->seo_desc;
             $product->price=$request->price;
@@ -112,8 +117,10 @@ class AdminProductController extends Controller
 	            "category_id"=>"required|numeric|exists:categories,id",
 	            "sku"=>"nullable|string",
 	            "image"=>"nullable|file|mimes:jpg,jpeg,png|max:1048576",
+	            "cover"=>"nullable|file|mimes:jpg,jpeg,png|max:1048576",
 	            "title"=>"required|string",
 	            "desc"=>"nullable|string",
+                "short_desc"=>"nullable|string",
 	            "seo_title"=>"nullable|string",
 	            "seo_desc"=>"nullable|string|",
 	            "price"=>"required|numeric",
@@ -130,11 +137,14 @@ class AdminProductController extends Controller
                 throw new \Exception("Product not found.");
 
             $image = $imageService->uploadPhoto($request,$product,"product");
+            $cover = $imageService->uploadCover($request,$product,"product-cover");
 
             $product->category_id=$request->category_id;
             $product->image=$image;
+            $product->cover=$cover;
             $product->title=$request->title;
             $product->desc=$request->desc;
+            $product->short_desc=$request->short_desc;
             $product->seo_title=$request->seo_title;
             $product->seo_desc=$request->seo_desc;
             $product->price=$request->price;
@@ -193,6 +203,10 @@ class AdminProductController extends Controller
             $productImage=public_path("uploads/product/").$product->image;
             if($product->image && file_exists($productImage))
                 unlink($productImage);
+
+            $productCover=public_path("uploads/product/").$product->cover;
+            if($product->cover && file_exists($productCover))
+                unlink($productCover);
 
             $galeries=ProductGalery::where("product_id",$request->id)->get();
 

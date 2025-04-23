@@ -8,7 +8,11 @@ use App\Http\Controllers\Admin\AdminCouponController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminProductGaleryController;
 use App\Http\Controllers\Admin\AdminProductVariantController;
+use App\Http\Controllers\Admin\AdminProductWishlistController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Admin\AdminSettingController;
+use App\Http\Controllers\Admin\AdminSliderBrandController;
+use App\Http\Controllers\Admin\AdminSliderHeroController;
 use App\Http\Controllers\Admin\AdminVariantGaleryController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +44,14 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
         Route::post("/profile/update", "profile_update")->name("admin.profile.update");
     });
 
+    /* Setting */
+    Route::controller(AdminSettingController::class)->group(function(){
+        Route::get("setting","index")->name("admin.setting.view");
+        Route::post("setting/general/update", "setting_general_update")->name("admin.setting.general.update");
+        Route::post("setting/image/update", "setting_image_update")->name("admin.setting.image.update");
+        Route::post("setting/link/update", "setting_link_update")->name("admin.setting.link.update");
+    });
+
     /* Category */
     Route::controller(AdminCategoryController::class)->group(function(){
         Route::get("category","index")->name("admin.category.view");
@@ -50,6 +62,28 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
         Route::post("category/update", "category_update")->name("admin.category.update");
         Route::post("category/status/update", "category_status_update")->name("admin.category.status.update");
         Route::post("category/delete", "category_delete")->name("admin.category.delete");
+    });
+
+    /* Hero Slider */
+    Route::controller(AdminSliderHeroController::class)->group(function(){
+        Route::get("slider/hero","index")->name("admin.slider.hero.view");
+        Route::get("slider/hero/section/table","section_table_view")->name("admin.slider.hero.section.table.view");
+        Route::get("slider/hero/edit/{id}","edit_view")->name("admin.slider.hero.edit.view");
+        Route::post("slider/hero/store","store")->name("admin.slider.hero.store");
+        Route::post("slider/hero/update","update")->name("admin.slider.hero.update");
+        Route::post("slider/hero/status/update","status_update")->name("admin.slider.hero.status.update");
+        Route::post("slider/hero/delete","delete")->name("admin.slider.hero.delete");
+    });
+
+    /* Brand Slider */
+    Route::controller(AdminSliderBrandController::class)->group(function(){
+        Route::get("slider/brand","index")->name("admin.slider.brand.view");
+        Route::get("slider/brand/section/table","section_table_view")->name("admin.slider.brand.section.table.view");
+        Route::get("slider/brand/edit/{id}","edit_view")->name("admin.slider.brand.edit.view");
+        Route::post("slider/brand/store","store")->name("admin.slider.brand.store");
+        Route::post("slider/brand/update","update")->name("admin.slider.brand.update");
+        Route::post("slider/brand/status/update","status_update")->name("admin.slider.brand.status.update");
+        Route::post("slider/brand/delete","delete")->name("admin.slider.brand.delete");
     });
 
     /* Attribute */
@@ -76,6 +110,13 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
         Route::post("coupon/update", "coupon_update")->name("admin.coupon.update");
         Route::post("coupon/status/update", "coupon_status_update")->name("admin.coupon.status.update");
         Route::post("coupon/delete", "coupon_delete")->name("admin.coupon.delete");
+    });
+
+    /* Wishlist */
+    Route::controller(AdminProductWishlistController::class)->group(function(){
+        Route::get("wishlist","index")->name("admin.wishlist.view");
+        Route::get("wishlist/section/table", "section_table_view")->name("admin.wishlist.section.table.view");
+        Route::post("wishlist/delete", "delete")->name("admin.wishlist.delete");
     });
 
     /* Product */

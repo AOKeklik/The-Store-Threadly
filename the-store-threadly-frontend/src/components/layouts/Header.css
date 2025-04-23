@@ -3,8 +3,16 @@
 }
 #section-header {
     transition: background-color .3s, padding .3s;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    height: 7rem;
+    padding: 0;
+}
+#section-header .container {
+    height: 100%;
+    align-items: stretch;
+}
+#section-header .navbar-brand {
+    align-items: center;
+    display: flex;
 }
 #section-header .badge {
     font-size: .6rem;
@@ -13,12 +21,10 @@
     max-width: 5rem;
 }
 #section-header .bi-cart-fill {
-    color: var(--color-gray);
     transition: .3s;
-    font-size: 1.3rem;
 }
 #section-header .bi-cart-fill:hover {
-    color: var(--color-gray-dark);;
+    color: var(--color-gray-dark);
 }
 #section-header .bi-list {
     font-size: 2rem;
@@ -73,8 +79,6 @@
     animation: showHeader ease .8s;
     z-index: 999;
     background-color: var(--bg-gray-light);
-    padding-top: .5rem;
-    padding-bottom: .5rem;
 }
 @keyframes showHeader {
     0% {

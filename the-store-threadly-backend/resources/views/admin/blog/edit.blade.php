@@ -22,6 +22,12 @@
                                 <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="image" name="image">
                                 <small data-app-alert="image" class="form-text text-danger"></small>
                             </div>
+                            <div class="form-group mb-3">
+                                <img src="{{ $blog->getCover() }}" alt="" style="max-height:250px" class="d-block mx-auto w-100">
+                                <label for="cover">Cover</label>
+                                <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="cover" name="cover">
+                                <small data-app-alert="cover" class="form-text text-danger"></small>
+                            </div>
                         </div>
                         <div class="col-md-8">
                             <div class="row">
@@ -88,7 +94,7 @@
 
         function handlerChangeImage (e) {
             $(e.target)
-                .closest("form")
+                .closest("div")
                 .find("img")
                 .attr("src",URL.createObjectURL(e.target.files[0]))
         }

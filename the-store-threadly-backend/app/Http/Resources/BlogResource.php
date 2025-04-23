@@ -24,13 +24,15 @@ class BlogResource extends JsonResource
             'author' => $this->user->name,
             'slug' => $this->slug,
             'thumbnail' => $this->getImage(),
+            'cover' => $this->getCover(),
             'excerpt' => \Illuminate\Support\Str::limit(strip_tags($this->desc), 150),
             'title' => $this->title,
             'desc' => $this->desc,
             'seo_title' => $this->seo_title,
             'seo_desc' => $this->seo_desc,
+            'created_day' => $this->created_at->format('d'),
+            'created_month' => $this->created_at->format('F'),
             'created_date' => $this->created_at->format('F, Y'),
-            'created_day' => $this->updated_at->format('m'),
         ];
     }
 }

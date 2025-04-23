@@ -1,31 +1,35 @@
 import React from 'react'
 import HeadingPrimary from '../../components/layouts/HeadingPrimary'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { setFilter, resetFilters } from '../../redux/filterSlice'
+import useFilters from '../../hooks/useFilters'
+import { useSettings } from '../../context/settingContext'
 
 export default function ProductFilter() {
-    const dispatch = useDispatch()
-    const filters = useSelector(state => state.filters);
+    const {colors, sizes, productCategories} = useSettings()
+
+/* ///////// FILTER ///////// */
     const {
-        colors,
-        sizes,
-        categories,
-    } = useSelector(state => state.products);
+        toggleFilter,
+        isFilterActive,
+        clearAllFilters,
+    } = useFilters()
+/* ///////// FILTER ///////// */
+
 
     return <div className="col-lg-3 col-md-4">
         <div className="row bg-light px-2 py-4">
+            {/* /////////////// CATEGORY FILTER /////////////// */}
             <div className="col-12 mb-4">
                 <HeadingPrimary title="Category" size="small" />
                 <ul className="list-unstyled d-flex flex-wrap justify-content-center gap-2">
-                    {categories.map((cat, i) => (
+                    {productCategories.map((cat, i) => (
                         <li key={i}>
                             <button
                                 type="button"
                                 className={`btn btn-outline-secondary fs-08 ${
-                                    filters.category === cat.slug ? "btn-dark text-white" : ""
+                                    isFilterActive("category",cat.slug) ? "btn-dark text-white" : ""
                                 }`}
-                                onClick={() => dispatch(setFilter({key: "category", value: cat.slug }))}
+                                onClick={() => toggleFilter("category",cat.slug)}
                             >
                                 {cat.name}
                             </button>
@@ -33,6 +37,9 @@ export default function ProductFilter() {
                     ))}
                 </ul>
             </div>
+            {/* /////////////// CATEGORY FILTER /////////////// */}
+
+            {/* /////////////// GENDER FILTER /////////////// */}
             <div className="col-12 mb-4">
                 <HeadingPrimary title="Gender" size="small" />
                 <ul className="list-unstyled d-flex flex-wrap justify-content-center gap-2">
@@ -41,9 +48,9 @@ export default function ProductFilter() {
                         <button
                             type="button"
                             className={`btn btn-outline-secondary ${
-                                filters.gender === g ? "btn-dark text-white" : ""
+                                isFilterActive("gender",g) ? "btn-dark text-white" : ""
                             }`}
-                            onClick={() => dispatch(setFilter({key: "gender", value: g }))}
+                            onClick={() => toggleFilter("gender",g)}
                         >
                         {g.charAt(0).toUpperCase() + g.slice(1)}
                         </button>
@@ -51,6 +58,9 @@ export default function ProductFilter() {
                     ))}
                 </ul>
             </div>
+            {/* /////////////// GENDER FILTER /////////////// */}
+
+            {/* /////////////// COLOR FILTER /////////////// */}
             <div className="col-12">
                 <HeadingPrimary title="Color" size="small" />
                 <ul className="list-unstyled d-flex flex-wrap justify-content-center gap-2">
@@ -58,37 +68,35 @@ export default function ProductFilter() {
                         <li key={i}>
                             <button 
                                 type="button" 
-                                className={`border rounded-circle ${filters.color === color.slug ? "border-dark border-2" : ""}`} 
+                                className={`border rounded-3 ${isFilterActive("color",color.slug) ? "border-dark border-2" : ""}`} 
                                 style={{
-                                    width: "30px", 
-                                    height: "30px", 
+                                    width: "25px", 
+                                    height: "25px", 
                                     backgroundColor: color.icon,
                                     border: color.slug === "white" ? "1px solid #ccc" : "none"
                                 }}
                                 title={color.name}
-                                onClick={() => dispatch(setFilter({key: "color", value: color.slug }))}
+                                onClick={() => toggleFilter("color",color.slug)}
                             />
                         </li>
                     ))}
                 </ul>
             </div>
+            {/* /////////////// COLOR FILTER /////////////// */}
+
+            {/* /////////////// SIZE FILTER /////////////// */}
             <div className="col-12 mb-4">
                 <HeadingPrimary title="Size" size="small" />
-                <ul className="list-unstyled d-flex flex-wrap justify-content-center gap-2">
+                <ul className="list-unstyled d-flex flex-wrap justify-content-center gap-1">
                     {sizes.map((size, i) => (
                         <li key={i} className="d-inline-block me-2 mb-2">
                             <button 
                                 type="button" 
-                                className={`btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center ${
-                                    filters.size === size.slug ? "btn-dark text-white" : ""
+                                className={`btn btn-outline-secondary rounded-3 d-flex align-items-center justify-content-center text-uppercase px-2 py-0 ${
+                                    isFilterActive("size",size.slug) ? "btn-dark text-white" : ""
                                 }`}
-                                style={{
-                                    width: "30px", 
-                                    height: "30px", 
-                                    fontWeight: "bold"
-                                }}
                                 title={size.name}
-                                onClick={() => dispatch(setFilter({key: "size", value: size.slug }))}
+                                onClick={() => toggleFilter("size",size.slug)}
                             >
                                 {size.icon}
                             </button>
@@ -96,8 +104,11 @@ export default function ProductFilter() {
                     ))}
                 </ul>
             </div>
+            {/* /////////////// SIZE FILTER /////////////// */}
+
+            {/* /////////////// RESET FILTER /////////////// */}
             <div className='text-center'>
-                <button className='btn btn-danger' onClick={() => dispatch(resetFilters())}>
+                <button className='btn btn-danger' onClick={clearAllFilters}>
                     Reset Filter
                 </button>
             </div>

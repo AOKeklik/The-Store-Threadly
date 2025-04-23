@@ -41,4 +41,12 @@ class Blog extends Model
         
         return "https://placehold.co/600x400?text=Hello+World";
     }
+
+    public function getCover()
+    {
+        if($this->cover)
+            return asset("uploads/blog-cover/".$this->cover);
+        
+        return "https://placehold.co/1200x400?text=Hello+World";
+    }
 }

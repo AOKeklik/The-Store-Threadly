@@ -1,19 +1,19 @@
-.section-baner {
+#section-baner {
     height: 300px;
 }
 
 @media (min-width: 640px) {
-    .section-baner {
+    #section-baner {
         height: 200px;
     }
 }
 
 @media (min-width: 1024px) {
-    .section-baner {
+    #section-baner {
         height: 280px;
     }
 }
 
-.position-relative a {
+#section-baner .position-relative a {
     text-decoration: none !important;
 }

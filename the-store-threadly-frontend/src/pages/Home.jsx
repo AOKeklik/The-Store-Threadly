@@ -1,57 +1,50 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import FeaturedProducts from '../components/products/FeaturedProducts'
-import HeroSlider from '../components/hero-slider/HeroSlider'
+import HeroSlider from '../slider/hero-slider/HeroSlider'
 import HeadingPrimary from '../components/layouts/HeadingPrimary'
-import DiscountProducts from '../components/products/DiscountProducts'
 import MasonryFilterGrid from '../components/products/MasonryFilterGrid'
-import Blogs from '../components/blog/Blogs'
-
-import useFetch from '../components/hooks/useFetch'
-import { URL_BLOG } from '../config'
 import Loader from '../components/layouts/Loader'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchAllProducts, fetchFeaturedProducts } from '../redux/productsSlice'
-import { fetchAllBlogs } from '../redux/blogSlice'
+import useProducts from '../hooks/useProducts'
+import useFetch from '../hooks/useFetch'
+import useBlog from '../hooks/useBlog'
+
+import FeaturedSlider from '../slider/FeaturedSlider'
+import BrandSlider from '../slider/brand-slider/BrandSlider'
+import DiscountSlider from '../slider/DiscountSlider'
+import BlogSlider from '../slider/blog-slider/BlogSlider'
 
 export default function Home() {
-    const dispatch = useDispatch()
     const {
         data,
         loading,
+
         featuredData,
         loadingFeatured,
-    } = useSelector(state => state.products)
-    const {
-        blogData,
-        blogLoading,
-    } = useSelector(state => state.blogs)
+    } = useProducts()
+    const [ dataHoerSlider, loadingHeroSlider ] = useFetch("slider/hero/all")
+    const [ dataBrandSlider, loadingBrandSlider ] = useFetch("slider/brand/all")
+    const { dataAllBlog, loadingAllBlog } = useBlog()
 
-    useEffect(() => {
-        dispatch(fetchAllProducts())
-    }, [dispatch])
-
-    useEffect(() => {
-        dispatch(fetchFeaturedProducts())
-    }, [dispatch])
-
-    useEffect(() => {
-        dispatch(fetchAllBlogs())
-    }, [dispatch])
-
-    if(loading || loadingFeatured || blogLoading) return <Loader />
+    if(
+        loading || 
+        loadingFeatured || 
+        loadingAllBlog || 
+        loadingHeroSlider || 
+        loadingBrandSlider) return <Loader />
 
     return (
         <>
-            <HeroSlider data={data} />
+            <HeroSlider products={data} sliders={dataHoerSlider.data} />
             <HeadingPrimary title="Featured Products" />
-            <FeaturedProducts data={featuredData.data} />
-            <DiscountProducts data={data} />
+            <FeaturedSlider data={featuredData} />
+            <DiscountSlider data={data} />
+            <HeadingPrimary title="Our Brands" />
+            <BrandSlider data={dataBrandSlider.data} />
             <HeadingPrimary title="Purchase Online" />
             <MasonryFilterGrid data={data} />
             <HeadingPrimary title="From The Blog" />
-            <Blogs data={blogData} />
+            <BlogSlider data={dataAllBlog} />
         </>
     )
 }

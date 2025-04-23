@@ -23,6 +23,12 @@
                                     <small data-app-alert="image" class="form-text text-danger"></small>
                                 </div>
                                 <div class="form-group mb-3">
+                                    <img src="https://placehold.co/1200x400?text=Hello+World" alt="" style="max-height:250px" class="d-block mx-auto w-100">
+                                    <label for="cover">Cover</label>
+                                    <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="cover" name="cover">
+                                    <small data-app-alert="cover" class="form-text text-danger"></small>
+                                </div>
+                                <div class="form-group mb-3">
                                     <label for="category_id">Category*</label>
                                     <select class="form-control select2" id="category_id" name="category_id">
                                         <option value=""></option>
@@ -108,7 +114,7 @@
 
         function handlerChangeImage (e) {
             $(e.target)
-                .closest("form")
+                .closest("div")
                 .find("img")
                 .attr("src",URL.createObjectURL(e.target.files[0]))
         }

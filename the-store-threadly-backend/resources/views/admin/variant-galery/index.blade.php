@@ -4,7 +4,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header justify-content-between">
-            <h1>Variant Galery</h1>
+            <h1>Variant Galery - <span class="text-muted">{{ $variant->product->title }}</span></h1>
             <div class="ml-auto">
                 <a href="{{ route("admin.product.variant.view",$variant->product->id) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Variant</a>
             </div>
@@ -15,7 +15,7 @@
                     <div class="card">
                         <div class="card-body">                
                             <form>
-                                <input type="hidden" name="variant_id" id="variant_id" value="{{ request('variant_id') }}">
+                                <input type="hidden" name="product_variant_id" id="product_variant_id" value="{{ request('variant_id') }}">
                                 <div class="form-group mb-3">
                                     <img src="https://placehold.co/600x400?text=Hello+World" alt="" style="max-height:250px" class="d-block mx-auto">
                                     <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="image" name="image">

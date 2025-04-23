@@ -6,7 +6,7 @@
         <div class="section-header justify-content-between">
             <h1>Variant Galery</h1>
             <div class="ml-auto">
-                <a href="{{ route("admin.product.variant.galery.view", $variantGalery->variant_id) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Varinat Galery</a>
+                <a href="{{ route("admin.product.variant.galery.view", $variantGalery->product_variant_id) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Varinat Galery</a>
             </div>
         </div>
         <div class="section-body">

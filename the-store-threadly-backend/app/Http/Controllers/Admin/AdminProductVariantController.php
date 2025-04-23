@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
+use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\ProductVariantAttributeValue;
-use App\Models\Variant;
 use App\Services\ImageService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -15,6 +15,8 @@ class AdminProductVariantController extends Controller
 {
     public function index($product_id)
     {
+        $product = Product::find($product_id);
+
         $attributes = Attribute::
             orderBy('id', 'asc')
             ->get();
@@ -24,7 +26,10 @@ class AdminProductVariantController extends Controller
             orderBy("id","desc")->
             get();
 
-        return view("admin.product-variant.index",compact("variants","attributes"));
+        if(!$product)
+            return redirect()->route("admin.product.view")->with("error","The variants not found.");
+
+        return view("admin.product-variant.index",compact("product","variants","attributes"));
     }
     public function product_variant_section_table_view($product_id) :View
     {

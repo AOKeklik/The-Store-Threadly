@@ -11,10 +11,21 @@ use Illuminate\Http\Request;
 
 class AdminBlogController extends Controller
 {
-    public function index() :View
+    public function index()
     {
         $blogs=Blog::orderBy("id","desc")->get();
-        $categories=Category::orderBy("id","desc")->get();
+        $categories=Category::
+            with('parent')
+            ->whereHas('parent', function ($query) {
+                $query->where('slug', 'blog');
+            })
+            ->where('status', 1)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        if($categories->isEmpty())
+            return redirect()->route("admin.blog.view")->with("error","Please create at least one category before creating a blog.");
+            
         return view("admin.blog.index",compact("blogs","categories"));
     }
     public function blog_section_table_view() :View
@@ -25,7 +36,14 @@ class AdminBlogController extends Controller
     public function blog_edit_view($blog_id)
     {
         $blog=Blog::find($blog_id);
-        $categories=Category::orderBy("id","desc")->get();
+        $categories=Category::
+            with('parent')
+            ->whereHas('parent', function ($query) {
+                $query->where('slug', 'blog');
+            })
+            ->where('status', 1)
+            ->orderBy('id', 'desc')
+            ->get();
 
         if(!$blog)
             return redirect()->route("admin.blog.view")->with("error","The blog not found.");
@@ -44,6 +62,7 @@ class AdminBlogController extends Controller
                 "category_id"=>"required|numeric|exists:categories,id",
                 "user_id"=>"required|numeric|exists:users,id",
                 "image"=>"nullable|file|mimes:jpg,jpeg,png|max:1048576",
+                "cover"=>"nullable|file|mimes:jpg,jpeg,png|max:1048576",
                 "title"=>"required|string",
                 "desc"=>"nullable|string",
                 "seo_title"=>"nullable|string",
@@ -55,10 +74,12 @@ class AdminBlogController extends Controller
     
             $blog=new Blog();
             $image = $imageService->uploadPhoto($request,null,"blog");
+            $cover = $imageService->uploadCover($request,null,"blog-cover");
     
             $blog->category_id=$request->category_id;
             $blog->user_id=$request->user_id;
             $blog->image=$image;
+            $blog->cover=$cover;
             $blog->title=$request->title;
             $blog->desc=$request->desc;
             $blog->seo_title=$request->seo_title;
@@ -79,6 +100,7 @@ class AdminBlogController extends Controller
                 "category_id"=>"required|numeric|exists:categories,id",
                 "user_id"=>"required|numeric|exists:users,id",
                 "image"=>"nullable|file|mimes:jpg,jpeg,png|max:1024",
+                "cover"=>"nullable|file|mimes:jpg,jpeg,png|max:1024",
                 "title"=>"required|string",
                 "desc"=>"nullable|string",
                 "seo_title"=>"nullable|string",
@@ -97,10 +119,12 @@ class AdminBlogController extends Controller
                 throw new \Exception("Blog not found."); 
 
             $image = $imageService->uploadPhoto($request,$blog,"blog");
+            $cover = $imageService->uploadCover($request,$blog,"blog-cover");
     
             $blog->category_id=$request->category_id;
             $blog->user_id=$request->user_id;
             $blog->image=$image;
+            $blog->cover=$cover;
             $blog->title=$request->title;
             $blog->desc=$request->desc;
             $blog->seo_title=$request->seo_title;

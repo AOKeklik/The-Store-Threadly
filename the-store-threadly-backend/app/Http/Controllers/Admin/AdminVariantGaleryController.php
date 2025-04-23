@@ -19,7 +19,7 @@ class AdminVariantGaleryController extends Controller
             throw new \Exception("Variant not found.");
 
         $variantGaleries=VariantGalery::
-            where("variant_id",$variant_id)->
+            where("product_variant_id",$variant_id)->
             orderBy("id","desc")->
             get();
 
@@ -28,7 +28,7 @@ class AdminVariantGaleryController extends Controller
     public function variant_galery_section_table_view($variant_id) :View
     {
         $variantGaleries=VariantGalery::
-            where("variant_id",$variant_id)->
+            where("product_variant_id",$variant_id)->
             orderBy("id","desc")->
             get();
 
@@ -56,7 +56,7 @@ class AdminVariantGaleryController extends Controller
             if(!$validator->passes())
                 return response()->json(["message"=>$validator->errors()->toArray()],422);
 
-            $productVariant=ProductVariant::find($request->variant_id);
+            $productVariant=ProductVariant::find($request->product_variant_id);
 
             if(!$productVariant)
                 throw new \Exception("Product Variant not found.");
@@ -64,7 +64,7 @@ class AdminVariantGaleryController extends Controller
             $variantGalery=new VariantGalery();
             $image = $imageService->uploadPhoto($request,null,"variant-galery");
 
-            $variantGalery->variant_id=$request->variant_id;
+            $variantGalery->product_variant_id=$request->product_variant_id;
             $variantGalery->image=$image;
             $variantGalery->caption=$request->caption;
         
@@ -100,7 +100,7 @@ class AdminVariantGaleryController extends Controller
             if(!$variantGalery->save())
                 throw new \Exception("Failed to save galery."); 
     
-            return response()->json(["message"=>"Galery updated successfully.","redirect"=>route("admin.product.variant.galery.view", $variantGalery->variant_id)],200);
+            return response()->json(["message"=>"Galery updated successfully.","redirect"=>route("admin.product.variant.galery.view", $variantGalery->product_variant_id)],200);
         }catch(\Exception $err){
             return response()->json(["message"=>$err->getMessage()],500);
         }

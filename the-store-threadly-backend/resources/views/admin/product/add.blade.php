@@ -17,9 +17,18 @@
                             <form>
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img src="https://placehold.co/600x400?text=Hello+World" alt="" class="profile-photo w_100_p">
-                                        <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="image" name="image">
-                                        <small data-app-alert="image" class="form-text text-danger"></small>
+                                       <div class="mb-5">
+                                            <img src="https://placehold.co/600x400?text=Hello+World" alt="" class="w_100_p mb-3">
+                                            <label for="image" class="form-label m-0">Image</label>
+                                            <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="image" name="image">
+                                            <small data-app-alert="image" class="form-text text-danger"></small>
+                                       </div>
+                                       <div>
+                                            <img src="https://placehold.co/1200x400?text=Hello+World" alt="" class="w_100_p mb-3">
+                                            <label for="cover" class="form-label m-0">Cover</label>
+                                            <input onchange="handlerChangeImage(event)" type="file" class="form-control mt_10" id="cover" name="cover">
+                                            <small data-app-alert="cover" class="form-text text-danger"></small>
+                                        </div>
                                     </div>
                                     <div class="col-md-9">
                                         <div class="row">
@@ -78,7 +87,12 @@
                                                 <input type="text" class="form-control" id="sku" name="sku">
                                                 <small data-app-alert="sku" class="form-text text-danger"></small>
                                             </div>
-                                            <div class="col-md-12 mb-4">
+                                            <div class="col-md-6 mb-4">
+                                                <label for="short_desc" class="form-label">Short Desc</label>
+                                                <textarea id="short_desc" name="short_desc" class="form-control" cols="30" rows="10"></textarea>
+                                                <small data-app-alert="short_desc" class="form-text text-danger"></small>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
                                                 <label class="form-label">Seo Desc</label>
                                                 <textarea id="seo_desc" name="seo_desc" class="form-control" cols="30" rows="100"></textarea>
                                                 <small data-app-alert="seo_desc" class="form-text text-danger"></small>
@@ -120,7 +134,7 @@
 
         function handlerChangeImage (e) {
             $(e.target)
-                .closest("form")
+                .closest("div")
                 .find("img")
                 .attr("src",URL.createObjectURL(e.target.files[0]))
         }
