@@ -25,4 +25,4 @@ dist-ssr
 
 # Exclude assets and uploads
 assets/
-uploads/
+public/uploads/

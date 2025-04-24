@@ -23,10 +23,8 @@ class AdminSettingController extends Controller
                 'site_email' => "required|email|max:255",
                 'site_phone' => "required|string|max:255",
                 'site_address' => "required|string|max:255",
-                'site_delivery_charge'=> "required|numeric",
-                'site_currency_icon'=> "required|string|max:255",
-                'site_currency_icon_position' => "required|string|max:255",
                 'site_copy' => "required|string|max:255",
+                'site_map' => "required|string",
             ]);
 
             if($validator->fails())
@@ -39,6 +37,59 @@ class AdminSettingController extends Controller
             Setting::clearCache();
                 
             return response()->json(["message"=>"Setting general updated successfully."],200);
+        }catch(\Exception $err){
+            return response()->json(["message"=>$err->getMessage()],500);
+        }
+    }
+    
+    function setting_ecommerce_update(Request $request)
+    {
+        try{
+            $validator = \Validator::make($request->all(), [
+                'site_delivery_charge'=> "required|numeric",
+                'site_currency_icon'=> "required|string|max:255",
+                'site_currency_icon_position' => "required|string|max:255",
+            ]);
+
+            if($validator->fails())
+                return response()->json(["message" => $validator->errors()->toArray()],422);
+    
+            foreach ($validator->validated() as $key => $value) {
+                Setting::setValue($key,$value);
+            }
+
+            Setting::clearCache();
+                
+            return response()->json(["message"=>"Setting ecommerce updated successfully."],200);
+        }catch(\Exception $err){
+            return response()->json(["message"=>$err->getMessage()],500);
+        }
+    }
+
+    function setting_email_update(Request $request)
+    {
+        try{
+            $validator = \Validator::make($request->all(), [
+                'mail_driver' => "required|string|max:255",
+                'mail_host' => "required|string|max:255",
+                'mail_port' => "required|numeric|max:5000",
+                'mail_username' => "required|string|max:255",
+                'mail_password' => "required|string|max:255",
+                'mail_encryption' => "required|string|max:10",
+                'mail_from_address' => "required|email|max:255",
+                'mail_receive_address' => "required|email|max:255",
+            ]);
+
+            if($validator->fails())
+                return response()->json(["message" => $validator->errors()->toArray()],422);
+    
+            foreach ($validator->validated() as $key => $value) {
+                Setting::setValue($key,$value);
+            }
+
+            Setting::clearCache();
+                
+            return response()->json(["message"=>"Setting email updated successfully."],200);
         }catch(\Exception $err){
             return response()->json(["message"=>$err->getMessage()],500);
         }

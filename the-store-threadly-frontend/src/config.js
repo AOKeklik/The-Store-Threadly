@@ -12,10 +12,11 @@ export const URL_API_BLOG = URL_API + import.meta.env.VITE_PATH_BLOG
 const axiosClient = axios.create({
     baseURL: URL_API,
     headers: {
-      'Content-Type': 'application/json',
-      // Authorization: `Bearer ${token}`, // eğer token gerekiyorsa buraya ekleyebilirsin
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        // Authorization: `Bearer ${token}`,
     },
-    // withCredentials: true, // Eğer çerez (cookie) kullanıyorsan
+    // withCredentials: true,
   });
   
   export default axiosClient

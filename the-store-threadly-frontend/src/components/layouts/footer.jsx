@@ -5,16 +5,15 @@ import img1 from "../../assets/payment/1.webp"
 import img2 from "../../assets/payment/2.webp"
 import img3 from "../../assets/payment/3.webp"
 import img4 from "../../assets/payment/4.webp"
-import ProductThirdItem from '../products/ProductThirdItem'
 
-import Subscribe from '../subscribe/Subscribe'
+import Subscriber from '../../form/Subscriber'
 import { useSettings } from '../../context/settingContext'
 
 export default function footer() {
     const { settings } = useSettings()
 
     return <div>
-        <Subscribe />
+        <Subscriber />
         <footer id='section-footer'>
             <div className='container-md'>
                 <div className="row gy-5 mb-5">
@@ -92,13 +91,11 @@ export default function footer() {
                         </div>
                     </div>
                     <div className="col-lg-4 col-md-6">
-                        <SectionTitle title="YOUR CHOICE PRODUCTS" size="small" />
-                        <div className='d-flex flex-column flex-sm-row gap-2'>
-                            <ProductThirdItem />
-                            <ProductThirdItem />
-                        </div>
+                        <SectionTitle title="Find Us Easily on Google Maps" size="small" />
+                        <div className='d-flex justify-content-center' dangerouslySetInnerHTML={{ __html: settings.site_map }} />
                     </div>
                 </div>
+
                 <div className='d-flex justify-content-between'>
                     <span>{settings.site_copy}</span>
                     <div className='d-flex gap-2'>

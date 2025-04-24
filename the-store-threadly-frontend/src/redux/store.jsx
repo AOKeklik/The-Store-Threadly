@@ -5,6 +5,7 @@ import cartSlice from './cartSlice'
 import productSlice from './productSlice'
 import filterSlice from './filterSlice'
 import blogSlice from './blogSlice'
+import formSlice from './formSlice'
 
 const saveToLocalStorage = (state) => {
     localStorage.setItem('cart', JSON.stringify(state.cart))
@@ -25,6 +26,7 @@ const store = configureStore({
         product: productSlice,
         filters: filterSlice,
         blog: blogSlice,
+        form: formSlice,
     },
     preloadedState: {
         cart: loadFromLocalStorage(),

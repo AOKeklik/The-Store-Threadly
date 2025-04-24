@@ -4,6 +4,7 @@ use App\Http\Controllers\Frontend\FrontendBlogController;
 use App\Http\Controllers\Frontend\FrontendWishlistController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\FrontendProductController;
+use App\Http\Controllers\Frontend\FrontendSubscriberController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,11 @@ Route::prefix("")/* ->middleware('auth:sanctum') */->group(function () {
         /* slider */
         Route::get("slider/hero/all","slider_hero_get_all");
         Route::get("slider/brand/all","slider_brand_get_all");
+    });
+
+    /* Blog */
+    Route::controller(FrontendSubscriberController::class)->group(function(){
+        Route::post("subscriber/store","store");
     });
 
     /* Blog */

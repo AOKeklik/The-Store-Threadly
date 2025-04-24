@@ -17,6 +17,12 @@
                             <button class="nav-link active" id="general-tab" data-toggle="tab" data-target="#general" type="button" role="tab">General</button>
                         </li>
                         <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="ecommerce-tab" data-toggle="tab" data-target="#ecommerce" type="button" role="tab">Ecommerce</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="email-form-tab" data-toggle="tab" data-target="#email-form" type="button" role="tab">Email</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
                             <button class="nav-link" id="image-tab" data-toggle="tab" data-target="#image" type="button" role="tab">Images</button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -51,6 +57,25 @@
                                     <small data-app-alert="site_address" class="form-text text-danger"></small>
                                 </div>
                                 <div class="col-md-6 mb-3">
+                                    <label for="site_copy" class="form-label">Copy*</label>
+                                    <input type="text" class="form-control" id="site_copy" name="site_copy" value="{{ setting("site_copy") }}">
+                                    <small data-app-alert="site_copy" class="form-text text-danger"></small>
+                                </div>
+                                <div class="col-md-12 mb-4">
+                                    <label for="site_map" class="form-label">Map</label>
+                                    <textarea id="site_map" name="site_map" class="form-control snote" cols="30" rows="10">{{ setting("site_map") }}</textarea>
+                                    <small data-app-alert="site_map" class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Ecommerce Settings -->
+                        <form class="tab-pane fade show" id="ecommerce" role="tabpanel">
+                            <div class="mb-3 text-end">
+                                <button onclick="handlerEcommerceSubmit(event)" type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
                                     <label for="site_delivery_charge" class="form-label">Delivery*</label>
                                     <input type="text" class="form-control" id="site_delivery_charge" name="site_delivery_charge" value="{{ setting("site_delivery_charge") }}">
                                     <small data-app-alert="site_delivery_charge" class="form-text text-danger"></small>
@@ -75,10 +100,54 @@
                                     </select>
                                     <small data-app-alert="site_currency_icon_position" class="form-text text-danger"></small>
                                 </div>
+                            </div>
+                        </form>
+
+                        <!-- Email Settings -->
+                        <form class="tab-pane fade show" id="email-form" role="tabpanel">
+                            <div class="mb-3 text-end">
+                                <button onclick="handlerEmailSubmit(event)" type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="site_copy" class="form-label">Copy*</label>
-                                    <input type="text" class="form-control" id="site_copy" name="site_copy" value="{{ setting("site_copy") }}">
-                                    <small data-app-alert="site_copy" class="form-text text-danger"></small>
+                                    <label for="mail_driver" class="form-label">Mail Driver*</label>
+                                    <input type="text" class="form-control" id="mail_driver" name="mail_driver" value="{{ setting("mail_driver") }}">
+                                    <small data-app-alert="mail_driver" class="form-text text-danger"></small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="mail_host" class="form-label">Mail Host*</label>
+                                    <input type="text" class="form-control" id="mail_host" name="mail_host" value="{{ setting("mail_host") }}">
+                                    <small data-app-alert="mail_host" class="form-text text-danger"></small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="mail_port" class="form-label">Mail Port*</label>
+                                    <input type="text" class="form-control" id="mail_port" name="mail_port" value="{{ setting("mail_port") }}">
+                                    <small data-app-alert="mail_port" class="form-text text-danger"></small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="mail_username" class="form-label">Mail Username*</label>
+                                    <input type="text" class="form-control" id="mail_username" name="mail_username" value="{{ setting("mail_username") }}">
+                                    <small data-app-alert="mail_username" class="form-text text-danger"></small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="mail_password" class="form-label">Mail Password*</label>
+                                    <input type="text" class="form-control" id="mail_password" name="mail_password" value="{{ setting("mail_password") }}">
+                                    <small data-app-alert="mail_password" class="form-text text-danger"></small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="mail_encryption" class="form-label">Mail Encryption*</label>
+                                    <input type="text" class="form-control" id="mail_encryption" name="mail_encryption" value="{{ setting("mail_encryption") }}">
+                                    <small data-app-alert="mail_encryption" class="form-text text-danger"></small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="mail_from_address" class="form-label">Mail From Address*</label>
+                                    <input type="text" class="form-control" id="mail_from_address" name="mail_from_address" value="{{ setting("mail_from_address") }}">
+                                    <small data-app-alert="mail_from_address" class="form-text text-danger"></small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="mail_receive_address" class="form-label">Mail Receive Address*</label>
+                                    <input type="text" class="form-control" id="mail_receive_address" name="mail_receive_address" value="{{ setting("mail_receive_address") }}">
+                                    <small data-app-alert="mail_receive_address" class="form-text text-danger"></small>
                                 </div>
                             </div>
                         </form>
@@ -165,6 +234,54 @@
                 formData.append("_token",csrf_token)
                     
                 const submit=await submitFrom({url:"{{ route('admin.setting.general.update') }}",formData})
+
+                await showNotification(submit)
+                resetForm(form)
+            }catch(err){
+                await showFormErrorMessages(err)
+                await showNotification(err)
+                redirect(err)
+            }finally{
+                hideOverlay()
+            }
+        }
+
+        async function handlerEcommerceSubmit (e) {
+            try {
+                e.preventDefault()
+
+                const form = $(e.target).closest("form")
+                const formData=new FormData(form[0])
+
+                const csrf_token=await uptdateCSRFToken()
+
+                formData.append("_token",csrf_token)
+                    
+                const submit=await submitFrom({url:"{{ route('admin.setting.ecommerce.update') }}",formData})
+
+                await showNotification(submit)
+                resetForm(form)
+            }catch(err){
+                await showFormErrorMessages(err)
+                await showNotification(err)
+                redirect(err)
+            }finally{
+                hideOverlay()
+            }
+        }
+
+        async function handlerEmailSubmit (e) {
+            try {
+                e.preventDefault()
+
+                const form = $(e.target).closest("form")
+                const formData=new FormData(form[0])
+
+                const csrf_token=await uptdateCSRFToken()
+
+                formData.append("_token",csrf_token)
+                    
+                const submit=await submitFrom({url:"{{ route('admin.setting.email.update') }}",formData})
 
                 await showNotification(submit)
                 resetForm(form)

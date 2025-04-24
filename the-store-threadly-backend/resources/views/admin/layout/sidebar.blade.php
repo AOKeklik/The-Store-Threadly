@@ -18,6 +18,9 @@
             <li class="{{ Request::routeIs('admin.category.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route("admin.category.view") }}"><i class="fas fa-folder"></i> <span>Category</span></a>
             </li>
+            <li class="{{ Request::routeIs('admin.subscriber.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route("admin.subscriber.view") }}"><i class="fas fa-envelope"></i> <span>Subscriber</span></a>
+            </li>
             <li class="nav-item dropdown {{ Request::routeIs('admin.slider.*') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-images"></i><span>Slider</span></a>
                 <ul class="dropdown-menu">

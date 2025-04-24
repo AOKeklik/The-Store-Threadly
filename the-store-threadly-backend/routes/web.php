@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminSliderBrandController;
 use App\Http\Controllers\Admin\AdminSliderHeroController;
+use App\Http\Controllers\Admin\AdminSubscriberController;
 use App\Http\Controllers\Admin\AdminVariantGaleryController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,8 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
     Route::controller(AdminSettingController::class)->group(function(){
         Route::get("setting","index")->name("admin.setting.view");
         Route::post("setting/general/update", "setting_general_update")->name("admin.setting.general.update");
+        Route::post("setting/ecommerce/update", "setting_ecommerce_update")->name("admin.setting.ecommerce.update");
+        Route::post("setting/email/update", "setting_email_update")->name("admin.setting.email.update");
         Route::post("setting/image/update", "setting_image_update")->name("admin.setting.image.update");
         Route::post("setting/link/update", "setting_link_update")->name("admin.setting.link.update");
     });
@@ -62,6 +65,16 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
         Route::post("category/update", "category_update")->name("admin.category.update");
         Route::post("category/status/update", "category_status_update")->name("admin.category.status.update");
         Route::post("category/delete", "category_delete")->name("admin.category.delete");
+    });
+
+    /* Subscriber */
+    Route::controller(AdminSubscriberController::class)->group(function(){
+        Route::get("subscriber","index")->name("admin.subscriber.view");
+        Route::get("subscriber/section/table","section_table_view")->name("admin.subscriber.section.table.view");
+        Route::get("subscriber/edit/{id}","edit_view")->name("admin.subscriber.edit.view");
+        Route::post("subscriber/update","update")->name("admin.subscriber.update");
+        Route::post("subscriber/status/update","status_update")->name("admin.subscriber.status.update");
+        Route::post("subscriber/delete","delete")->name("admin.subscriber.delete");
     });
 
     /* Hero Slider */
