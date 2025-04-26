@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string("image")->nullable();
             $table->enum("role", ["admin","customer"])->default("customer");
             $table->boolean("status")->default(0);
-            $table->rememberToken();
-            $table->timestamp('password_requested_at')->nullable();
+            $table->string("email_verification_token")->nullable();
+	        $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

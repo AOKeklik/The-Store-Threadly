@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { storeSubscriber } from '../redux/formSlice';
 import { toast } from 'react-toastify';
 
-const useSubscriberForm = () => {
+const useFormSubscriber = () => {
     const dispatch = useDispatch();
     const {
-        data,
         loading, 
+        error,
         validationErrors 
     } = useSelector(state => state.form.subscribeForm);
 
@@ -35,6 +35,13 @@ const useSubscriberForm = () => {
             setErrors(validationErrors)
         }
     }, [validationErrors, setErrors])
+
+    // Handle general submission errors
+    useEffect(() => {
+        if (error) {
+            toast.error(error.message || 'An error occurred during submission');
+        }
+    }, [error]);
 
 
     const handleSubmit = async (e) => {
@@ -63,4 +70,4 @@ const useSubscriberForm = () => {
 }
 
 
-export default useSubscriberForm
+export default useFormSubscriber

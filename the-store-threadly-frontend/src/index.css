@@ -20,7 +20,7 @@ body {color: var(--bs-gray-800)}
 .max-w-15 {max-width: 15rem;}
 .w-5 {width: 100%;max-width: 5rem;}
 .w-3 {width: 3rem;}
-.h-35rem {height: 100%;max-height: 35rem;}
+.h-35rem {height: 35rem;}
 .text-gray {color: var(--bg-gray);}
 .fs-09{font-size: .9rem;}
 .fs-08{font-size: .8rem;}
@@ -134,7 +134,25 @@ body {color: var(--bs-gray-800)}
     margin-bottom: .3rem;
 }
 /* ////////////////////////
-            FOOTER
+        PAGES
+////////////////////////// */
+    @media (max-width: 992px) {
+        #page .about-text {
+            position: relative !important;
+            top: unset !important;
+            left: unset !important;
+            transform: unset !important;
+            width: 100% !important;
+        }
+    }
+/* ////////////////////////
+        CONTACT
+////////////////////////// */
+    #page-contact iframe {
+        width: 100%;
+    }
+/* ////////////////////////
+        FOOTER
 //////////////////////// */
 #section-footer {
     margin-top: -2rem;
@@ -145,4 +163,7 @@ body {color: var(--bs-gray-800)}
 #section-footer a {
     text-decoration: none;
     color: var(--color-gray);
+}
+#section-footer a.active {
+    color: var(--bs-danger);
 }

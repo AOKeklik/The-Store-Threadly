@@ -20,7 +20,7 @@ export default function ProductFilter() {
         <div className="row bg-light px-2 py-4">
             {/* /////////////// CATEGORY FILTER /////////////// */}
             <div className="col-12 mb-4">
-                <HeadingPrimary title="Category" size="small" />
+                <HeadingPrimary title="Category" size="small" classname="mb-3" />
                 <ul className="list-unstyled d-flex flex-wrap justify-content-center gap-2">
                     {productCategories.map((cat, i) => (
                         <li key={i}>
@@ -41,7 +41,7 @@ export default function ProductFilter() {
 
             {/* /////////////// GENDER FILTER /////////////// */}
             <div className="col-12 mb-4">
-                <HeadingPrimary title="Gender" size="small" />
+                <HeadingPrimary title="Gender" size="small" classname="mb-3" />
                 <ul className="list-unstyled d-flex flex-wrap justify-content-center gap-2">
                     {["men", "women", "kids"].map((g, i) => (
                     <li key={i}>
@@ -62,7 +62,7 @@ export default function ProductFilter() {
 
             {/* /////////////// COLOR FILTER /////////////// */}
             <div className="col-12">
-                <HeadingPrimary title="Color" size="small" />
+                <HeadingPrimary title="Color" size="small" classname="mb-3" />
                 <ul className="list-unstyled d-flex flex-wrap justify-content-center gap-2">
                     {colors.map((color, i) => (
                         <li key={i}>
@@ -86,7 +86,7 @@ export default function ProductFilter() {
 
             {/* /////////////// SIZE FILTER /////////////// */}
             <div className="col-12 mb-4">
-                <HeadingPrimary title="Size" size="small" />
+                <HeadingPrimary title="Size" size="small" classname="mb-3" />
                 <ul className="list-unstyled d-flex flex-wrap justify-content-center gap-1">
                     {sizes.map((size, i) => (
                         <li key={i} className="d-inline-block me-2 mb-2">

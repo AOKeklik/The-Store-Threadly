@@ -6,19 +6,22 @@ import img2 from "../../assets/payment/2.webp"
 import img3 from "../../assets/payment/3.webp"
 import img4 from "../../assets/payment/4.webp"
 
-import Subscriber from '../../form/Subscriber'
+import SubscriberForm from '../../form/SubscriberForm'
 import { useSettings } from '../../context/settingContext'
+import { Link, useLocation } from 'react-router-dom'
 
-export default function footer() {
+export default function Footer() {
+    const location = useLocation();
     const { settings } = useSettings()
 
     return <div>
-        <Subscriber />
+        <SubscriberForm />
         <footer id='section-footer'>
             <div className='container-md'>
                 <div className="row gy-5 mb-5">
-                    <div className="col-lg-4 col-md-6">
-                        <SectionTitle title="CONTACT US" size="small" />
+                    {/* /////////// CONTACT /////////// */}
+                    <div className="col-lg-3 col-md-6">
+                        <SectionTitle title="CONTACT US" size="small" classname="mb-3" />
                         <div className='d-flex justify-content-center justify-content-md-start'>
                             <ul className='d-flex flex-column gap-3'>
                                 <li className='d-flex gap-2 hover-text-danger'>
@@ -38,66 +41,81 @@ export default function footer() {
                             </ul>
                         </div>
                     </div>
-                    <div className="col-lg-4 col-md-6 d-flex gap-5 justify-content-center">
-                        <div>
-                            <SectionTitle title="Accounts" size="small" />
-                            <ul className='d-flex flex-column gap-3'>
-                                <li className='d-flex gap-2 align-items-center hover-text-danger'>
-                                    <i className="bi bi-circle fs-05"></i>
-                                    <a href='#'>My Account</a>
-                                </li>
-                                <li className='d-flex gap-2 align-items-center hover-text-danger'>
-                                    <i className="bi bi-circle fs-05"></i>
-                                    <a href='#'>My Wishlist</a> 
-                                </li>
-                                <li className='d-flex gap-2 align-items-center hover-text-danger'>
-                                    <i className="bi bi-circle fs-05"></i>
-                                    <a href="#">My Cart</a>
-                                </li>
-                                <li className='d-flex gap-2 align-items-center hover-text-danger'>
-                                    <i className="bi bi-circle fs-05"></i>
-                                    <a href="#">Sign In</a>
-                                </li>
-                                <li className='d-flex gap-2 align-items-center hover-text-danger'>
-                                    <i className="bi bi-circle fs-05"></i>
-                                    <a href="#">Check out</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <SectionTitle title="Shipping" size="small" />
-                            <ul className='d-flex flex-column gap-3'>
-                                <li className='d-flex gap-2 align-items-center hover-text-danger'>
-                                    <i className="bi bi-circle fs-05"></i>
-                                    <a href='#'>New Products</a>
-                                </li>
-                                <li className='d-flex gap-2 align-items-center hover-text-danger'>
-                                    <i className="bi bi-circle fs-05"></i>
-                                    <a href='#'>Top Sellers</a> 
-                                </li>
-                                <li className='d-flex gap-2 align-items-center hover-text-danger'>
-                                    <i className="bi bi-circle fs-05"></i>
-                                    <a href="#">Manufactirers</a>
-                                </li>
-                                <li className='d-flex gap-2 align-items-center hover-text-danger'>
-                                    <i className="bi bi-circle fs-05"></i>
-                                    <a href="#">Suppliers</a>
-                                </li>
-                                <li className='d-flex gap-2 align-items-center hover-text-danger'>
-                                    <i className="bi bi-circle fs-05"></i>
-                                    <a href="#">Specials</a>
-                                </li>
-                            </ul>
-                        </div>
+
+                    {/* /////////// ACCOUNT /////////// */}
+                    <div className="col-lg-3 col-md-6">
+                        <SectionTitle title="Accounts" size="small" classname="mb-3" />
+                        <ul className='d-flex flex-column gap-3'>
+                            <li className='d-flex gap-2 align-items-center hover-text-danger'>
+                                <i className="bi bi-circle fs-05"></i>
+                                <a href='#'>My Account</a>
+                            </li>
+                            <li className='d-flex gap-2 align-items-center hover-text-danger'>
+                                <i className="bi bi-circle fs-05"></i>
+                                <a href='#'>My Wishlist</a> 
+                            </li>
+                            <li className='d-flex gap-2 align-items-center hover-text-danger'>
+                                <i className="bi bi-circle fs-05"></i>
+                                <a href="#">My Cart</a>
+                            </li>
+                            <li className='d-flex gap-2 align-items-center hover-text-danger'>
+                                <i className="bi bi-circle fs-05"></i>
+                                <a href="#">Sign In</a>
+                            </li>
+                            <li className='d-flex gap-2 align-items-center hover-text-danger'>
+                                <i className="bi bi-circle fs-05"></i>
+                                <a href="#">Check out</a>
+                            </li>
+                        </ul>
                     </div>
-                    <div className="col-lg-4 col-md-6">
-                        <SectionTitle title="Find Us Easily on Google Maps" size="small" />
+
+                    {/* /////////// LEGAL  /////////// */}
+                    <div className="col-lg-3 col-md-6">
+                        <SectionTitle title="LEGAL" size="small" classname="mb-3" />
+                        <ul className='d-flex flex-column gap-3'>
+                            <li className='d-flex gap-2 align-items-center hover-text-danger'>
+                                <i className="bi bi-circle fs-05"></i>
+                                <Link 
+                                    to='/terms'
+                                    className={location.pathname.startsWith('/terms') ? 'active' : ''}
+                                >Terms & Conditions</Link>
+                            </li>
+                            <li className='d-flex gap-2 align-items-center hover-text-danger'>
+                                <i className="bi bi-circle fs-05"></i>
+                                <Link 
+                                    to='/privacy'
+                                    className={location.pathname.startsWith('/privacy') ? 'active' : ''}
+                                >Privacy Policy</Link>
+                            </li>
+                            <li className='d-flex gap-2 align-items-center hover-text-danger'>
+                                <i className="bi bi-circle fs-05"></i>
+                                <Link 
+                                    to='/cookies'
+                                    className={location.pathname.startsWith('/cookies') ? 'active' : ''}
+                                >Cookie Policy</Link>
+                            </li>
+                            <li className='d-flex gap-2 align-items-center hover-text-danger'>
+                                <i className="bi bi-circle fs-05"></i>
+                                <Link 
+                                    to='/refunds' 
+                                    className={location.pathname.startsWith('/refunds') ? 'active' : ''}
+                                >Refund Policy</Link>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* /////////// MAP /////////// */}
+                    <div className="col-lg-3 col-md-6">
+                        <SectionTitle title="Find Us Easily on Google Maps" size="small" classname="mb-3" />
                         <div className='d-flex justify-content-center' dangerouslySetInnerHTML={{ __html: settings.site_map }} />
                     </div>
                 </div>
 
                 <div className='d-flex justify-content-between'>
+                    {/* /////////// COPY /////////// */}
                     <span>{settings.site_copy}</span>
+
+                    {/* /////////// CARD ICONS /////////// */}
                     <div className='d-flex gap-2'>
                         <img src={img1} alt="" />
                         <img src={img2} alt="" />

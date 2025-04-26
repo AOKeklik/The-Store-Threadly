@@ -46,12 +46,12 @@ class AdminAuthController extends Controller
             if(!$admin)
                 throw new \Exception("Invalid or expired reset token.");
 
-            $tokenExpired = now()->diffInMinutes($admin->password_requested_at) > config('auth.passwords.users.expire');
+            $tokenExpired = now()->diffInMinutes($admin->email_verified_at) > config('auth.passwords.users.expire');
         
             if ($tokenExpired)
                 throw new \Exception("Reset token has expired. Please request a new one.");
 
-            if(!hash_equals(hash('sha256', $admin->remember_token),$request->token))
+            if(!hash_equals(hash('sha256', $admin->email_verification_token),$request->token))
                 throw new \Exception("Invalid or expired reset token.");
 
             return view("admin.auth.reset",["token"=>$request->token,"email"=>$request->email]);
@@ -104,8 +104,8 @@ class AdminAuthController extends Controller
             $hashed_token = hash('sha256', $token);
 
             $admin->status=0;
-            $admin->remember_token=$token;
-            $admin->password_requested_at = now();
+            $admin->email_verification_token=$token;
+            $admin->email_verified_at = now();
             
             if(!$admin->save())
                 throw new \Exception("Failed to update user status. Please try again.");
@@ -133,12 +133,12 @@ class AdminAuthController extends Controller
             if(!$admin)
                 throw new \Exception("Invalid email address or token!");
     
-            if(!hash_equals(hash("sha256",$admin->remember_token), $request->token))
+            if(!hash_equals(hash("sha256",$admin->email_verification_token), $request->token))
                 throw new \Exception("Invalid email address or token!");
     
             $admin->password=Hash::make($request->password);
-            $admin->remember_token=null;
-            $admin->password_requested_at=null;
+            $admin->email_verification_token=null;
+            $admin->email_verified_at=null;
             $admin->status=1;
             
             if(!$admin->update())

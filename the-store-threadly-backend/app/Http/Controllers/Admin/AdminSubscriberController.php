@@ -19,6 +19,12 @@ class AdminSubscriberController extends Controller
         $subscribers=Subscriber::orderBy("id","desc")->get();
         return view("admin.subscriber.table",compact("subscribers"));
     }
+    public function section_unread_view() :View
+    {
+        Subscriber::where('is_viewed', 0)->update(['is_viewed' => 1]);
+
+        return view("admin.subscriber.unread");
+    }
     public function edit_view($id)
     {
         $subscriber=Subscriber::find($id);

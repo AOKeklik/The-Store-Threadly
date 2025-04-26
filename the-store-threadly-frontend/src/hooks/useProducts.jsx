@@ -9,19 +9,10 @@ export default function useProducts (slug) {
     const [page,setPage] = useState(1)
 
     const {
-        data,
-        loading,
-
-        dataProduct,
-        dataRelatedProduct,
-        loadingProduct,
-
-        dataFilteredProduct,
-        metaFilteredProduct,
-        loadingFilteredProduct,
-
-        featuredData,
-        loadingFeatured,
+        productAll,
+        productOne,
+        productFiltered,
+        productFeatured,
     } = useSelector(state => state.product)
 
     useEffect(() => {
@@ -60,19 +51,13 @@ export default function useProducts (slug) {
     })
 
     return {
-        data,
-        loading,
-
-        dataProduct,
-        dataRelatedProduct,
-        loadingProduct,
-
-        dataFilteredProduct:filtering(dataFilteredProduct),
-        metaFilteredProduct,
-        loadingFilteredProduct,
-
-        featuredData,
-        loadingFeatured,
+        productAll,
+        productOne,
+        productFiltered:{
+            ...productFiltered,
+            data:filtering(productFiltered.data),
+        },
+        productFeatured,
 
         setPage,
     }

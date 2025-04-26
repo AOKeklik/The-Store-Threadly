@@ -4,8 +4,8 @@ import useScrollFixedHeader from '../../hooks/useScrollFixedHeader'
 import { Link, NavLink } from 'react-router-dom'
 
 import { useSettings } from '../../context/settingContext'
-import { useWishlist } from '../../context/wishlistContext'
 import DisplayCartPopover from '../../displays/DisplayCartPopover'
+import useWishlist from '../../hooks/useWishlist'
 
 export default function Header() {
     const { wishlistCount, isWishlistEmpty } = useWishlist();
@@ -26,9 +26,9 @@ export default function Header() {
                 </Link>
                 <div className='d-flex align-items-center gap-3'>
                     {/* ///////////// WISHLIST ///////////// */}
-                    <Link href='javasicript:void()' className="position-relative text-secondary hover-text-gray-800">
+                    <Link to="/wishlist"  className="position-relative text-secondary hover-text-gray-800">
                         {
-                            isWishlistEmpty ? (
+                            isWishlistEmpty() ? (
                                 <i className="bi bi-heart"></i>
                             ) : (
                                 <i className="bi bi-heart-fill"></i>
@@ -43,6 +43,12 @@ export default function Header() {
                     {/* ///////////// CART ///////////// */}
                     <DisplayCartPopover />
                     {/* ///////////// CART ///////////// */}
+
+                    {/* ///////////// login ///////////// */}
+                    <Link to="/signin"  className="text-secondary hover-text-gray-800">
+                        <i className="bi bi-person-fill fs-4"></i>
+                    </Link>
+                    {/* ///////////// login ///////////// */}
                 </div>
                 <div className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
                     <div className="offcanvas-header">
@@ -54,10 +60,16 @@ export default function Header() {
                                 <NavLink className="nav-link" to="/">Home</NavLink>
                             </li>
                             <li className="nav-item">
+                                <NavLink className="nav-link" to="/about">About</NavLink>
+                            </li>
+                            <li className="nav-item">
                                 <NavLink className="nav-link" to="/products">Products</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/blogs">Blogs</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/contact">Contact</NavLink>
                             </li>
                         </ul>
                     </div>

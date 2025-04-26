@@ -4,7 +4,9 @@ use App\Http\Controllers\Admin\AdminAttributeController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AdminCouponController;
+use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminProductGaleryController;
 use App\Http\Controllers\Admin\AdminProductVariantController;
@@ -55,6 +57,12 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
         Route::post("setting/link/update", "setting_link_update")->name("admin.setting.link.update");
     });
 
+    /* Page */
+    Route::controller(AdminPageController::class)->group(function(){
+        Route::get("page","index")->name("admin.page.view");
+        Route::post("page/update","update")->name("admin.page.update");
+    });
+
     /* Category */
     Route::controller(AdminCategoryController::class)->group(function(){
         Route::get("category","index")->name("admin.category.view");
@@ -71,10 +79,20 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
     Route::controller(AdminSubscriberController::class)->group(function(){
         Route::get("subscriber","index")->name("admin.subscriber.view");
         Route::get("subscriber/section/table","section_table_view")->name("admin.subscriber.section.table.view");
+        Route::get("subscriber/section/unread","section_unread_view")->name("admin.subscriber.section.unread.view");
         Route::get("subscriber/edit/{id}","edit_view")->name("admin.subscriber.edit.view");
         Route::post("subscriber/update","update")->name("admin.subscriber.update");
         Route::post("subscriber/status/update","status_update")->name("admin.subscriber.status.update");
         Route::post("subscriber/delete","delete")->name("admin.subscriber.delete");
+    });
+
+    /* Contact */
+    Route::controller(AdminContactController::class)->group(function(){
+        Route::get("contact","index")->name("admin.contact.view");
+        Route::get("contact/section/table","section_table_view")->name("admin.contact.section.table.view");
+        Route::get("contact/section/unread","section_unread_view")->name("admin.contact.section.unread.view");
+        Route::get("contact/detail/{id}","detail_view")->name("admin.contact.detail.view");
+        Route::post("contact/delete","delete")->name("admin.contact.delete");
     });
 
     /* Hero Slider */

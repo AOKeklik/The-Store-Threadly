@@ -1,10 +1,10 @@
 import React from 'react'
 import ButtonPrimary from '../buttons/ButtonPrimary'
 
-import useSubscribeForm from '../hooks/useSubscribeForm'
+import useFormSubscribe from '../hooks/useFormSubscribe'
 import AnimateInView from '../hooks/AnimateInView'
 
-export default function Subscriber() {
+export default function SubscriberForm() {
     const {
         formData,
         loading,
@@ -12,7 +12,7 @@ export default function Subscriber() {
         handleChange,
         
         handleSubmit
-    } = useSubscribeForm()
+    } = useFormSubscribe()
 
   return <AnimateInView className='container-md bg-white py-3 px-5 z-3 position-relative shadow'>
         <form onSubmit={handleSubmit} className='row'>
@@ -22,10 +22,14 @@ export default function Subscriber() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder='Enter your email addres'
                     className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                    placeholder='Enter your email addres'
                 />
-                {errors.email && <small className="text-danger">{errors.email}</small>}
+                {errors.email && (
+                    <small className="text-danger">
+                        {Array.isArray(errors.email) ? errors.email[0] : errors.email}
+                    </small>
+                )}
             </div>
             <div className='col-md-3'>
                 <ButtonPrimary 

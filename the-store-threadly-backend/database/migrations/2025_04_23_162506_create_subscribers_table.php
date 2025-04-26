@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("ip")->unique();
             $table->string("email")->unique();
+            $table->boolean("is_viewed")->default(0);
             $table->boolean("status")->default(1);
             $table->timestamps();
         });

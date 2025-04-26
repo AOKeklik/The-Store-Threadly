@@ -1,85 +1,7 @@
 // features/product/productsSlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosClient from '../config';
-
-
-const arangedData = (filteredData) => filteredData?.data.flatMap(product => {
-    // Eğer varyant varsa, sadece ilk varyantı döndür
-    if (product.variants?.length > 0) {
-        /* Varsa indirimli, yoksa ilk variant */
-        const variant = product.variants.find(v => v.offer_price) || product.variants[0]
-        const attributes = variant.attributes?.reduce((acc, attr) => {
-            if (attr.attribute.slug === "color") {
-                acc.color = {
-                    value: attr.value,
-                    icon: attr.icon,
-                    slug: attr.slug,
-                };
-            } else if (attr.attribute.slug === "size") {
-                acc.size = {
-                    value: attr.value,
-                    icon: attr.icon,
-                    slug: attr.slug,
-                };
-            }
-            return acc;
-        }, { color: null, size: null });
-
-        return [{
-            productId: product.id,     
-            variantId: variant.id,
-            isVariant: true,
-            slug: product.slug,
-            title: product.title,
-            short_desc: product.short_desc,
-            price: variant.offer_price ? variant.offer_price : variant.price,
-            base_price: variant.price,
-            offer_price: variant.offer_price,
-            price_html: variant.price_html,
-            stock: variant.stock,
-            thumbnail: variant.thumbnail,
-            cover: product.cover,
-            galeries: variant.galeries?.length > 0 ? variant.galeries : product.galeries,
-            category: {
-                name: product.category?.name,
-                slug: product.category?.slug,
-            },
-            color: attributes.color,
-            size: attributes.size,
-            gender: product.gender,
-            is_new: product.is_new,
-            is_featured: product.is_featured,
-            is_best_seller: product.is_best_seller, 
-        }];
-    }
-
-    // Varyant yoksa ürünün kendisini döndür
-    return [{
-        productId: product.id,     
-        variantId: null,
-        isVariant: false,
-        slug: product.slug,
-        title: product.title,
-        short_desc: product.short_desc,
-        price: product.offer_price ? product.offer_price : product.price,
-        offer_price: product.offer_price,
-        price_html: product.price_html,
-        stock: product.stock,
-        thumbnail: product.thumbnail,
-        cover: product.cover,
-        galeries: product.galeries,
-        category: {
-            name: product.category?.name,
-            slug: product.category?.slug,
-        },
-        color: null,
-        size: null,
-        gender: product.gender,
-        is_new: product.is_new,
-        is_featured: product.is_featured,
-        is_best_seller: product.is_best_seller,         
-    }];
-}) || []
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import axiosClient from '../config'
+import { arangedData } from './data';
 
 
 export const fetchAllProducts = createAsyncThunk(
@@ -136,7 +58,6 @@ export const fetchOneProduct = createAsyncThunk(
         try{
             await new Promise(resolve => setTimeout(resolve, 1000))
             const res = await axiosClient.get(`/product/${slug}`)
-            console.log(res)
             return res.data
         }catch(err){
             return rejectWithValue(err.response?.data || err.message)
@@ -147,26 +68,34 @@ export const fetchOneProduct = createAsyncThunk(
 
 const initialState = {
    /* PRODUCT ALL */
-    data: [],
-    loading: false,
-    error: null,
+    productAll: {
+        data: [],
+        loading: false,
+        error: null,
+    },
 
     /* PRODUCT ONE */
-    dataProduct: {},
-    dataRelatedProduct: [],
-    loadingProduct: true,
-    errorProduct: null,
+    productOne: {
+        data: {},
+        dataRelated: [],
+        loading: true,
+        error: null,
+    },
 
     /* PRODUCT FILTERED */
-    dataFilteredProduct: [],
-    metaFilteredProduct: {},
-    loadingFilteredProduct: true,
-    errorFilteredProduct: null,
+    productFiltered: {
+        data: [],
+        meta: {},
+        loading: true,
+        error: null,
+    },
 
     /* PRODUCT FEATURED */
-    featuredData: [],
-    loadingFeatured: false,
-    errorFeatured: null,
+    productFeatured: {
+        data: [],
+        loading: false,
+        error: null,
+    }
 };
 
 const productSlice = createSlice({
@@ -180,63 +109,66 @@ const productSlice = createSlice({
 
             /* ////////// PRODUCT ALL ////////// */
             .addCase(fetchAllProducts.pending, (state) => {
-                state.loading = true
-                state.error = null
+                state.productAll.loading = true
+                state.productAll.error = null
             })
             .addCase(fetchAllProducts.fulfilled, (state, action) => {
-                state.data = arangedData(action.payload)
-                state.loading = false
+                const {data} = action.payload
+
+                state.productAll.data = arangedData(data)
+                state.productAll.loading = false
             })
             .addCase(fetchAllProducts.rejected, (state, action) => {
-                state.loading = false
-                state.error = action.payload || 'Bir hata oluştu'
+                state.productAll.loading = false
+                state.productAll.error = action.payload || 'Bir hata oluştu'
             })
 
             /* ////////// PRODUCT ONE ////////// */
             .addCase(fetchOneProduct.pending, (state) => {
-                state.loadingProduct = true
-                state.errorProduct = null
+                state.productOne.loading = true
+                state.productOne.error = null
             })
             .addCase(fetchOneProduct.fulfilled, (state, action) => {
                 const {data,dataRelated} = action.payload
 
-                state.dataProduct = data
-                state.dataRelatedProduct=dataRelated
-                state.loadingProduct = false
+                state.productOne.data = data
+                state.productOne.dataRelated=arangedData(dataRelated)
+                state.productOne.loading = false
             })
             .addCase(fetchOneProduct.rejected, (state, action) => {
-                state.loadingProduct = false
-                state.errorProduct = action.payload || 'Bir hata oluştu'
+                state.productOne.loading = false
+                state.productOne.error = action.payload || 'Bir hata oluştu'
             })
 
             /* ////////// PRODUCT FILTERED ////////// */
             .addCase(fetchFilteredProducts.pending, (state) => {
-                state.loadingFilteredProduct = true;
-                state.errorFilteredProduct = null;
+                state.productFiltered.loading = true;
+                state.productFiltered.error = null;
             })
             .addCase(fetchFilteredProducts.fulfilled, (state, action) => {
                 const {data, meta} = action.payload
-                state.dataFilteredProduct = arangedData(action.payload)
-                state.metaFilteredProduct = meta
-                state.loadingFilteredProduct = false;
+                state.productFiltered.data = arangedData(data)
+                state.productFiltered.meta = meta
+                state.productFiltered.loading = false;
             })
             .addCase(fetchFilteredProducts.rejected, (state, action) => {
-                state.loadingFilteredProduct = false;
-                state.errorFilteredProduct = action.payload || 'Bir hata oluştu';
+                state.productFiltered.loading = false;
+                state.productFiltered.error = action.payload || 'Bir hata oluştu';
             })
 
             /* ////////// PRODUCT FEAUTRED ////////// */
             .addCase(fetchFeaturedProducts.pending, (state) => {
-                state.loadingFeatured = true;
-                state.errorFeatured = null;
+                state.productFeatured.loading = true;
+                state.productFeatured.error = null;
             })
             .addCase(fetchFeaturedProducts.fulfilled, (state, action) => {
-                state.featuredData = arangedData(action.payload)
-                state.loadingFeatured = false;
+                const {data} = action.payload
+                state.productFeatured.data = arangedData(data)
+                state.productFeatured.loading = false;
             })
             .addCase(fetchFeaturedProducts.rejected, (state, action) => {
-                state.loadingFeatured = false;
-                state.errorFeatured = action.payload || 'Bir hata oluştu';
+                state.productFeatured.loading = false;
+                state.productFeatured.error = action.payload || 'Bir hata oluştu';
             })
     },
 })

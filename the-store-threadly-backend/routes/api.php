@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Frontend\FrontendBlogController;
 use App\Http\Controllers\Frontend\FrontendWishlistController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\FrontendFormController;
+use App\Http\Controllers\Frontend\FrontendPageController;
 use App\Http\Controllers\Frontend\FrontendProductController;
 use App\Http\Controllers\Frontend\FrontendSubscriberController;
 use Illuminate\Support\Facades\Route;
@@ -28,9 +31,16 @@ Route::prefix("")/* ->middleware('auth:sanctum') */->group(function () {
         Route::get("slider/brand/all","slider_brand_get_all");
     });
 
-    /* Blog */
-    Route::controller(FrontendSubscriberController::class)->group(function(){
-        Route::post("subscriber/store","store");
+    /* Forms */
+    Route::controller(FrontendFormController::class)->group(function(){
+        Route::post("form/subscriber/store","subscriber_store");
+        Route::post("form/contact/store","contact_store");
+    });
+
+    /* Pages */
+    Route::controller(FrontendPageController::class)->group(function() {
+        Route::get("page/{type}/get", "getPage")
+            ->where('type', 'about|terms|privacy|cookies|refunds');
     });
 
     /* Blog */
@@ -48,13 +58,21 @@ Route::prefix("")/* ->middleware('auth:sanctum') */->group(function () {
         Route::get('product/filter','get_by_filter');
         Route::get('product/{slug}','get_one_by_slug');
     });
-});
 
-/* Wishlist */
-Route::prefix("")/* ->middleware('auth:sanctum') */->group(function () {
+    /* Wishlist */
     Route::controller(FrontendWishlistController::class)->group(function(){
         Route::get("wishlist","index");
         Route::post("wishlist/store","store");
         Route::delete("wishlist/delete","delete");
+    });
+});
+
+Route::prefix("auth")/* ->middleware('auth:sanctum') */->group(function () {
+    /* Auth */
+    Route::controller(FrontendAuthController::class)->group(function(){
+        Route::post("signup","signup");
+        Route::get("signup/verify/{email}/{token}","signup_verify")->name('auth.signup.verify');
+
+        Route::post("signin","signin");
     });
 });

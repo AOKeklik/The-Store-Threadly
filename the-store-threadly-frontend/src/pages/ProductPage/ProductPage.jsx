@@ -10,9 +10,11 @@ import useFilters from '../../hooks/useFilters'
 export default function ProductPage() {
     const { clearAllFilters } = useFilters();
     const {
-        dataFilteredProduct,
-        metaFilteredProduct,
-        loadingFilteredProduct,
+        productFiltered: {
+            data,
+            meta,
+            loading,
+        },
 
         setPage,
     } = useProducts();
@@ -27,10 +29,10 @@ export default function ProductPage() {
             <div className="row g-5 flex-column-reverse flex-md-row">
                 <div className="col-lg-9 col-md-8">
                     {
-                        loadingFilteredProduct ? (
+                        loading ? (
                             <Loader fullHeight={false} />
                         ): (
-                            dataFilteredProduct.length === 0 ? (
+                            data.length === 0 ? (
                                 <div className="alert alert-warning text-center w-100 d-flex flex-column align-items-center" role="alert">
                                     <i className="bi bi-exclamation-triangle fs-3 mb-2"></i>
                                     <strong>No matching products found.</strong><br />
@@ -41,7 +43,7 @@ export default function ProductPage() {
                                 <>
                                     <div className='row g-3'>
                                         {
-                                             dataFilteredProduct.map((product) => (
+                                             data.map((product) => (
                                                 <ProductItem 
                                                     key={`${product.productId}-${product.variantId || 'base'}`}
                                                     product={product}
@@ -49,14 +51,14 @@ export default function ProductPage() {
                                             ))
                                         }
                                         {
-                                            metaFilteredProduct.last_page > 1 && (
+                                            meta.last_page > 1 && (
                                                 <div className="d-flex justify-content-center mt-4">
                                                     <ul className="pagination ">
-                                                        {Array.from({ length: metaFilteredProduct?.last_page || 1 }).map((_, i) => {
+                                                        {Array.from({ length: meta?.last_page || 1 }).map((_, i) => {
                                                             const pageNum = i + 1
-                                                            const isActive = pageNum === metaFilteredProduct.current_page
+                                                            const isActive = pageNum === meta.current_page
                                                             return (
-                                                                <li key={pageNum} className={`page-item ${pageNum === metaFilteredProduct?.current_page ? 'active' : ''}`}>
+                                                                <li key={pageNum} className={`page-item ${pageNum === meta?.current_page ? 'active' : ''}`}>
                                                                     <button
                                                                         className={`page-link ${isActive ? 'bg-danger border-danger text-white' : 'text-danger'}`}
                                                                         onClick={() => setPage(pageNum)}

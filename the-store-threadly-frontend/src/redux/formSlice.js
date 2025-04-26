@@ -6,7 +6,32 @@ export const storeSubscriber = createAsyncThunk(
     async(formData, {rejectWithValue}) => {
         try{
             await new Promise(resolve => setTimeout(resolve, 1000))
-            const res = await axiosClient.post(`/subscriber/store`, formData)
+            const res = await axiosClient.post(`/form/subscriber/store`, formData)
+            return res.data
+        }catch(err){
+            // Handle validation errors
+            if (err.response && err.response.status === 422) {
+                return rejectWithValue({
+                    type: 'validation',
+                    errors: err.response.data.message
+                })
+            }
+            
+            // Handle other errors
+            return rejectWithValue({
+                type: 'general',
+                message: err.message || 'Something went wrong'
+            })
+        }
+    }
+)
+
+export const storeContact = createAsyncThunk(
+    "form/contact/store",
+    async(formData, {rejectWithValue}) => {
+        try{
+            await new Promise(resolve => setTimeout(resolve, 1000))
+            const res = await axiosClient.post(`/form/contact/store`, formData)
             return res.data
         }catch(err){
             // Handle validation errors
@@ -27,18 +52,18 @@ export const storeSubscriber = createAsyncThunk(
 )
 
 const initialState = {
+    subscribeForm: {
+        data: {},
+        validationErrors: null,
+        error: null,
+        loading: false
+    },
     contactForm: {
         data: {},
         validationErrors: null,
         error: null,
         loading: false
     },
-    subscribeForm: {
-        data: {},
-        validationErrors: null,
-        error: null,
-        loading: false
-    }
 }
 
 const formSlice = createSlice({
@@ -49,7 +74,7 @@ const formSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            /* Subscriber Store */
+            /* Subscriber */
             .addCase(storeSubscriber.pending, (state) => {
                 state.subscribeForm.loading = true
                 state.subscribeForm.error = null
@@ -64,6 +89,24 @@ const formSlice = createSlice({
                     state.subscribeForm.validationErrors = action.payload.errors;
                 } else {
                     state.subscribeForm.error = action.payload.message;
+                }
+            })
+
+            /* Contact */
+            .addCase(storeContact.pending, (state) => {
+                state.contactForm.loading = true
+                state.contactForm.error = null
+            })
+            .addCase(storeContact.fulfilled, (state, action) => {
+                state.contactForm.data = action.payload
+                state.contactForm.loading = false
+            })
+            .addCase(storeContact.rejected, (state, action) => {
+                state.contactForm.loading = false
+                if (action.payload.type === 'validation') {
+                    state.contactForm.validationErrors = action.payload.errors;
+                } else {
+                    state.contactForm.error = action.payload.message;
                 }
             })
     }

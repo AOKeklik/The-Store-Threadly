@@ -35,6 +35,12 @@
 @endsection
 @push("scripts")
     <script>
+        async function initialValues () {
+            await fetchUnread()
+            fetchTable()
+        }
+        initialValues()
+
         async function handlerChange (e,id,statusType) {
             try {
                 e.preventDefault()
@@ -110,6 +116,19 @@
                 success:function(res){
                     $("[data-app-section=table-subscriber]").html(res)
                     reloadJqueryPlugins ()
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseJSON)
+                }
+            })
+        }
+        
+        function fetchUnread(){
+            $.ajax({
+                type:"GET",
+                url:"{{ route('admin.subscriber.section.unread.view') }}",
+                success:function(res){
+                    $("[data-app-section=subscriber-unread]").html(res)
                 },
                 error: function(xhr) {
                     console.log(xhr.responseJSON)

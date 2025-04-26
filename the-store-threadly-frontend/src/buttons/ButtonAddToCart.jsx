@@ -1,7 +1,7 @@
 import React from 'react'
 import useCart from '../hooks/useCart'
 
-export default function ButtonAddToCart({product}) {
+export default function ButtonAddToCart({product,quantity=1}) {
     const { 
         isInCart, 
         isInStock, 
@@ -21,6 +21,7 @@ export default function ButtonAddToCart({product}) {
                     price_html: product.price_html,
                     thumbnail: product.thumbnail,
                     maxQuantity: product.stock,
+                    quantity: quantity > product.stock ? product.stock : quantity,
                     color:product.color,
                     size:product.size,
                 })

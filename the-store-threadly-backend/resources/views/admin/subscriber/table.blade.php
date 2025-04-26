@@ -1,5 +1,8 @@
 @foreach($subscribers as $subscriber)
-    <tr class="table-light font-weight-bold">
+    <tr 
+        class="table-light"
+        style="@if($subscriber->is_viewed == 0) font-weight:bolder;color:red; @endif"
+    >
         <td>{{ $subscriber->id }}</td>
         <td>{{ $subscriber->ip }}</td>
         <td>{{ $subscriber->email }}</td>

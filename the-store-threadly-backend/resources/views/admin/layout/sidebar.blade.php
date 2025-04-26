@@ -19,7 +19,29 @@
                 <a class="nav-link" href="{{ route("admin.category.view") }}"><i class="fas fa-folder"></i> <span>Category</span></a>
             </li>
             <li class="{{ Request::routeIs('admin.subscriber.*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route("admin.subscriber.view") }}"><i class="fas fa-envelope"></i> <span>Subscriber</span></a>
+                <a class="nav-link" href="{{ route("admin.subscriber.view") }}">
+                    <i class="fas fa-envelope"></i>
+                    <div class="d-flex align-items-center" style="gap:1rem">
+                        <span>Subscriber</span>
+                        <span class="badge badge-danger w-4" data-app-section="subscriber-unread">
+                            @include("admin.subscriber.unread")
+                        </span>
+                    </div>
+                </a>
+            </li>
+            <li class="{{ Request::routeIs('admin.contact.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route("admin.contact.view") }}">
+                    <i class="fas fa-envelope"></i> 
+                    <div class="d-flex align-items-center" style="gap:1rem">
+                        <span>Contact</span>
+                        <span class="badge badge-danger w-4" data-app-section="contact-unread">
+                            @include("admin.contact.unread")
+                        </span>
+                    </div>
+                </a>
+            </li>
+            <li class="{{ Request::routeIs('admin.page.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route("admin.page.view") }}"><i class="fas fa-file-alt"></i> <span>Page</span></a>
             </li>
             <li class="nav-item dropdown {{ Request::routeIs('admin.slider.*') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-images"></i><span>Slider</span></a>

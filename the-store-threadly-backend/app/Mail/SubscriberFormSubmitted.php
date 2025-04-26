@@ -14,7 +14,7 @@ class SubscriberFormSubmitted extends Mailable
     use Queueable, SerializesModels;
 
     public $formData;
-
+    
     /**
      * Create a new message instance.
      */

@@ -16,11 +16,8 @@ import BlogSlider from '../slider/blog-slider/BlogSlider'
 
 export default function Home() {
     const {
-        data,
-        loading,
-
-        featuredData,
-        loadingFeatured,
+        productAll: {data, loading},
+        productFeatured: {data:dataFeatured, loading:loadingFeatured},
     } = useProducts()
     const [ dataHoerSlider, loadingHeroSlider ] = useFetch("slider/hero/all")
     const [ dataBrandSlider, loadingBrandSlider ] = useFetch("slider/brand/all")
@@ -31,19 +28,20 @@ export default function Home() {
         loadingFeatured || 
         loadingAllBlog || 
         loadingHeroSlider || 
-        loadingBrandSlider) return <Loader />
+        loadingBrandSlider
+    ) return <Loader />
 
     return (
         <>
             <HeroSlider products={data} sliders={dataHoerSlider.data} />
-            <HeadingPrimary title="Featured Products" />
-            <FeaturedSlider data={featuredData} />
+            <HeadingPrimary title="Featured Products" classname="mb-5 pt-5" />
+            <FeaturedSlider data={dataFeatured} />
             <DiscountSlider data={data} />
-            <HeadingPrimary title="Our Brands" />
+            <HeadingPrimary title="Our Brands" classname="mb-5 pt-5" />
             <BrandSlider data={dataBrandSlider.data} />
-            <HeadingPrimary title="Purchase Online" />
+            <HeadingPrimary title="Purchase Online" classname="mb-5 pt-5" />
             <MasonryFilterGrid data={data} />
-            <HeadingPrimary title="From The Blog" />
+            <HeadingPrimary title="From The Blog" classname="mb-5 pt-5" />
             <BlogSlider data={dataAllBlog} />
         </>
     )

@@ -12,6 +12,12 @@ class Subscriber extends Model
     protected $fillable = [
         'email',
         'ip',
+        'is_viewed',
         'status',
     ];
+
+    public function scopeUnread($query)
+    {
+        return $query->where('is_viewed', 0);
+    }
 }

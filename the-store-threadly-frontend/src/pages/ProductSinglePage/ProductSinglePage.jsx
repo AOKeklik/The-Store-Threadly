@@ -27,9 +27,11 @@ export default function ProductSinglePage() {
     const { slug } = useParams()
 
     const { 
-        dataProduct,
-        dataRelatedProduct,
-        loadingProduct,
+        productOne: {
+            data,
+            dataRelated,
+            loading,
+        }
     } = useProducts(slug)
 
 /* ////////// SWIPER ////////// */
@@ -45,7 +47,7 @@ export default function ProductSinglePage() {
         handleColorSelect,
         handleSizeSelect,
         productDisplay,
-    } = useProductFilter(dataProduct);
+    } = useProductFilter(data);
 /* ////////// FILTERING ////////// */
 
 /* ////////// QUANTITY ////////// */
@@ -61,7 +63,7 @@ export default function ProductSinglePage() {
     } = useCart()
 /* ////////// CART ////////// */
 
-    if(loadingProduct) return <Loader />
+    if(loading) return <Loader />
 
     return <div className='pb-5'>
         <Baner {...{
@@ -255,7 +257,7 @@ export default function ProductSinglePage() {
                             <ButtonWishlist product={productDisplay} />
                             <ButtonSocialShare product={productDisplay} />
                             <ButtonLink product={productDisplay} />
-                            <ButtonAddToCart product={productDisplay} />
+                            <ButtonAddToCart product={productDisplay} quantity={quantity} />
                         </div>
                         {/* /////////// ADD TO CART BUTTONS /////////// */}
                     </div>
@@ -270,7 +272,7 @@ export default function ProductSinglePage() {
                 </ul>
                 <div className="col-md-9 tab-content bg-white rounded-1 p-4" id="myTabContent">
                     <div className="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabIndex="0">
-                        <HeadingPrimary title={`DUMMY ${productDisplay.title.toUpperCase()}`} size='small' />
+                        <HeadingPrimary title={`DUMMY ${productDisplay.title.toUpperCase()}`} size='small' classname="mb-4" />
                         <p className='p-0 m-0 mb-4' dangerouslySetInnerHTML={{ __html: productDisplay.desc }} />
                     </div>
                     <div className="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabIndex="0">
@@ -283,9 +285,9 @@ export default function ProductSinglePage() {
 
             {/* /////////// RELATED PRODUCTS /////////// */}
             {
-                dataRelatedProduct.length > 0 && <HeadingPrimary title="Related Products" />
+                dataRelated.length > 0 && <HeadingPrimary title="Related Products" classname='mb-5 pt-5' />
             }
-            <FeaturedProducts data={dataRelatedProduct} />
+            <FeaturedProducts data={dataRelated} />
             {/* /////////// RELATED PRODUCTS /////////// */}
         </main>
     </div>

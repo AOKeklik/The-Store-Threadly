@@ -122,7 +122,7 @@ export default function CartPage () {
                         {/* ///////////// COUPON //////////// */}
                         <div className='col-md-6'>
                             <div className='p-3 bg-white'>
-                                <HeadingPrimary title="COUPON DISCOUNT" size='small' />
+                                <HeadingPrimary title="COUPON DISCOUNT" size='small' classname="mb-3" />
                                 <p className='mb-3'>Enter your coupon code if you have one!</p>
                                 <div className='mb-3'>
                                     <input className='form-control' type="text" name='' placeholder='Enter your code here.' />
@@ -135,7 +135,7 @@ export default function CartPage () {
                         {/* ///////////// PAYMENT DETAIL //////////// */}
                         <div className='col-md-6'>
                             <div className="bg-white text-center p-3 h-100">
-                                <HeadingPrimary title="PAYMENT DETAILS" size='small' />
+                                <HeadingPrimary title="PAYMENT DETAILS" size='small' classname="mb-3" />
                                 <div className='max-w-15 mx-auto'>
                                     <p className='d-flex gap-2 justify-content-between mb-3'>
                                         <span className='fw-bold'>Sub Total:</span>
