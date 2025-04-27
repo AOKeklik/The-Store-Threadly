@@ -3,7 +3,8 @@ import {
     addToCart,
     increaseQuantity,
     decreaseQuantity,
-    removeFromCart
+    removeFromCart,
+    clearCart,
 } from '../redux/cartSlice'
 
 export default function useCart () {
@@ -44,7 +45,6 @@ export default function useCart () {
     }
     
     /* Price */
-
     const getDeliveryPrice = () => {
         return `${deliveryPrice.toFixed(2)} PLN`
     }
@@ -111,5 +111,6 @@ export default function useCart () {
         increaseQuantity: (product) => dispatch(increaseQuantity(product)),
         decreaseQuantity: (product) => dispatch(decreaseQuantity(product)),
         removeFromCart: (uniqueId) => dispatch(removeFromCart(uniqueId)),
+        clearCart: () => dispatch(clearCart()),
     }
 }

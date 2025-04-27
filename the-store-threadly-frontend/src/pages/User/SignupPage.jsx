@@ -1,69 +1,20 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
+
 import { useSettings } from '../../context/settingContext'
-import useForm from '../../hooks/useForm'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { signupSubmit } from '../../redux/authSlice'
-import { toast } from 'react-toastify'
+import useFormSignup from '../../hooks/useFormSignup'
+import ButtonSubmitForm from '../../buttons/ButtonSubmitForm'
 
 export default function SignupPage () {
     const {settings} = useSettings()
-    
-    
-/* ///////// signup ///////// */
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const {
-        loading, 
-        error,
-        validationErrors,
-    } = useSelector(state => state.auth.signup)
-
-    const initialValues = {
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-    }
 
     const {
-        validate,
-        handleChange,
         formData,
+        loading,
         errors,
-        setErrors,
-        resetForm
-    } = useForm(
-        initialValues,
-    )
-
-    useEffect(() => {
-        if (validationErrors) {
-            setErrors(validationErrors)
-        }
-    }, [validationErrors, setErrors])
-
-    useEffect(() => {
-        if (error) {
-            toast.error(error.message || 'An error occurred during submission')
-        }
-    }, [error])
-
-    const handlerSubmit = async (e) => {
-        e.preventDefault ()
-
-        if(!validate()) return
-
-        try {
-            const res = await dispatch(signupSubmit(formData)).unwrap()
-            toast.success(res.message)
-            resetForm ()
-            navigate('/signin')
-        }catch(err){
-            console.error('Submission error:', err)
-        }
-    }
-/* ///////// signup ///////// */
+        handleChange,
+        handleSubmit
+    } = useFormSignup()
 
 
     return <div className="container min-vh-100 d-flex align-items-center justify-content-center bg-light">
@@ -86,7 +37,7 @@ export default function SignupPage () {
             <h4 className="text-center text-danger mb-4">Register</h4>
     
             {/* FORM */}
-            <form onSubmit={handlerSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <input 
                         type="text"
@@ -156,18 +107,15 @@ export default function SignupPage () {
                     }
                 </div>
                 <div className="d-grid">
-                    <button 
-                        disabled={loading}
-                        type="submit" className="btn btn-danger"
-                    >
-                        {loading ? "Submitting..." : "Signup"}
-                    </button>
+                    <ButtonSubmitForm loading={loading} text="Register" />
                 </div>
             </form>
     
             {/* LINK REGISTER */}
-            <p className="text-center mt-3 text-muted">
-                Already have an account? <Link to="/signin" className="text-danger">Login</Link>
+            <p className="text-center    mt-3 text-muted">
+                Already have an account? <Link to="/signin" className="text-danger text-decoration-none">Login</Link>
+                <br />
+                <Link to="/reset" className='text-decoration-none text-danger'>Forget Password?</Link>
             </p>
         </div>
         </div>

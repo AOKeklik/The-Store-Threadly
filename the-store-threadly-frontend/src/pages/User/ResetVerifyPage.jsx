@@ -1,10 +1,9 @@
 import React from 'react'
 import { useSettings } from '../../context/settingContext'
-import useFormReset from '../../hooks/useFormReset'
 import ButtonSubmitForm from '../../buttons/ButtonSubmitForm'
-import { Link } from 'react-router-dom'
+import useFormResetVerify from '../../hooks/useFormResetVerify'
 
-export default function ResetPage() {
+export default function ResetVerifyPage() {
     const {settings} = useSettings()
     const {
         loading,
@@ -12,17 +11,10 @@ export default function ResetPage() {
         errors,
         handleChange,
         handleSubmit
-    } = useFormReset ()
+    } = useFormResetVerify ()
 
     return <div className="container min-vh-100 d-flex align-items-center justify-content-center bg-light">
         <div className="w-100" style={{ maxWidth: '400px' }}>
-        
-        {/* GO BACK */}
-        <div className="mb-5 text-start">
-            <Link to="/signin" className="btn btn-outline-danger btn-sm">
-                ← Back to Signin
-            </Link>
-        </div>
 
         <div className="card shadow p-4">
             {/* LOGO */}
@@ -35,19 +27,36 @@ export default function ResetPage() {
 
             {/* FORM */}
             <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <input 
+                        type="text"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className={`form-control ${errors.password ? "is-invalid" : ""}`}
+                        id="password" placeholder="Password" 
+                    />
+                    {
+                        errors.password && (
+                            <small className='text-danger'>
+                                {Array.isArray(errors.password) ? errors.password[0] : errors.password}
+                            </small>
+                        )
+                    }
+                </div>
                 <div className="mb-5">
                     <input 
                         type="text"
-                        name="email"
-                        value={formData.email}
+                        name="password_confirmation"
+                        value={formData.password_confirmation}
                         onChange={handleChange}
-                        className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                        id="email" placeholder="Enter your email" 
+                        className={`form-control ${errors.password_confirmation ? "is-invalid" : ""}`}
+                        id="password_confirmation" placeholder="Confirm Password" 
                     />
                     {
-                        errors.email && (
+                        errors.password_confirmation && (
                             <small className='text-danger'>
-                                {Array.isArray(errors.email) ? errors.email[0] : errors.email}
+                                {Array.isArray(errors.password_confirmation) ? errors.password_confirmation[0] : errors.password_confirmation}
                             </small>
                         )
                     }

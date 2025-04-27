@@ -74,5 +74,8 @@ Route::prefix("auth")/* ->middleware('auth:sanctum') */->group(function () {
         Route::get("signup/verify/{email}/{token}","signup_verify")->name('auth.signup.verify');
 
         Route::post("signin","signin");
+        
+        Route::post("reset","reset");
+        Route::post("reset/verify","reset_verify");
     });
 });

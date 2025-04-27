@@ -14,9 +14,27 @@ const axiosClient = axios.create({
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        // Authorization: `Bearer ${token}`,
     },
-    // withCredentials: true,
-  });
-  
-  export default axiosClient
+})
+
+
+
+// const axiosProtected = axios.create({
+//     baseURL: URL_API,
+//     headers: {
+//         'Content-Type': 'application/json',
+//         'Accept': 'application/json',
+//     },
+// })
+// axiosProtected.interceptors.request.use(config => {
+//     const token = localStorage.getItem('token')
+//     if (token) {
+//         config.headers.Authorization = `Bearer ${token}`
+//     }
+//     return config
+// })
+
+
+
+// export {axiosProtected}  
+export default axiosClient

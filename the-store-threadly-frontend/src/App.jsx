@@ -29,6 +29,8 @@ import Loader from './components/layouts/Loader'
 import LayoutAuth from './components/layouts/LayoutAuth'
 import ResetPage from './pages/User/ResetPage'
 import ForgetPage from './pages/User/ForgetPage'
+import ResetVerifyPage from './pages/User/ResetVerifyPage'
+import LayoutProtected from './components/layouts/LayoutProtected'
 
 function App() {
     return  <BrowserRouter>
@@ -55,6 +57,11 @@ function App() {
 
                         <Route path="/wishlist" element={<WishlistPage />} />
 
+                        {/* <Route element={<LayoutProtected />}>
+                            <Route path="/profile" element={<ProfilePage />} />
+                            <Route path="/dashboard" element={<DashboardPage />} />
+                        </Route> */}
+
                         <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/dashboard" element={<DashboardPage />} />
                     </Route>
@@ -62,8 +69,8 @@ function App() {
                     <Route element={<LayoutAuth />}>
                         <Route path="/signin" element={<SigninPage />} />
                         <Route path="/signup" element={<SignupPage />} />
-                        <Route path="/reset/:email/:token" element={<ResetPage />} />
-                        <Route path="/forget" element={<ForgetPage />} />
+                        <Route path="/reset" element={<ResetPage />} />
+                        <Route path="/reset/verify" element={<ResetVerifyPage />} />
                     </Route>                    
 
                     <Route path="*" element={<PageNotFound/>} />

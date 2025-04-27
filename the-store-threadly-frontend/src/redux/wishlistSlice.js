@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosClient from "../config";
+import { toast } from "react-toastify";
 
 // Yardımcı: Giriş kontrolü
 const isAuthenticated = () => {
@@ -94,10 +95,13 @@ const wishlistSlice = createSlice({
     name: "wishlist",
     initialState,
     reducers: {
-        resetWishlist: (state) => {
+        clearWishlist: (state) => {
             state.items = [];
             state.quantity = 0;
             state.error = null;
+
+            /* toast */ 
+            toast.info("All items have been removed from your wishlist.")
         },
     },
     extraReducers: (builder) => {
@@ -125,5 +129,5 @@ const wishlistSlice = createSlice({
     },
 });
 
-export const { resetWishlist } = wishlistSlice.actions;
+export const { clearWishlist } = wishlistSlice.actions;
 export default wishlistSlice.reducer;

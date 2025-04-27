@@ -18,6 +18,7 @@ export default function CartPage () {
         increaseQuantity,
         decreaseQuantity,
         removeFromCart,
+        clearCart,
     } = useCart()
 
     return <div className='pb-5'>
@@ -48,11 +49,15 @@ export default function CartPage () {
                         <table className="table table-borderless table-light table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Remove</th>
+                                    <th scope="col" className='align-middle'>Product</th>
+                                    <th scope="col" className='align-middle'>Price</th>
+                                    <th scope="col" className='align-middle'>Quantity</th>
+                                    <th scope="col" className='align-middle'>Total</th>
+                                    <th scope="col" className='align-middle'>
+                                        <button className='btn btn-outline-dark' onClick={clearCart}>
+                                            Remove
+                                        </button>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>

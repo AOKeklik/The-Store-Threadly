@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+
+class CustomerResetMail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $subject;
+    public $token;
+	public $email;
+
+    /**
+     * Create a new message instance.
+     */
+    public function __construct($email, $token)
+    {
+        $this->subject = 'Customer Password Reset Link';
+        $this->email = $email;
+	    $this->token = $token;
+    }
+
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: $this->subject,
+            to: $this->email,
+            from: setting('mail_from_address'),
+        );
+    }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'email.customer-reset',
+            with: [
+                'email' => $this->email,
+                'resetUrl' => env("app_frontend_url")."/reset/verify?".http_build_query(['email' => $this->email, 'token' => $this->token])
+            ]
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
+    }
+}

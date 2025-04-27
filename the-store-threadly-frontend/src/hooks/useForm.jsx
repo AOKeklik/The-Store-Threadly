@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const useForm = (initialValues = {}, validationRules = {}) => {
+const useForm = (initialValues = {}) => {
     const [formData, setFormData] = useState(initialValues)
     const [errors, setErrors] = useState({})
 
@@ -14,29 +14,16 @@ const useForm = (initialValues = {}, validationRules = {}) => {
         }
     }
 
-    const resetForm = () => {
+    const clearForm = () => {
         setFormData(initialValues)
         setErrors({})
-    }
-
-    const validate = () => {
-        const newErrors = {}
-        
-        Object.entries(validationRules).forEach(([field, validateFn]) => {
-            const error = validateFn(formData[field], formData)
-            if (error) newErrors[field] = error
-        })
-
-        setErrors(newErrors)
-        return Object.keys(newErrors).length === 0
     }
 
     return {
         formData,
         errors,
         handleChange,
-        validate,
-        resetForm,
+        clearForm,
         setErrors // For server-side validation
     }
 }

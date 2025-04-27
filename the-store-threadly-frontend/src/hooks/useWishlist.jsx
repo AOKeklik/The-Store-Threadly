@@ -5,6 +5,7 @@ import {
     fetchWishlistAPI,
     addToWishlistAPI,
     removeFromWishlistAPI,
+    clearWishlist,
 } from "../redux/wishlistSlice";
 
 export default function useWishlist() {
@@ -37,9 +38,10 @@ export default function useWishlist() {
         wishlistCount:quantity,
         wishlistLoading:loading,
         error,
-        addToWishlist,
-        removeFromWishlist,
         isInWishlist,
         isWishlistEmpty,
+        addToWishlist,
+        removeFromWishlist,
+        clearWishlist: () => dispatch(clearWishlist()),
     };
 }

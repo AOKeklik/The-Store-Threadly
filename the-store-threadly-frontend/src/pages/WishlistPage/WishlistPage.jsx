@@ -13,7 +13,13 @@ import { URL_PRODUCT } from '../../config'
 export default function WishlistPage() {
     const [ brands, loadingBrands ] = useFetch("slider/brand/all")
     const {getItemPrice} = useCart()
-    const { items, isWishlistEmpty, removeFromWishlist, wishlistLoading, isInWishlist } = useWishlist()
+    const { 
+        items, 
+        wishlistLoading, 
+        isWishlistEmpty, 
+        removeFromWishlist, 
+        clearWishlist
+    } = useWishlist()
 
     return <main className='pb-5'>
         {
@@ -46,11 +52,15 @@ export default function WishlistPage() {
                                     <table className="table table-borderless table-light table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Product</th>
-                                                <th scope="col">Price</th>
-                                                <th scope="col">Stock</th>
-                                                <th scope="col">Add</th>
-                                                <th scope="col">Remove</th>
+                                                <th scope="col" className='align-middle'>Product</th>
+                                                <th scope="col" className='align-middle'>Price</th>
+                                                <th scope="col" className='align-middle'>Stock</th>
+                                                <th scope="col" className='align-middle'>Add</th>
+                                                <th scope="col" className='align-middle'>
+                                                <button className='btn btn-outline-dark' onClick={clearWishlist}>
+                                                    Remove
+                                                </button>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
