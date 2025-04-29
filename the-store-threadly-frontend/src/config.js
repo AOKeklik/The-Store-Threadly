@@ -19,22 +19,32 @@ const axiosClient = axios.create({
 
 
 
-// const axiosProtected = axios.create({
-//     baseURL: URL_API,
-//     headers: {
-//         'Content-Type': 'application/json',
-//         'Accept': 'application/json',
-//     },
-// })
-// axiosProtected.interceptors.request.use(config => {
-//     const token = localStorage.getItem('token')
-//     if (token) {
-//         config.headers.Authorization = `Bearer ${token}`
-//     }
-//     return config
-// })
+const axiosProtected = axios.create({
+    baseURL: URL_API,
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+    },
+})
+axiosProtected.interceptors.request.use(config => {
+    let authData = {};
+
+    if (typeof window !== 'undefined') {
+        try {
+            authData = JSON.parse(localStorage.getItem('user') || '{}');
+        } catch (e) {
+            console.error('Error parsing localStorage user data:', e);
+        }
+    }
+
+    if (authData?.token && authData?.tokenType) {
+        config.headers.Authorization = `${authData.tokenType} ${authData.token}`;
+    }
+
+    return config
+})
 
 
 
-// export {axiosProtected}  
+export {axiosProtected}  
 export default axiosClient

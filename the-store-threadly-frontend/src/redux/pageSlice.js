@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosClient from "../config";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import axiosClient from "../config"
 
 export const fetchPage = createAsyncThunk(
     "page/fetchPage",

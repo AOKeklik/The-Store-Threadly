@@ -6,6 +6,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useSettings } from '../../context/settingContext'
 import DisplayCartPopover from '../../displays/DisplayCartPopover'
 import useWishlist from '../../hooks/useWishlist'
+import DisplayUserPopover from '../../displays/DisplayUserPopover'
 
 export default function Header() {
     const { wishlistCount, isWishlistEmpty } = useWishlist();
@@ -28,7 +29,7 @@ export default function Header() {
                     {/* ///////////// WISHLIST ///////////// */}
                     <Link to="/wishlist"  className="position-relative text-secondary hover-text-gray-800">
                         {
-                            isWishlistEmpty() ? (
+                            isWishlistEmpty ? (
                                 <i className="bi bi-heart"></i>
                             ) : (
                                 <i className="bi bi-heart-fill"></i>
@@ -45,9 +46,7 @@ export default function Header() {
                     {/* ///////////// CART ///////////// */}
 
                     {/* ///////////// login ///////////// */}
-                    <Link to="/signin"  className="text-secondary hover-text-gray-800">
-                        <i className="bi bi-person-fill fs-4"></i>
-                    </Link>
+                    <DisplayUserPopover />
                     {/* ///////////// login ///////////// */}
                 </div>
                 <div className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">

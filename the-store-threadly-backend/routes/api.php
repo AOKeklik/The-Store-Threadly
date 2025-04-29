@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix("")/* ->middleware('auth:sanctum') */->group(function () {
+Route::prefix("")->group(function () {
     Route::controller(FrontendController::class)->group(function(){
         /* setting */
         Route::get("setting","setting_get");
@@ -60,22 +60,30 @@ Route::prefix("")/* ->middleware('auth:sanctum') */->group(function () {
     });
 
     /* Wishlist */
-    Route::controller(FrontendWishlistController::class)->group(function(){
+    Route::middleware('auth:sanctum')->controller(FrontendWishlistController::class)->group(function(){
         Route::get("wishlist","index");
         Route::post("wishlist/store","store");
         Route::delete("wishlist/delete","delete");
+        Route::delete("wishlist/clear","clear");
     });
 });
 
-Route::prefix("auth")/* ->middleware('auth:sanctum') */->group(function () {
+Route::prefix("auth")->group(function () {
     /* Auth */
     Route::controller(FrontendAuthController::class)->group(function(){
         Route::post("signup","signup");
         Route::get("signup/verify/{email}/{token}","signup_verify")->name('auth.signup.verify');
 
-        Route::post("signin","signin");
+        Route::match(['get', 'post'],"signin","signin")->name("login");
         
         Route::post("reset","reset");
         Route::post("reset/verify","reset_verify");
     });
+
+    /* Atuh */
+    Route::middleware('auth:sanctum')->controller(FrontendAuthController::class)->group(function(){
+        Route::get('/check', "check");
+        Route::get('/signout', "signout");
+    });
 });
+

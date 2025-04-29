@@ -9,7 +9,7 @@ class ProductWishlist extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'product_id'];
+    protected $fillable = ['user_id', 'product_id', 'product_variant_id'];
 
     public function user()
     {
@@ -20,4 +20,10 @@ class ProductWishlist extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function productVariant()
+    {
+        return $this->belongsTo(ProductVariant::class);
+    }
+
 }

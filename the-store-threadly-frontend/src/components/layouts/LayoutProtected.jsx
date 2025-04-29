@@ -1,13 +1,18 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Navigate } from 'react-router-dom'
+import React from 'react';
+import Loader from './Loader';
+import { useAuth } from '../../hooks/useAuth';
+import { Navigate, Outlet } from 'react-router-dom';
 
-export default function LayoutProtected({ children }) {
-    // const { user } = useSelector(state => state.auth.user)
+export default function LayoutProtected() {
+    const { authChecked, isLoading, isAuthenticated } = useAuth()
 
-    // if (!user) {
-    //     return <Navigate to="/login" />
-    // }
+    if (!authChecked || isLoading) {
+        return <Loader />;
+    }
 
-    return children
+    if (!isAuthenticated) {
+        return <Navigate to="/signin" replace />;
+    }
+
+    return <Outlet />;
 }

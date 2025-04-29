@@ -10,6 +10,37 @@ use Illuminate\Http\Request;
 
 class FrontendAuthController extends Controller
 {
+    public function check (Request $request) 
+    {
+       try {
+            if (!$request->user())
+                return response()->json(['message' => 'Unauthenticated'], 401);
+
+            $token = $request->user()->createToken('auth_token', ['*'])->plainTextToken;
+            
+            return response()->json([
+                "message"=>"Login successful! Welcome back.",
+                "user" => $request->user()->only(['id', 'name', 'email']),
+                "token" => $token,
+                'tokenType' => 'Bearer'
+            ],200);
+        }catch(\Exception $err){
+            return response()->json(["message" =>$err->getMessage()],500);
+        }
+    }
+    public function signout (Request $request) 
+    {
+        try {
+            $request->user()->currentAccessToken()->delete();
+            
+            return response()->json([
+                "message"=>"Successfully logged out",
+            ],200);
+        }catch(\Exception $err){
+            return response()->json(["message" =>$err->getMessage()],500);
+        }
+    }
+
     public function signin(Request $request)
     {
         try {
@@ -20,17 +51,24 @@ class FrontendAuthController extends Controller
 
             if($validator->fails())
                 return response()->json(["message" => $validator->errors()->toArray()],422);
-    
-            $credential=[
-                "email"=>$request->email,
-                "password"=>$request->password,
-                "status"=>1,
-            ];
 
-            if(!auth()->attempt($credential))
+            $user = User::where("email", $request->email)->first();
+
+            if(
+                !$user ||
+                $user->status != 1 ||
+                !\Hash::check($request->password, $user->password)
+            )
                 return response()->json(['message' => 'Invalid credentials or inactive account.'], 401);
             
-            return response()->json(["message"=>"Login successful! Welcome back."],200);
+            $token = $user->createToken('auth_token', ['*'])->plainTextToken;
+            
+            return response()->json([
+                "message"=>"Login successful! Welcome back.",
+                "user" => $user->only(['id', 'name', 'email']),
+                "token" => $token,
+                'tokenType' => 'Bearer'
+            ],200);
         }catch(\Exception $err){
             return response()->json(["message" =>$err->getMessage()],500);
         }

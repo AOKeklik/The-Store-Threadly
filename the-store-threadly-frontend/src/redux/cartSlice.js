@@ -1,14 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"
+import generateUniqueId from "../utilities/generateUniqueId"
 
-
-const generateUniqueId = (product) => {
-    if (!product.variantId) {
-        return `product-id-${product.productId}`
-    }
-
-    return `product-id-${product.productId}_variant-id-${product.variantId}`
-}
 
 const initialState = {
     items: [],

@@ -31,13 +31,13 @@ export default function CartPage () {
     
         {
             totalQuantity === 0 ? (
-                <div class="card text-center shadow bg-light border-0">
-                    <div class="card-body py-5">
-                        <h2 class="card-title mb-3">Your cart is currently empty</h2>
-                        <p class="card-text text-muted mb-4">
+                <div className="card text-center shadow bg-light border-0">
+                    <div className="card-body py-5">
+                        <h2 className="card-title mb-3">Your cart is currently empty</h2>
+                        <p className="card-text text-muted mb-4">
                             Looks like you haven’t added anything to your cart yet. Start exploring our products and find something you love!
                         </p>
-                        <a href="/products" class="btn btn-danger px-4 py-2">
+                        <a href="/products" className="btn btn-danger px-4 py-2">
                             Continue Shopping
                         </a>
                     </div>
@@ -64,6 +64,7 @@ export default function CartPage () {
                                 {
                                     items.map((item,i) => {
                                         return <tr key={i}>
+                                            {/* /////// IMG & TITLE /////// */}
                                             <td className="align-middle">
                                                 <div className='d-flex align-items-center gap-5'>
                                                     <img src={item.thumbnail} className='w-5' alt="" />
@@ -86,7 +87,14 @@ export default function CartPage () {
                                                     </div>
                                                 </div>
                                             </td>
+                                            {/* /////// IMG & TITLE /////// */}
+
+                                            {/* /////// PRICE /////// */}
                                             <td className="align-middle">{getItemPrice(item)}</td>
+                                            {/* /////// PRICE /////// */}
+
+
+                                            {/* /////// QUANTITY BUTTONS /////// */}
                                             <td className="align-middle">
                                                 <div className="rounded d-flex gap-1">
                                                     <button 
@@ -106,7 +114,13 @@ export default function CartPage () {
                                                     </button>
                                                 </div>  
                                             </td>
+                                            {/* /////// QUANTITY BUTTONS /////// */}
+
+                                            {/* /////// SUB TOTAL PRICE /////// */}
                                             <td className="align-middle">{getItemSubTotalPrice(item)}</td>
+                                            {/* /////// SUB TOTAL PRICE /////// */}
+
+                                            {/* /////// REMOVE BUTTON /////// */}
                                             <td className="align-middle">
                                                 <button 
                                                     onClick={() => removeFromCart(item)}
@@ -115,6 +129,7 @@ export default function CartPage () {
                                                     <i className="bi bi-x-lg"></i>
                                                 </button>
                                             </td>
+                                            {/* /////// REMOVE BUTTON /////// */}
                                         </tr>
                                     })
                                 }

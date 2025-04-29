@@ -1,47 +1,102 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux"
+import { useEffect } from "react"
+import { toast } from "react-toastify"
+import generateUniqueId from "../utilities/generateUniqueId"
 
 import {
-    fetchWishlistAPI,
-    addToWishlistAPI,
-    removeFromWishlistAPI,
-    clearWishlist,
-} from "../redux/wishlistSlice";
+  fetchWishlist,
+  addToWishlist,
+  removeFromWishlist,
+  clearWishlist,
+} from "../redux/wishlistSlice"
 
 export default function useWishlist() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
+    const { 
+        items, 
+        count, 
+        status, 
+        error,
 
-    const { items, quantity, loading, error } = useSelector((state) => state.wishlist);
+        loadingItems,
+
+        add: { data: dataAdd, loading: loadingAdd},
+        remove: { data: dataRemove, loading: loadingRemove},
+        clear: { data: dataClear, loading: loadingClear},
+
+    } = useSelector((state) => state.wishlist)
 
     useEffect(() => {
-        dispatch(fetchWishlistAPI());
-    }, [dispatch]);
+        const loadWishlist = async () => {
+            try {
+                await dispatch(fetchWishlist()).unwrap()
+            } catch (err) {
+                toast.error(err || "Failed to load wishlist")
+            }
+        }
+        
+        loadWishlist()
+    }, [dispatch])
 
-    const addToWishlist = (product) => {
-        dispatch(addToWishlistAPI(product));
-    };
+    const handleAddToWishlist = async (product) => {
+        try {
+            await dispatch(addToWishlist(product)).unwrap()
+            toast.success(dataAdd.message || "Added to wishlist successfully!")
+        } catch (err) {
+            toast.error(err?.message || "Failed to add wishlist")
+            console.log("Add to wishlist: ", err)
+        }
+    }
 
-    const removeFromWishlist = (product) => {
-        dispatch(removeFromWishlistAPI(product));
-    };
+    const handleRemoveFromWishlist = async (product) => {
+        try {
+            await dispatch(removeFromWishlist(product)).unwrap()
+            toast.success(dataRemove.message || "Removed from wishlist successfully!")
+        } catch (err) {
+            toast.error(err?.message || "Failed to remove wishlist")
+            console.log("Remove from wishlist: ", err)
+        }
+    }
 
-    const isInWishlist = (product) => {
-        return items.some((item) => item.variantId === product.variantId);
-    };
+    const handleClearWishlist = async () => {
+        try {
+            await dispatch(clearWishlist())
+            toast.info("Wishlist cleared")
+        } catch (err) {
+            console.log("Clear wishlist: ", err)
+        }
+    }
 
-    const isWishlistEmpty = () => {
-        return items.length === 0;
-    };
+    const isInWishlist = (product) => {        
+        return items.some((item) => item.uniqueId === generateUniqueId(product))
+    }
+
+    const isLoadingWishlistItem = (product) => {
+        return (loadingAdd || loadingRemove) && loadingItems.find(item => generateUniqueId(product) === item)
+    }
+
+    const isClearingWishlist = () => {
+        return loadingClear
+    }
+
+    const isWishlistEmpty = items.length === 0
+
+    console.log(loadingItems)
 
     return {
         items,
-        wishlistCount:quantity,
-        wishlistLoading:loading,
+        wishlistCount: count,
+        isLoading: status === "loading",
         error,
+        
         isInWishlist,
+        isLoadingWishlistItem,
         isWishlistEmpty,
-        addToWishlist,
-        removeFromWishlist,
-        clearWishlist: () => dispatch(clearWishlist()),
-    };
+        isClearingWishlist,
+
+
+        addToWishlist: handleAddToWishlist,
+        removeFromWishlist: handleRemoveFromWishlist,
+        clearWishlist: handleClearWishlist,
+    }
 }

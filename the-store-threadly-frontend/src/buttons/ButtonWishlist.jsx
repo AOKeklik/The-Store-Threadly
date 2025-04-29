@@ -2,7 +2,12 @@ import React from 'react'
 import useWishlist from '../hooks/useWishlist';
 
 export default function ButtonWishlist({ product }) {
-    const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist()
+    const {
+        addToWishlist,
+        removeFromWishlist,
+        isInWishlist,
+        isLoadingWishlistItem,
+    } = useWishlist()
 
     const handleClick = () => {
         if (isInWishlist(product)) {
@@ -13,12 +18,20 @@ export default function ButtonWishlist({ product }) {
     }
 
     return (
-        <button onClick={handleClick} className='btn hover-text-danger border-0 fs-5 p-0'>
+        <button 
+            onClick={handleClick} 
+            disabled={isLoadingWishlistItem(product)}
+            className='btn hover-text-danger border-0 fs-5 p-0'
+        >
             {
-                isInWishlist(product) ? (
-                    <i role='button' className="bi bi-heart-fill"></i>
+                isLoadingWishlistItem(product) ? (
+                    <span className="spinner-grow spinner-grow-sm bg-danger" aria-hidden="true"></span>
                 ) : (
-                    <i role='button' className="bi bi-heart"></i>
+                    isInWishlist(product) ? (
+                        <i role='button' className="bi bi-heart-fill"></i>
+                    ) : (
+                        <i role='button' className="bi bi-heart"></i>
+                    )
                 )
             }
         </button>

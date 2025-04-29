@@ -3,82 +3,107 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\WishlistResource;
 use App\Models\ProductWishlist;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 
 class FrontendWishlistController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        try{
-            $wishlists = ProductWishlist::
-                with('product')
-                ->where('user_id', 1)
-                ->get();
+        $wishlists = ProductWishlist::
+            with('product')
+            ->where('user_id', $request->user()->id)
+            ->get();
 
-            return response()->json([
-                "message"=>"Wishlists retrieved successfully.",
-                "data"=>$wishlists
-            ],200);
-        }catch(\Exception $err) {
-            return response()->json(["message"=>$err->getMessage()], 500);
-        }
+        return response()->json([
+            "success" => true,
+            "message"=>"Wishlists retrieved successfully.",
+            "data"=> WishlistResource::collection($wishlists)
+        ],200);
     }
 
     public function store(Request $request)
     {
-        try{
-            $request->validate([
-	            'product_id' => 'required|exists:products,id'
-	        ]);
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'product_variant_id' => 'required|exists:product_variants,id'
+        ]);
 
-            $userId=1;
+        $existing = ProductWishlist::where('user_id', $request->user()->id)
+            ->where('product_id', $request->product_id)
+            ->where('product_variant_id', $request->product_variant_id)
+            ->first();
 
-            $existing = ProductWishlist::where('user_id', $userId)
-                ->where('product_id', $request->product_id)
-                ->first();
-
-            if ($existing) {
-                return response()->json([
-                    "message" => "Product is already in your wishlist.",
-                    "data" => $existing
-                ], 409);
-            }
-
-	        $wishlistItem = ProductWishlist::create([
-	            'user_id' => $userId,
-	            'product_id' => $request->product_id
-	        ]);
-
+        if ($existing) {
             return response()->json([
-                "message"=>"Wishlist created successfully.",
-                "data"=>$wishlistItem
-            ],201);
-        }catch(\Exception $err) {
-            return response()->json(["message"=>$err->getMessage()], 500);
+                "success" => false,
+                "message" => "Product is already in your wishlist.",
+                "data" => $existing
+            ], 409);
         }
+
+        $wishlistItem = ProductWishlist::create([
+            'user_id' => $request->user()->id,
+            'product_id' => $request->product_id,
+            'product_variant_id' => $request->product_variant_id
+        ]);
+
+        return response()->json([
+            "success" => true,
+            "message"=>"Wishlist created successfully.",
+            "data"=> new WishlistResource($wishlistItem)
+        ],201);      
     }
     public function delete(Request $request)
     {
-        try{
-            $wishlistItem = ProductWishlist::
-                where('user_id', 1)
-	            ->where('id', $request->id)
-	            ->firstOrFail();
-	            
-	        $wishlistItem->delete();
+        $request->validate([
+            'product_id' => 'required|integer|exists:products,id',
+            'product_variant_id' => 'required|integer|exists:product_variants,id'
+        ]);
 
+        $wishlistItem = ProductWishlist::
+            where('user_id', $request->user()->id)
+            ->where('product_id', $request->product_id)
+            ->where('product_variant_id', $request->product_variant_id)
+            ->first();
+
+        if (!$wishlistItem) {
             return response()->json([
-                "message"=>"Wishlist deleted successfully.",
-                "data"=>null
-            ],200);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
+                "success" => false,
                 "message" => "Wishlist item not found.",
-                "data" => null
-            ], 404);
-        }catch(\Exception $err) {
-            return response()->json(["message"=>$err->getMessage()], 500);
+                "error_type" => "wishlist_item_not_found"
+            ], 409);
         }
+            
+        $wishlistItem->delete();
+
+        return response()->json([
+            "success" => true,
+            "message"=>"Wishlist deleted successfully.",
+            "data"=> new WishlistResource($wishlistItem)
+        ],200);
+    }
+    public function clear(Request $request)
+    {
+        $wishlistItes = ProductWishlist::where('user_id', $request->user()->id);
+
+        if (!$wishlistItes->exists()) {
+            return response()->json([
+                "success" => false,
+                "error_type" => "credential",
+                "message" => "No items found in the wishlist.",
+                "error" => "wishlist_empty",
+            ], 404);
+        }
+            
+        $wishlistItes->delete();
+
+        return response()->json([
+            "success" => true,
+            "message"=>"Wishlist cleared successfully.",
+            "data"=>null
+        ],200);
     }
 }

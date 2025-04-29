@@ -45,8 +45,7 @@ export default function DisplayCartPopover() {
 
             {isVisible && (
                 <div
-                    id="section-cart-popoup"
-                    className="cart-popover"
+                    className="section-popover"
                     onMouseEnter={showCartPopover}
                     onMouseLeave={hideCartPopover}
                     style={{
@@ -56,11 +55,11 @@ export default function DisplayCartPopover() {
                         zIndex: 1000,
                     }}
                 >
-                    <h5>Your Cart</h5>
-                    <div className="cart-items">
+                    <h5 className='text-center'>Your Cart</h5>
+                    <div className="popover-items">
                         {items.length > 0 ? (
                             items.map(item => (
-                                <div key={item.uniqueId} className="cart-item">
+                                <div key={item.uniqueId} className="popover-item">
                                     <img src={item.thumbnail} alt={item.title} />
                                     <div className="item-details">
                                         <Link
@@ -74,7 +73,7 @@ export default function DisplayCartPopover() {
                                 </div>
                             ))
                         ) : (
-                            <p className="empty-cart">Your cart is empty</p>
+                            <p className="empty-cart text-center">Empty</p>
                         )}
                     </div>
 

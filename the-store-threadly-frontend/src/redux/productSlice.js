@@ -1,7 +1,7 @@
 // features/product/productsSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axiosClient from '../config'
-import { arangedData } from './helpers/data';
+import { arangedData } from '../utilities/data'
 
 
 export const fetchAllProducts = createAsyncThunk(

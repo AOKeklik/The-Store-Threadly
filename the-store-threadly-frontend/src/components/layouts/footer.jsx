@@ -48,19 +48,31 @@ export default function Footer() {
                         <ul className='d-flex flex-column gap-3'>
                             <li className='d-flex gap-2 align-items-center hover-text-danger'>
                                 <i className="bi bi-circle fs-05"></i>
-                                <a href='#'>My Account</a>
+                                <Link 
+                                    to='/dashboard'
+                                    className={location.pathname.startsWith('/dashboard') ? 'active' : ''}
+                                >My Account</Link>
                             </li>
                             <li className='d-flex gap-2 align-items-center hover-text-danger'>
                                 <i className="bi bi-circle fs-05"></i>
-                                <a href='#'>My Wishlist</a> 
+                                <Link 
+                                    to='/wishlist'
+                                    className={location.pathname.startsWith('/wishlist') ? 'active' : ''}
+                                >My Wishlist</Link>
                             </li>
                             <li className='d-flex gap-2 align-items-center hover-text-danger'>
                                 <i className="bi bi-circle fs-05"></i>
-                                <a href="#">My Cart</a>
+                                <Link 
+                                    to='/cart'
+                                    className={location.pathname.startsWith('/cart') ? 'active' : ''}
+                                >My Cart</Link>
                             </li>
                             <li className='d-flex gap-2 align-items-center hover-text-danger'>
                                 <i className="bi bi-circle fs-05"></i>
-                                <a href="#">Sign In</a>
+                                <Link 
+                                    to='/signin'
+                                    className={location.pathname.startsWith('/signin') ? 'active' : ''}
+                                >Sign In</Link>
                             </li>
                             <li className='d-flex gap-2 align-items-center hover-text-danger'>
                                 <i className="bi bi-circle fs-05"></i>

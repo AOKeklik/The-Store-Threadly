@@ -21,14 +21,12 @@ import RefundsPage from './pages/Page/RefundsPage'
 
 import SigninPage from './pages/User/SigninPage'
 import SignupPage from './pages/User/SignupPage'
-import ProfilePage from './pages/User/ProfilePage'
 import DashboardPage from './pages/User/DashboardPage'
 
 import LayoutMain from './components/layouts/LayoutMain'
 import Loader from './components/layouts/Loader'
-import LayoutAuth from './components/layouts/LayoutAuth'
+import LayoutGuest from './components/layouts/LayoutGuest'
 import ResetPage from './pages/User/ResetPage'
-import ForgetPage from './pages/User/ForgetPage'
 import ResetVerifyPage from './pages/User/ResetVerifyPage'
 import LayoutProtected from './components/layouts/LayoutProtected'
 
@@ -57,16 +55,12 @@ function App() {
 
                         <Route path="/wishlist" element={<WishlistPage />} />
 
-                        {/* <Route element={<LayoutProtected />}>
-                            <Route path="/profile" element={<ProfilePage />} />
+                        <Route element={<LayoutProtected  />}>
                             <Route path="/dashboard" element={<DashboardPage />} />
-                        </Route> */}
-
-                        <Route path="/profile" element={<ProfilePage />} />
-                        <Route path="/dashboard" element={<DashboardPage />} />
+                        </Route>
                     </Route>
 
-                    <Route element={<LayoutAuth />}>
+                    <Route element={<LayoutGuest />}>
                         <Route path="/signin" element={<SigninPage />} />
                         <Route path="/signup" element={<SignupPage />} />
                         <Route path="/reset" element={<ResetPage />} />

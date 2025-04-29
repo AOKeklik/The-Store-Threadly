@@ -18,9 +18,9 @@ export default function ResetVerifyPage() {
 
         <div className="card shadow p-4">
             {/* LOGO */}
-            <div className="text-center mb-5">
+            <Link to="/" className="text-center mb-5">
                 <img src={settings.site_logo_url} alt="Logo" className="w-25" />
-            </div>
+            </Link>
             
             {/* HEADER */}
             <h4 className="text-center text-danger mb-4">Reset</h4>
