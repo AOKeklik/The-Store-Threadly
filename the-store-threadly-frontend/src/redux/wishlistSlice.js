@@ -1,38 +1,24 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { axiosProtected } from "../config"
+
 import { handleError } from "../utilities/errorHandlerNew"
-import generateUniqueId from "../utilities/generateUniqueId"
+import { getWishlistStorage } from "../utilities/storeages"
+import { generateUniqueId, isAuthenticated } from "../utilities/helpers"
 
-// Yardımcı: Giriş kontrolü
-const isAuthenticated = () => {
-    return typeof window !== "undefined" && !!localStorage.getItem("user")
-}
-
-// Yardımcı: LocalStorage wishlist verisini al
-const getLocalWishlist = () => {
-    try {
-        const data = JSON.parse(localStorage.getItem("wishlist"))
-        return data?.items || []
-    } catch {
-        return []
-    }
-}
 
 export const fetchWishlist = createAsyncThunk(
     "wishlist/fetch",
     async (_, { rejectWithValue }) => {
         try {
             if (!isAuthenticated()) {
-                return getLocalWishlist()
+                return getWishlistStorage()
             }
             const { data: {data} } = await axiosProtected.get("/wishlist")
 
-            const processedData = data.map(product => ({
+            return data.map(product => ({
                 ...product,
                 uniqueId: generateUniqueId(product)
             }))
-
-            return processedData
         } catch (err) {
             return rejectWithValue(handleError(err))
         }
@@ -45,10 +31,10 @@ export const addToWishlist = createAsyncThunk(
         try {
             const uniqueId = generateUniqueId(product)
 
-            await new Promise(resolve => setTimeout(resolve, 10000))
-    
             if (!isAuthenticated()) {
-                return { data: { uniqueId, ...product }}
+                return {
+                    data: { uniqueId, ...product }
+                }
             }
     
             const {data} = await axiosProtected.post("/wishlist/store", {
@@ -67,12 +53,12 @@ export const removeFromWishlist = createAsyncThunk(
     "wishlist/remove",
     async (product, { rejectWithValue }) => {
         try {
-            const uniqueId = generateUniqueId(product)
-
-            await new Promise(resolve => setTimeout(resolve, 1000))
+            const uniqueId = generateUniqueId(product)            
 
             if (!isAuthenticated()) {
-                return { data: { uniqueId, ...product }}
+                return {
+                    data: { uniqueId, ...product }
+                }
             }
     
             const {data} = await axiosProtected.delete("/wishlist/delete", {
@@ -82,7 +68,11 @@ export const removeFromWishlist = createAsyncThunk(
                 },
             })
 
-            return {...data, data: {...data.data, uniqueId}}
+            return {
+                ...data,
+                message: data.message,
+                data: {...data.data, uniqueId}
+            }
         } catch (err) {
             return rejectWithValue(handleError(err))
         }
@@ -93,14 +83,10 @@ export const clearWishlist = createAsyncThunk(
     "wishlist/clear",
     async (_, { dispatch, rejectWithValue }) => {
         try {
-
-            await new Promise(resolve => setTimeout(resolve, 1000))
-
             if(!isAuthenticated()) {
                 dispatch(wishlistSlice.actions.clearLocalWishlist())
                 return 
             }
-
             await axiosProtected.delete("/wishlist/clear")
         } catch (err) {
             return rejectWithValue(handleError(err))
@@ -109,28 +95,19 @@ export const clearWishlist = createAsyncThunk(
 )
 
 // Initial State
-const initialState = {
-    items: [],
-    count: 0,
-    status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
-    error: null,
-
-    loadingItems: [],
-
-    add: {
-        data: {},
-        loading: false,
+export const initialState = {
+    local: {
+        items: [],
+        loadingItems: [],
+        count: 0,
+        status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
         error: null,
     },
-    remove: {
-        data: {},
-        loading: false,
-        error: null,
-    },
-    clear: {
-        data: {},
-        loading: false,
-        error: null,
+
+    operations: {
+        add: { data: [], loading: false, error: null },
+        remove: { data: {}, loading: false, error: null },
+        clear: { data: {}, loading: false, error: null },
     },
 }
 
@@ -139,38 +116,33 @@ const wishlistSlice = createSlice({
     initialState,
     reducers: {
         clearLocalWishlist: (state) => {
-            state.items = []
-            state.loadingItems = []
-            state.count = 0
-            state.error = null
+            state.local = initialState.local
         },
         addToLocalWishlist: (state, action) => {
             const newItem = action.payload.data
 
-            if (!state.items.some(item => item.uniqueId === newItem.uniqueId)) {
-                state.items.push(newItem)
-                state.count = state.items.length
+            if (!state.local.items.some(item => item.uniqueId === newItem.uniqueId)) {
+                state.local.items.push(newItem)
+                state.local.count = state.local.items.length
             }
         },
         removeFromLocalWishlist: (state, action) => {
-            const deletedItem = action.payload.data
+            const {uniqueId} = action.payload.data
 
-            state.items = state.items.filter(item => item.uniqueId !== deletedItem.uniqueId)
-            state.count = state.items.length
+            state.local.items = state.local.items.filter(item => item.uniqueId !== uniqueId)
+            state.local.count = state.local.items.length
         },
         
         /* Loading Items */
         setLoadingItems: (state, action) => {
-            const item = action.meta.arg
-            const uniqueId = generateUniqueId(item)
-            
-            state.loadingItems.push(uniqueId)
+            const uniqueId = generateUniqueId(action.meta.arg)
+            state.local.loadingItems.push(uniqueId)
         },
         removeFromLoadingItems: (state, action) => {
             const uniqueId = action.payload?.data?.uniqueId || action.payload?.uniqueId
             
             if (uniqueId) {
-                state.loadingItems = state.loadingItems.filter(item => item !== uniqueId)
+                state.local.loadingItems = state.local.loadingItems.filter(id => id !== uniqueId)
             }
         }
     },
@@ -178,44 +150,39 @@ const wishlistSlice = createSlice({
         builder
             /* Fetch */
             .addCase(fetchWishlist.pending, (state) => {
-                state.status = "loading"
+                state.local.status = "loading"                
             })
             .addCase(fetchWishlist.fulfilled, (state, action) => {
-                state.status = "succeeded"
-                state.items = action.payload
-                state.count = action.payload.length
+                state.local.status = "succeeded"
+                state.local.items = action.payload
+                state.local.count = action.payload.length
             })
             .addCase(fetchWishlist.rejected, (state, action) => {
-                state.status = "failed"
-                state.error = action.payload
+                state.local.status = "failed"
+                state.local.error = action.payload
             })
 
             /* Add */
             .addCase(addToWishlist.pending, (state, action) => {
-                state.add = {
-                    ...state.add,
+                state.operations.add = {
+                    ...initialState.operations.add,
                     loading: true,
-                    error: null
                 }
                 
                 wishlistSlice.caseReducers.setLoadingItems(state, action)
             })
             .addCase(addToWishlist.fulfilled, (state, action) => {
-                state.add = {
-                    ...state.add,
-                    loading: false,
+                state.operations.add = {
+                    ...initialState.operations.add,
                     data: action.payload
                 }
-
-                console.log(state)
                 
                 wishlistSlice.caseReducers.addToLocalWishlist(state, action)
                 wishlistSlice.caseReducers.removeFromLoadingItems(state, action)
             })
             .addCase(addToWishlist.rejected, (state, action) => {
-                state.add = {
-                    ...state.add,
-                    loading: false,
+                state.operations.add = {
+                    ...initialState.operations.add,
                     error: action.payload
                 }
 
@@ -225,28 +192,26 @@ const wishlistSlice = createSlice({
 
             /* Remove */
             .addCase(removeFromWishlist.pending, (state, action) => {
-                state.remove = {
-                    ...state.remove,
+                state.operations.remove = {
+                    ...initialState.operations.remove,
                     loading: true,
-                    error: null
                 }
 
                 wishlistSlice.caseReducers.setLoadingItems(state, action)
             })
             .addCase(removeFromWishlist.fulfilled, (state, action) => {
-                state.remove = {
-                    ...state.remove,
-                    loading: false,
+                state.operations.remove = {
+                    ...initialState.operations.remove,
                     data: action.payload
                 }
+
 
                 wishlistSlice.caseReducers.removeFromLocalWishlist(state, action)
                 wishlistSlice.caseReducers.removeFromLoadingItems(state, action)
             })
             .addCase(removeFromWishlist.rejected, (state, action) => {
-                state.remove = {
-                    ...state.remove,
-                    loading: false,
+                state.operations.remove = {
+                    ...initialState.operations.remove,
                     error: action.payload
                 }
 
@@ -255,29 +220,21 @@ const wishlistSlice = createSlice({
 
             /* Clear */
             .addCase(clearWishlist.pending, (state) => {
-                state.clear = {
-                    ...state.clear,
+                state.operations.clear = {
+                    ...initialState.operations.clear,
                     loading: true,
-                    error: null
                 }
             })
             .addCase(clearWishlist.fulfilled, (state, action) => {
-                state.clear = {
-                    ...state.clear,
+                state.operations.clear = {
+                    ...initialState.operations.clear,
                     data: action.payload,
-                    loading: false,
-                    error: null
                 }
 
                 wishlistSlice.caseReducers.clearLocalWishlist (state)
             })
             .addCase(clearWishlist.rejected, (state, action) => {
-                state.clear = {
-                    ...state.clear,
-                    data: action.payload,
-                    loading: false,
-                    error: action.payload
-                }
+                state.operations.clear = initialState.clear
             })
     },
 })

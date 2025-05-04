@@ -54,8 +54,8 @@ class ProductVariant extends Model
 
         $format = function ($price) use ($currencyIcon, $currencyPosition) {
             return $currencyPosition === 'right'
-                ? $currencyIcon . ' ' . $price
-                : $price . ' ' . $currencyIcon;
+                ? $price . ' ' . $currencyIcon
+                : $currencyIcon . ' ' . $price;
         };
 
         if ($this->offer_price && $this->offer_price < $this->price)

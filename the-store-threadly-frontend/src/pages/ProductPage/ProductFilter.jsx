@@ -1,7 +1,7 @@
 import React from 'react'
-import HeadingPrimary from '../../components/layouts/HeadingPrimary'
+import HeadingPrimary from '../../heading/HeadingPrimary'
 
-import useFilters from '../../hooks/useFilters'
+import useFilters from '../../hooks/product/useFilters'
 import { useSettings } from '../../context/settingContext'
 
 export default function ProductFilter() {

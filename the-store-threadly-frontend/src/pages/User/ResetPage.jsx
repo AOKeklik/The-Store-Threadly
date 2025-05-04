@@ -1,8 +1,9 @@
 import React from 'react'
 import { useSettings } from '../../context/settingContext'
-import useFormReset from '../../hooks/useFormReset'
 import ButtonSubmitForm from '../../buttons/ButtonSubmitForm'
 import { Link } from 'react-router-dom'
+
+import useFormReset from '../../hooks/auth/useFormReset'
 
 export default function ResetPage() {
     const {settings} = useSettings()

@@ -3,9 +3,22 @@
         <td>{{ $variant->id }}</td>
         <td><img src="{{ $variant->getImage() }}" style="height: 100px" alt=""></td>
         <td>{!! $variant->getPrice() !!}</td>
-        @foreach($variant->getOrderedAttributeValues() as $attr)
-            <td>{!! $attr->getIcon() !!}</td>
-        @endforeach
+        <td>
+            @foreach($variant->attributeValues as $attrValue)
+                @if($attrValue->attribute->slug == 'color')
+                    {!! $attrValue->getIcon() !!}
+                @endif
+            @endforeach
+        </td>
+        
+        {{-- Then display size --}}
+        <td>
+            @foreach($variant->attributeValues as $attrValue)
+                @if($attrValue->attribute->slug == 'size')
+                    {!! $attrValue->getIcon() !!}
+                @endif
+            @endforeach
+        </td>
         <td class="pt_10 pb_10">
             <a href="{{ route("admin.product.variant.galery.view",$variant->id) }}" class="btn btn-sm btn-primary">Galery</a>
             <a href="{{ route("admin.product.variant.edit.view",$variant->id) }}" class="btn btn-sm btn-primary">Edit</a>

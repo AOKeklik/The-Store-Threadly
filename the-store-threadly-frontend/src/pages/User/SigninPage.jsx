@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import ButtonSubmitForm from '../../buttons/ButtonSubmitForm'
 
 import { useSettings } from '../../context/settingContext'
-import useFormSignin from '../../hooks/useFormSignin'
+
+import useFormSignin from '../../hooks/auth/useFormSignin'
 
 export default function SigninPage () {
     const {settings} = useSettings()

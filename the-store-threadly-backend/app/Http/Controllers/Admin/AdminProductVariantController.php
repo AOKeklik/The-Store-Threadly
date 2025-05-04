@@ -25,6 +25,7 @@ class AdminProductVariantController extends Controller
             where("product_id",$product_id)->
             orderBy("id","desc")->
             get();
+    
 
         if(!$product)
             return redirect()->route("admin.product.view")->with("error","The variants not found.");
@@ -215,7 +216,7 @@ class AdminProductVariantController extends Controller
             if(!$variant->delete())
                 throw new \Exception("Failed to delete the variant.");
     
-            return response()->json(["message"=>"The coupon deleted successfully."],200);
+            return response()->json(["message"=>"The variant deleted successfully."],200);
         }catch(\Exception $err){
             return response()->json(["message"=>$err->getMessage()],500);
         }

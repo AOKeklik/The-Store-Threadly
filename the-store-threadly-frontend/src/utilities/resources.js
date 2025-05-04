@@ -59,6 +59,7 @@ export const arangedData = (filteredData) => filteredData.flatMap(product => {
         title: product.title,
         short_desc: product.short_desc,
         price: product.offer_price ? product.offer_price : product.price,
+        base_price:product.price,
         offer_price: product.offer_price,
         price_html: product.price_html,
         stock: product.stock,
@@ -77,3 +78,20 @@ export const arangedData = (filteredData) => filteredData.flatMap(product => {
         is_best_seller: product.is_best_seller,         
     }];
 }) || []
+
+
+export const cartResource = (product, quantity=null) => {
+    return { 
+        productId: product.productId,
+        variantId: product.variantId,
+        slug: product.slug,
+        title: product.title,
+        price :product.price,
+        offer_price :product.offer_price,        
+        thumbnail: product.thumbnail,
+        maxQuantity: product.stock,
+        ...( quantity && {quantity: quantity > product.stock ? product.stock : quantity}),
+        color:product.color,
+        size:product.size,
+    }
+}

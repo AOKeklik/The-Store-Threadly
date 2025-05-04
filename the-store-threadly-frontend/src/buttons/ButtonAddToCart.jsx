@@ -1,10 +1,11 @@
 import React from 'react'
-import useCart from '../hooks/useCart'
+import useCart from '../hooks/order/useCart'
+import { cartResource } from '../utilities/resources'
+import { isInStock } from '../utilities/helpers'
 
-export default function ButtonAddToCart({product,quantity=1}) {
+export default function ButtonAddToCart({product,quantity=1,cb=()=>{}}) {
     const { 
         isInCart, 
-        isInStock, 
         addToCart 
     } = useCart()
 
@@ -12,19 +13,8 @@ export default function ButtonAddToCart({product,quantity=1}) {
         <button 
             disabled={isInCart(product)}
             onClick={() => {
-                addToCart({ 
-                    productId: product.productId,
-                    variantId: product.variantId,
-                    slug: product.slug,
-                    title: product.title,
-                    price :product.price,
-                    price_html: product.price_html,
-                    thumbnail: product.thumbnail,
-                    maxQuantity: product.stock,
-                    quantity: quantity > product.stock ? product.stock : quantity,
-                    color:product.color,
-                    size:product.size,
-                })
+                addToCart(cartResource(product, quantity))
+                cb()
             }}
             className='btn hover-text-danger border-0 fs-5 p-0'
         >

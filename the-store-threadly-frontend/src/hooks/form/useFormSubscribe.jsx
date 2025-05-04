@@ -1,16 +1,16 @@
 import { useEffect } from 'react'
-import useForm from './useForm'
-import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
-import { signupSubmit } from '../redux/authSlice'
+import useForm from '../useForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { storeSubscriber } from '../../redux/formSlice';
+import { toast } from 'react-toastify';
 
-export default function useFormSignup() {
+const useFormSubscriber = () => {
     const dispatch = useDispatch();
     const {
         loading, 
         error,
         validationErrors 
-    } = useSelector(state => state.auth.signup);
+    } = useSelector(state => state.form.subscribeForm);
 
     const {
         formData,
@@ -18,12 +18,7 @@ export default function useFormSignup() {
         handleChange,
         clearForm,
         setErrors
-    } = useForm({ 
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-    })
+    } = useForm({ email: '' })
 
      // Handle server validation errors
      useEffect(() => {
@@ -44,10 +39,10 @@ export default function useFormSignup() {
         e.preventDefault()
         
         try {
-            // Show success
-            const res = await dispatch(signupSubmit(formData)).unwrap()
+            const res = await dispatch(storeSubscriber(formData)).unwrap()
             toast.success(res.message)
             clearForm()
+            // Show success message if needed
         } catch (error) {
             // General errors are handled by Redux
             console.error('Submission error:', error);
@@ -62,3 +57,6 @@ export default function useFormSignup() {
         handleSubmit
     }
 }
+
+
+export default useFormSubscriber

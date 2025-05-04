@@ -6,12 +6,15 @@ import {Autoplay,Navigation,Pagination} from "swiper/modules"
 
 import ButtonPrimary from '../buttons/ButtonPrimary'
 
-import AnimateInView from "../hooks/AnimateInView"
-import useCart from '../hooks/useCart'
 import { URL_PRODUCT } from '../config'
 
+import AnimateInView from "../hooks/AnimateInView"
+
+import useHelpers from '../utilities/useHelpers'
+import { getItemDiscountPercent } from '../utilities/helpers'
+
 export default function DiscountSlider({data}) {
-    const { getItemDiscountPercent, getItemPrice } = useCart()
+    const { getItemPrice } = useHelpers()
 
     return <AnimateInView direction='up'>
         <section id="section-discount-products" className='container-md mb-5'>

@@ -1,18 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { toast } from "react-toastify"
-import generateUniqueId from "../utilities/generateUniqueId"
+import { generateUniqueId } from "../utilities/helpers"
 
 
 const initialState = {
     items: [],
     totalQuantity: 0,
-    totalPrice: 0
+    totalPrice: 0,
+    selectedDelivery: {},
+    coupon: {},
 }
 
 const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
+        /* ////// DELIVERY ////// */
+        setSelectedDelivery: (state, action) => {
+            state.selectedDelivery = action.payload
+        },
+        /* ////// COUPON ////// */
+        setCoupon: (state, action) => {
+            state.coupon = action.payload
+        },
+        removeCoupon: (state, _) => {
+            state.coupon = {}
+        },
+        /* ////// CART ////// */
         addToCart: (state, action) => {
             const newItem = action.payload
             const uniqueId = generateUniqueId(newItem)
@@ -59,6 +73,8 @@ const cartSlice = createSlice({
             state.items = []
             state.totalPrice = 0
             state.totalQuantity = 0
+            state.selectedDelivery = {}
+            state.coupon = {}
             
             /* toast */ 
             toast.info("All items have been removed from your cart.")
@@ -71,6 +87,10 @@ const cartSlice = createSlice({
 })
 
 export const {
+    setSelectedDelivery,
+    setCoupon,
+    removeCoupon,
+
     addToCart,
     removeFromCart,
     increaseQuantity,

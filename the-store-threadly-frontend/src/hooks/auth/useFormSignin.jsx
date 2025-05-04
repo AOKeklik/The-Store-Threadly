@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { signinSubmit } from '../redux/authSlice'
+import { signinSubmit } from '../../redux/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import useForm from './useForm'
+import useForm from '../useForm'
 
 export default function useFormSignin() {
     const navigation = useNavigate()

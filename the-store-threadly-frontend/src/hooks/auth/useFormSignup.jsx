@@ -1,25 +1,31 @@
 import { useEffect } from 'react'
-import useForm from './useForm';
-import { useDispatch, useSelector } from 'react-redux';
-import { storeSubscriber } from '../redux/formSlice';
-import { toast } from 'react-toastify';
+import useForm from '../useForm'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { signupSubmit } from '../../redux/authSlice'
+import { useNavigate } from 'react-router-dom'
 
-const useFormSubscriber = () => {
+export default function useFormSignup() {
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     const {
         loading, 
         error,
         validationErrors 
-    } = useSelector(state => state.form.subscribeForm);
+    } = useSelector(state => state.auth.signup);
 
-    
     const {
         formData,
         errors,
         handleChange,
         clearForm,
         setErrors
-    } = useForm({ email: '' })
+    } = useForm({ 
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+    })
 
      // Handle server validation errors
      useEffect(() => {
@@ -40,10 +46,11 @@ const useFormSubscriber = () => {
         e.preventDefault()
         
         try {
-            const res = await dispatch(storeSubscriber(formData)).unwrap()
-            toast.success(res.message)
-            clearForm()
-            // Show success message if needed
+            // Show success
+            const res = await dispatch(signupSubmit(formData)).unwrap()
+            await toast.success(res.message)
+            await clearForm()
+            navigate('/signin')
         } catch (error) {
             // General errors are handled by Redux
             console.error('Submission error:', error);
@@ -58,6 +65,3 @@ const useFormSubscriber = () => {
         handleSubmit
     }
 }
-
-
-export default useFormSubscriber

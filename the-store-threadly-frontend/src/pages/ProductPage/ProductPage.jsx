@@ -4,8 +4,8 @@ import Baner from '../../components/layouts/Baner'
 import Loader from '../../components/layouts/Loader'
 import ProductFilter from './ProductFilter'
 import ProductItem from './ProductItem'
-import useProducts from '../../hooks/useProducts'
-import useFilters from '../../hooks/useFilters'
+import useProducts from '../../hooks/product/useProducts'
+import useFilters from '../../hooks/product/useFilters'
 
 export default function ProductPage() {
     const { clearAllFilters } = useFilters();

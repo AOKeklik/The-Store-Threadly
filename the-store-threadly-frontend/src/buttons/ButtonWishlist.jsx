@@ -1,5 +1,5 @@
 import React from 'react'
-import useWishlist from '../hooks/useWishlist';
+import useWishlist from '../hooks/order/useWishlist'
 
 export default function ButtonWishlist({ product }) {
     const {

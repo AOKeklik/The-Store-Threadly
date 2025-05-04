@@ -1,8 +1,8 @@
 import React from 'react'
 import ButtonPrimary from '../buttons/ButtonPrimary'
 
-import useFormSubscribe from '../hooks/useFormSubscribe'
 import AnimateInView from '../hooks/AnimateInView'
+import useFormSubscribe from '../hooks/form/useFormSubscribe'
 
 export default function SubscriberForm() {
     const {

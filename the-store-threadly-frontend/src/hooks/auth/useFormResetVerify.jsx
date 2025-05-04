@@ -1,16 +1,24 @@
 import React, { useEffect } from 'react'
-import useForm from './useForm'
+import useForm from '../useForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { resetSubmit } from '../redux/authSlice'
+import { resetVerifySubmit } from '../../redux/authSlice'
+import { useNavigate } from 'react-router-dom'
 
-export default function useFormReset() {
+export default function useFormResetVerify() {
     const dispatch = useDispatch()
+
+    const navigate = useNavigate()
+    
+    const queryParams = new URLSearchParams(location.search)
+	const email = queryParams.get('email')
+	const token = queryParams.get('token')
+
     const {
         validationErrors,
         error,
         loading,
-    } = useSelector(state => state.auth.reset)
+    } = useSelector(state => state.auth.resetVerify)
 
     const {
         formData,
@@ -19,7 +27,10 @@ export default function useFormReset() {
         clearForm,
         setErrors 
     } = useForm({
-        email: ""
+        email,
+        token,
+        password: "",
+        password_confirmation: "",
     })
 
     useEffect(() => {
@@ -34,13 +45,13 @@ export default function useFormReset() {
         }
     }, [error])
 
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         try{
-            const res = await dispatch(resetSubmit(formData)).unwrap()
+            const res = await dispatch(resetVerifySubmit(formData)).unwrap()
             toast.success(res.message)
             clearForm()
+            navigate("/signin")
         }catch(err){
             console.log("Reset Form: ", err)
         }

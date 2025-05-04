@@ -1,12 +1,14 @@
 import React from 'react'
-import "./Header.css"
-import useScrollFixedHeader from '../../hooks/useScrollFixedHeader'
 import { Link, NavLink } from 'react-router-dom'
+import "./Header.css"
+
+import DisplayCartPopover from '../../displays/DisplayCartPopover'
+import DisplayUserPopover from '../../displays/DisplayUserPopover'
 
 import { useSettings } from '../../context/settingContext'
-import DisplayCartPopover from '../../displays/DisplayCartPopover'
-import useWishlist from '../../hooks/useWishlist'
-import DisplayUserPopover from '../../displays/DisplayUserPopover'
+
+import useScrollFixedHeader from '../../hooks/useScrollFixedHeader'
+import useWishlist from '../../hooks/order/useWishlist'
 
 export default function Header() {
     const { wishlistCount, isWishlistEmpty } = useWishlist();
@@ -45,9 +47,9 @@ export default function Header() {
                     <DisplayCartPopover />
                     {/* ///////////// CART ///////////// */}
 
-                    {/* ///////////// login ///////////// */}
+                    {/* ///////////// LOGIN ///////////// */}
                     <DisplayUserPopover />
-                    {/* ///////////// login ///////////// */}
+                    {/* ///////////// LOGIN ///////////// */}
                 </div>
                 <div className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
                     <div className="offcanvas-header">

@@ -1,6 +1,6 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-import Loader from "./Loader"; // Loader bileşenin zaten vardı, onu da kullanalım
+import { Navigate, Outlet } from "react-router-dom"
+import Loader from "./Loader"
+import { useAuth } from "../../hooks/auth/useAuth"
 
 export default function LayoutGuest() {
     const { isAuthenticated, authChecked, isLoading } = useAuth();

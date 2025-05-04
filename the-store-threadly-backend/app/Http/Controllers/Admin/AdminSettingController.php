@@ -46,7 +46,7 @@ class AdminSettingController extends Controller
     {
         try{
             $validator = \Validator::make($request->all(), [
-                'site_delivery_charge'=> "required|numeric",
+                'site_delivery_free_threshold'=> "required|numeric",
                 'site_currency_icon'=> "required|string|max:255",
                 'site_currency_icon_position' => "required|string|max:255",
             ]);

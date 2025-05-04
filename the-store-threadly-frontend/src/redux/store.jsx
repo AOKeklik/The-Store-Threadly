@@ -1,18 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit'
+import { Provider } from 'react-redux'
 
-import authSlice from './authSlice';
-import cartSlice from './cartSlice';
-import wishlistSlice from './wishlistSlice';
-import productSlice from './productSlice';
-import filterSlice from './filterSlice';
-import blogSlice from './blogSlice';
-import formSlice from './formSlice';
-import pageSlice from './pageSlice';
+import authSlice from './authSlice'
+import customerSlice from './customerSlice'
+import cartSlice from './cartSlice'
+import orderSlice from './orderSlice'
+import wishlistSlice from './wishlistSlice'
+import productSlice from './productSlice'
+import filterSlice from './filterSlice'
+import blogSlice from './blogSlice'
+import formSlice from './formSlice'
+import pageSlice from './pageSlice'
 
 const saveToLocalStorage = (state) => {
-    localStorage.setItem('cart', JSON.stringify(state.cart));
-    localStorage.setItem('wishlist', JSON.stringify(state.wishlist));
+    localStorage.setItem('cart', JSON.stringify(state.cart))
+    localStorage.setItem('wishlist', JSON.stringify(state.wishlist))
 };
 
 const loadFromLocalStorage = (key) => {
@@ -27,7 +29,9 @@ const loadFromLocalStorage = (key) => {
 const store = configureStore({
     reducer: {
         auth: authSlice,
+        customer: customerSlice,
         cart: cartSlice,
+        order: orderSlice,
         wishlist: wishlistSlice,
         product: productSlice,
         filters: filterSlice,

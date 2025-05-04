@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useFilters from './useFilters'
-import { fetchAllProducts, fetchFeaturedProducts, fetchFilteredProducts, fetchOneProduct } from '../redux/productSlice'
+import { fetchAllProducts, fetchFeaturedProducts, fetchFilteredProducts, fetchOneProduct } from '../../redux/productSlice'
 
 export default function useProducts (slug) {
     const dispatch = useDispatch ()

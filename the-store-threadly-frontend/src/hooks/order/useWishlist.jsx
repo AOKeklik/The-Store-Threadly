@@ -1,29 +1,29 @@
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
-import generateUniqueId from "../utilities/generateUniqueId"
 
 import {
   fetchWishlist,
   addToWishlist,
   removeFromWishlist,
   clearWishlist,
-} from "../redux/wishlistSlice"
+} from "../../redux/wishlistSlice"
+import useHelpers from "../../utilities/useHelpers"
+import { generateUniqueId } from "../../utilities/helpers"
 
 export default function useWishlist() {
     const dispatch = useDispatch()
+
+    const { getItemPrice } = useHelpers()
+
     const { 
-        items, 
-        count, 
-        status, 
-        error,
+        local: { items, loadingItems, count, status, error },
 
-        loadingItems,
-
-        add: { data: dataAdd, loading: loadingAdd},
-        remove: { data: dataRemove, loading: loadingRemove},
-        clear: { data: dataClear, loading: loadingClear},
-
+        operations: {
+            add: { data: dataAdd, loading: loadingAdd},
+            remove: { data: dataRemove, loading: loadingRemove},
+            clear: { data: dataClear, loading: loadingClear},
+        }
     } = useSelector((state) => state.wishlist)
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export default function useWishlist() {
     const handleRemoveFromWishlist = async (product) => {
         try {
             await dispatch(removeFromWishlist(product)).unwrap()
-            toast.success(dataRemove.message || "Removed from wishlist successfully!")
+            toast.success(dataRemove.message || "Removed from wishlist successfully.")
         } catch (err) {
             toast.error(err?.message || "Failed to remove wishlist")
             console.log("Remove from wishlist: ", err)
@@ -81,12 +81,13 @@ export default function useWishlist() {
 
     const isWishlistEmpty = items.length === 0
 
-    console.log(loadingItems)
+    // console.log(items)
 
     return {
         items,
+        getItemPrice,
         wishlistCount: count,
-        isLoading: status === "loading",
+        isLoadingWishlist: status === "loading",
         error,
         
         isInWishlist,

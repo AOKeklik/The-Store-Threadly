@@ -1,32 +1,32 @@
-import { useState, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import './CartPopover.css';
-import { useAuth } from '../hooks/useAuth';
+import { useState, useRef, useCallback } from 'react'
+import { Link } from 'react-router-dom'
+import './CartPopover.css'
+import { useAuth } from '../hooks/auth/useAuth'
 
 export default function DisplayUserPopover() {
     const {isAuthenticated, user, isLoggingOut, logout} = useAuth ()
-    const [isVisible, setIsVisible] = useState(false);
-    const hoverTimeoutRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false)
+    const hoverTimeoutRef = useRef(null)
 
     const clearHoverTimeout = () => {
         if (hoverTimeoutRef.current) {
-            clearTimeout(hoverTimeoutRef.current);
-            hoverTimeoutRef.current = null;
+            clearTimeout(hoverTimeoutRef.current)
+            hoverTimeoutRef.current = null
         }
-    };
+    }
 
     const showCartPopover = useCallback(() => {
-        clearHoverTimeout();
-        setIsVisible(true);
-    }, []);
+        clearHoverTimeout()
+        setIsVisible(true)
+    }, [])
 
     const hideCartPopover = useCallback(() => {
-        clearHoverTimeout();
+        clearHoverTimeout()
         hoverTimeoutRef.current = setTimeout(() => {
-            setIsVisible(false);
-            hoverTimeoutRef.current = null;
-        }, 300);
-    }, []);
+            setIsVisible(false)
+            hoverTimeoutRef.current = null
+        }, 300)
+    }, [])
 
     return (
         <div
@@ -51,7 +51,11 @@ export default function DisplayUserPopover() {
                         zIndex: 1000,
                     }}
                 >
-                    <h6>{user.name}</h6>
+                    { 
+                        isAuthenticated && (
+                            <h6 className="fs-08 text-nowrap mb-3">{user.name}</h6>
+                        )
+                    }
                     <div className="popover-items">
                         {
                             /* LOGIN */
@@ -64,7 +68,7 @@ export default function DisplayUserPopover() {
                                     <button 
                                         onClick={logout}  
                                         disabled={isLoggingOut}
-                                        className="btn text-secondary hover-text-gray-800 text-decoration-none gap-2 popover-item fw-medium"
+                                        className="btn text-secondary hover-text-gray-800 text-decoration-none gap-2 popover-item fw-medium m-0"
                                     >
                                         {
                                             isLoggingOut ? (
@@ -88,5 +92,5 @@ export default function DisplayUserPopover() {
                 </div>
             )}
         </div>
-    );
+    )
 }

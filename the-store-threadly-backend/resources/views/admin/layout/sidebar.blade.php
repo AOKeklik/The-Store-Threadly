@@ -58,14 +58,18 @@
                 <a class="nav-link" href="{{ route("admin.blog.view") }}"><i class="fas fa-pen"></i> <span>Blog</span></a>
             </li>
             <li class="nav-item dropdown {{ 
-                Request::routeIs('admin.product.*') ||
+                Request::routeIs('admin.delivery.*') ||
                 Request::routeIs('admin.attribute.*') ||
                 Request::routeIs('admin.coupon.*') || 
-                Request::routeIs('admin.wishlist.*')
+                Request::routeIs('admin.wishlist.*') ||
+                Request::routeIs('admin.product.*')
                 ? 'active' : '' 
             }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-box"></i><span>Product</span></a>
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-shopping-cart"></i><span>ECommerce</span></a>
                 <ul class="dropdown-menu">
+                    <li class="{{ Request::routeIs('admin.delivery.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route("admin.delivery.view") }}"><i class="fas fa-angle-right"></i> <span>Delivery</span></a>
+                    </li>
                     <li class="{{ Request::routeIs('admin.attribute.*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route("admin.attribute.view") }}"><i class="fas fa-angle-right"></i> <span>Attribute</span></a>
                     </li>

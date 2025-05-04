@@ -5,7 +5,6 @@ export const fetchAllBlogs = createAsyncThunk(
     "blog/fetchAll",
     async(_, {rejectWithValue}) => {
         try{
-            await new Promise(resolve => setTimeout(resolve, 1000))
             const res = await axiosClient.get(`/blog/all`)
             return res.data
         }catch(err){
@@ -22,7 +21,6 @@ export const fetchFilteredBlogs = createAsyncThunk(
             if (filters.category) query.append("category", filters.category)
             if (filters.page) query.append("page", filters.page)
 
-            await new Promise(resolve => setTimeout(resolve, 1000))
             const response = await axiosClient.get(`blog/filter?${query.toString()}`)
             return response.data
         } catch (error) {
@@ -35,7 +33,6 @@ export const fetchOneBlog = createAsyncThunk(
     "blog/fetchOne",
     async(slug, {rejectWithValue}) => {
         try{
-            await new Promise(resolve => setTimeout(resolve, 1000))
             const res = await axiosClient.get(`/blog/${slug}`)
             return res.data
         }catch(err){

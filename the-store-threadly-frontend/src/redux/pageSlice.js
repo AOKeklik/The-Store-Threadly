@@ -5,7 +5,6 @@ export const fetchPage = createAsyncThunk(
     "page/fetchPage",
     async (type, { rejectWithValue }) => {
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
             const res = await axiosClient.get(`/page/${type}/get`);
             return { type, data: res.data };
         } catch (err) {

@@ -1,33 +1,40 @@
-import { useState, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import useCart from '../hooks/useCart';
-import './CartPopover.css';
+import { useState, useRef, useCallback } from 'react'
+import { Link } from 'react-router-dom'
+import './CartPopover.css'
+
+import useCart from '../hooks/order/useCart'
 
 export default function DisplayCartPopover() {
-    const [isVisible, setIsVisible] = useState(false);
-    const hoverTimeoutRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false)
+    const hoverTimeoutRef = useRef(null)
 
-    const { items, totalQuantity, getItemPrice, getSubTotalPrice } = useCart();
+    const { 
+        items,
+        getItemPrice,
+        getSubTotalPrice,
+        totalQuantity, 
+        isCartEmpty,
+    } = useCart()
 
     const clearHoverTimeout = () => {
         if (hoverTimeoutRef.current) {
-            clearTimeout(hoverTimeoutRef.current);
-            hoverTimeoutRef.current = null;
+            clearTimeout(hoverTimeoutRef.current)
+            hoverTimeoutRef.current = null
         }
-    };
+    }
 
     const showCartPopover = useCallback(() => {
-        clearHoverTimeout();
-        setIsVisible(true);
-    }, []);
+        clearHoverTimeout()
+        setIsVisible(true)
+    }, [])
 
     const hideCartPopover = useCallback(() => {
-        clearHoverTimeout();
+        clearHoverTimeout()
         hoverTimeoutRef.current = setTimeout(() => {
-            setIsVisible(false);
-            hoverTimeoutRef.current = null;
-        }, 300);
-    }, []);
+            setIsVisible(false)
+            hoverTimeoutRef.current = null
+        }, 300)
+    }, [])
 
     return (
         <div
@@ -36,12 +43,12 @@ export default function DisplayCartPopover() {
             onMouseEnter={showCartPopover}
             onMouseLeave={hideCartPopover}
         >
-            <a href="javascript:void(0)" className="position-relative text-secondary hover-text-gray-800">
+            <button className="position-relative text-secondary hover-text-gray-800 border-0 p-0">
                 <i className="bi bi-cart-fill"></i>
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     {totalQuantity}
                 </span>
-            </a>
+            </button>
 
             {isVisible && (
                 <div
@@ -55,9 +62,13 @@ export default function DisplayCartPopover() {
                         zIndex: 1000,
                     }}
                 >
-                    <h5 className='text-center'>Your Cart</h5>
+                    {
+                        !isCartEmpty && (
+                            <h5 className='text-center mb-3'>Your Cart</h5>
+                        )
+                    }
                     <div className="popover-items">
-                        {items.length > 0 ? (
+                        {!isCartEmpty ? (
                             items.map(item => (
                                 <div key={item.uniqueId} className="popover-item">
                                     <img src={item.thumbnail} alt={item.title} />
@@ -73,7 +84,7 @@ export default function DisplayCartPopover() {
                                 </div>
                             ))
                         ) : (
-                            <p className="empty-cart text-center">Empty</p>
+                            <p className="empty-cart popover-item">Empty</p>
                         )}
                     </div>
 
@@ -90,5 +101,5 @@ export default function DisplayCartPopover() {
                 </div>
             )}
         </div>
-    );
+    )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Baner from '../../components/layouts/Baner'
-import HeadingPrimary from '../../components/layouts/HeadingPrimary'
+import HeadingPrimary from '../../heading/HeadingPrimary'
 import {useSettings} from "../../context/settingContext"
 import ContactForm from '../../form/ContactForm'
 

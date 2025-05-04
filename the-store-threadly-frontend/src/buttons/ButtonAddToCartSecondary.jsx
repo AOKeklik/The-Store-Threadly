@@ -1,11 +1,11 @@
 import React from 'react'
-import useCart from '../hooks/useCart'
-// import "./ButtonPrimary.css"
+import useCart from '../hooks/order/useCart'
+import { cartResource } from '../utilities/resources'
+import { isInStock } from '../utilities/helpers'
 
 export default function ButtonAddToCartSecondary({product}) {
     const { 
-        isInCart, 
-        isInStock, 
+        isInCart,  
         addToCart 
     } = useCart()
 
@@ -18,18 +18,7 @@ export default function ButtonAddToCartSecondary({product}) {
                     <button 
                         disabled={isInCart(product)}
                         onClick={() => {
-                            addToCart({ 
-                                productId: product.productId,
-                                variantId: product.variantId,
-                                slug: product.slug,
-                                title: product.title,
-                                price :product.price,
-                                price_html: product.price_html,
-                                thumbnail: product.thumbnail,
-                                maxQuantity: product.stock,
-                                color:product.color,
-                                size:product.size,
-                            })
+                            addToCart(cartResource(product))
                         }}
                         className='btn border-0 small button-primary fill-primary py-1 px-2 small'
                     > BUY NOW</button>       

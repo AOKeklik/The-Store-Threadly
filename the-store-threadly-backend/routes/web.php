@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AdminCouponController;
+use App\Http\Controllers\Admin\AdminDeliveryController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminProductGaleryController;
@@ -57,10 +58,16 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
         Route::post("setting/link/update", "setting_link_update")->name("admin.setting.link.update");
     });
 
-    /* Page */
-    Route::controller(AdminPageController::class)->group(function(){
-        Route::get("page","index")->name("admin.page.view");
-        Route::post("page/update","update")->name("admin.page.update");
+     /* Delivery */
+     Route::controller(AdminDeliveryController::class)->group(function(){
+        Route::get("delivery", "index")->name("admin.delivery.view");
+        Route::get("delivery/edit/{id}", "edit_view")->name("admin.delivery.edit.view");
+        Route::get("delivery/section/table", "section_table_view")->name("admin.delivery.section.table.view");
+        Route::get("delivery/section/select", "section_select_view")->name("admin.delivery.section.select.view");
+        Route::post("delivery/store", "store")->name("admin.delivery.store");
+        Route::post("delivery/update", "update")->name("admin.delivery.update");
+        Route::post("delivery/status/update", "status_update")->name("admin.delivery.status.update");
+        Route::post("delivery/delete", "delete")->name("admin.delivery.delete");
     });
 
     /* Category */
@@ -93,6 +100,12 @@ Route::prefix("admin")->middleware("admin.authenticate")->group(function () {
         Route::get("contact/section/unread","section_unread_view")->name("admin.contact.section.unread.view");
         Route::get("contact/detail/{id}","detail_view")->name("admin.contact.detail.view");
         Route::post("contact/delete","delete")->name("admin.contact.delete");
+    });
+
+    /* Page */
+    Route::controller(AdminPageController::class)->group(function(){
+        Route::get("page","index")->name("admin.page.view");
+        Route::post("page/update","update")->name("admin.page.update");
     });
 
     /* Hero Slider */

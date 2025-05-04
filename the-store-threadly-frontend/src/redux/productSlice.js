@@ -1,14 +1,13 @@
 // features/product/productsSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axiosClient from '../config'
-import { arangedData } from '../utilities/data'
+import { arangedData } from '../utilities/resources'
 
 
 export const fetchAllProducts = createAsyncThunk(
     'product/fetchAll',
     async (_, { rejectWithValue }) => {
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try {            
             const response = await axiosClient.get("/product/all");
             return response.data
         } catch (err) {
@@ -29,7 +28,6 @@ export const fetchFilteredProducts = createAsyncThunk(
             if (filters.category) query.append("category", filters.category)
             if (filters.page) query.append("page", filters.page)
 
-            await new Promise(resolve => setTimeout(resolve, 1000))
             const response = await axiosClient.get(`/product/filter?${query.toString()}`)
             return response.data
         } catch (error) {
@@ -42,8 +40,7 @@ export const fetchFilteredProducts = createAsyncThunk(
 export const fetchFeaturedProducts = createAsyncThunk(
     'product/fetchFeatured',
     async (_, { rejectWithValue }) => {
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try {            
             const response = await axiosClient.get(`/product/all/featured`)
             return response.data
         } catch (err) {
@@ -55,8 +52,7 @@ export const fetchFeaturedProducts = createAsyncThunk(
 export const fetchOneProduct = createAsyncThunk(
     "product/fetchOne",
     async(slug, {rejectWithValue}) => {
-        try{
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try{            
             const res = await axiosClient.get(`/product/${slug}`)
             return res.data
         }catch(err){

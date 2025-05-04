@@ -1,10 +1,14 @@
 import React from 'react'
+
+import DisplayAttributes from '../../displays/DisplayAttributes'
+import DisplayStatus from '../../displays/DisplayStatus'
+
+import ProductTitle from '../../heading/ProductTitle'
+
 import ButtonAddToCart from '../../buttons/ButtonAddToCart'
 import ButtonLink from '../../buttons/ButtonLink'
 import ButtonSocialShare from '../../buttons/ButtonSocialShare'
 import ButtonWishlist from '../../buttons/ButtonWishlist'
-import DisplayAttributes from '../../displays/DisplayAttributes'
-import DisplayStatus from '../../displays/DisplayStatus'
 
 export default function ProductPrymaryItem({product}) {
     return <div className="section-product-item">
@@ -36,9 +40,7 @@ export default function ProductPrymaryItem({product}) {
             <div className="card-footer p-3 border-0 ">
                 {/* ////////// TITLE ////////// */}
                 <div className='d-flex justify-content-between mb-1'>
-                    <a href={`product/${product.slug}`} className="text-gray text-decoration-none hover-text-danger">
-                        <h3 className='fs-6 p-0 m-0'>{product.title}</h3>
-                    </a>
+                    <ProductTitle product={product} />
                     <small>{product.category.name}</small>
                 </div>
                 {/* ////////// TITLE ////////// */}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomerResetMail;
 use App\Mail\CustomerSignupMail;
+use App\Models\CustomerData;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -100,12 +101,16 @@ class FrontendAuthController extends Controller
             $token = \Illuminate\Support\Str::random(64);
 	        $hashed_token = hash('sha256', $token);
 
-            User::create([
+            $customer = User::create([
                 "name" => $request->name,
                 "email" => $request->email,
                 "password" => \Hash::make($request->password),
                 "email_verification_token" => $token,
                 "email_verified_at" => null,
+            ]);
+
+            CustomerData::create([
+                "user_id" => $customer->id,
             ]);
 
             \Mail::to($request->email)->send(new CustomerSignupMail($request->email,$hashed_token));

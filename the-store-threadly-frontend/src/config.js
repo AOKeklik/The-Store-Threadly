@@ -26,19 +26,19 @@ const axiosProtected = axios.create({
         'Accept': 'application/json',
     },
 })
-axiosProtected.interceptors.request.use(config => {
-    let authData = {};
+axiosProtected.interceptors.request.use(async config => {
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     if (typeof window !== 'undefined') {
         try {
-            authData = JSON.parse(localStorage.getItem('user') || '{}');
+            const authData = JSON.parse(localStorage.getItem('user') || '{}');
+            if (authData?.token && authData?.tokenType) {
+                config.headers.Authorization = `${authData.tokenType} ${authData.token}`;
+            }
         } catch (e) {
             console.error('Error parsing localStorage user data:', e);
         }
-    }
-
-    if (authData?.token && authData?.tokenType) {
-        config.headers.Authorization = `${authData.tokenType} ${authData.token}`;
     }
 
     return config

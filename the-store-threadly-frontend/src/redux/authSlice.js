@@ -5,8 +5,7 @@ import { handleActionError, handleError } from "../utilities/errorHandlers"
 export const signupSubmit = createAsyncThunk(
     "auth/signup",
     async(formData, {rejectWithValue}) => {
-        try{
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try{            
             const res = await axiosClient.post(`/auth/signup`, formData)
             return res.data
         }catch(err){
@@ -18,8 +17,7 @@ export const signupSubmit = createAsyncThunk(
 export const signinSubmit = createAsyncThunk(
     "auth/signin",
     async(formData, {rejectWithValue}) => {
-        try{
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try{            
             const res = await axiosClient.post(`/auth/signin`, formData)
             return res.data
         }catch(err){
@@ -31,8 +29,7 @@ export const signinSubmit = createAsyncThunk(
 export const resetSubmit = createAsyncThunk(
     "auth/reset",
     async(formData, {rejectWithValue}) => {
-        try{
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try{            
             const res = await axiosClient.post(`/auth/reset`, formData)
             return res.data
         }catch(err){
@@ -44,8 +41,7 @@ export const resetSubmit = createAsyncThunk(
 export const resetVerifySubmit = createAsyncThunk( 
     "auth/reset/verify",
     async(formData, {rejectWithValue}) => {
-        try{
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try{            
             const res = await axiosClient.post(`/auth/reset/verify`, formData)
             return res.data
         }catch(err){
@@ -57,8 +53,7 @@ export const resetVerifySubmit = createAsyncThunk(
 export const checkAuth = createAsyncThunk(
     'auth/check', 
     async (_, { rejectWithValue }) => {
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try {            
             const res = await axiosProtected.get('/auth/check')
             return res.data
         } catch (err) {
@@ -69,8 +64,7 @@ export const checkAuth = createAsyncThunk(
 export const logout = createAsyncThunk(
     'auth/logout', 
     async (_, { rejectWithValue }) => {
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try {            
             const res = await axiosProtected.get('/auth/signout');
             return res.data
         } catch (err) {

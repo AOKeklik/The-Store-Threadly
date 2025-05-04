@@ -5,9 +5,10 @@ use App\Http\Controllers\Frontend\FrontendBlogController;
 use App\Http\Controllers\Frontend\FrontendWishlistController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\FrontendFormController;
+use App\Http\Controllers\Frontend\FrontendOrderController;
 use App\Http\Controllers\Frontend\FrontendPageController;
 use App\Http\Controllers\Frontend\FrontendProductController;
-use App\Http\Controllers\Frontend\FrontendSubscriberController;
+use App\Http\Controllers\Frontend\FrontendProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -87,3 +88,24 @@ Route::prefix("auth")->group(function () {
     });
 });
 
+Route::prefix("customer")->middleware('auth:sanctum')->group(function () {
+    /* Profile */
+    Route::controller(FrontendProfileController::class)->group(function(){
+        Route::get("profile","index");
+        Route::post("profile/update","profile_update");
+        Route::post("password/update","password_update");
+        Route::post("address/update","address_update");
+    });
+});
+
+Route::prefix("order")->middleware('auth:sanctum')->group(function () {
+    /* Coupon */
+    Route::controller(FrontendOrderController::class)->group(function(){
+        Route::post("coupon/submit","coupon");
+    });
+
+    /* Delivery */
+    Route::controller(FrontendOrderController::class)->group(function(){
+        Route::post("delivery/fetch","fetch_delivery");
+    });
+});

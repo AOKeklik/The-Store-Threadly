@@ -5,8 +5,10 @@ const useForm = (initialValues = {}) => {
     const [errors, setErrors] = useState({})
 
     const handleChange = (e) => {
-        const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value }))
+        const { name, type, files, value } = e.target        
+        const newValue = type === 'file' ? files[0] : value
+
+        setFormData(prev => ({ ...prev, [name]: newValue }))
         
         // Clear error when user types
         if (errors[name]) {
@@ -24,7 +26,8 @@ const useForm = (initialValues = {}) => {
         errors,
         handleChange,
         clearForm,
-        setErrors // For server-side validation
+        setErrors, // For server-side validation
+        setFormData, // For server-side set form values
     }
 }
 

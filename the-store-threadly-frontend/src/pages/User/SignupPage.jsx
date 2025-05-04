@@ -2,8 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { useSettings } from '../../context/settingContext'
-import useFormSignup from '../../hooks/useFormSignup'
 import ButtonSubmitForm from '../../buttons/ButtonSubmitForm'
+
+import useFormSignup from '../../hooks/auth/useFormSignup'
 
 export default function SignupPage () {
     const {settings} = useSettings()

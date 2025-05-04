@@ -1,7 +1,8 @@
 import React from 'react'
 import { useSettings } from '../../context/settingContext'
 import ButtonSubmitForm from '../../buttons/ButtonSubmitForm'
-import useFormResetVerify from '../../hooks/useFormResetVerify'
+
+import useFormResetVerify from '../../hooks/auth/useFormResetVerify'
 
 export default function ResetVerifyPage() {
     const {settings} = useSettings()

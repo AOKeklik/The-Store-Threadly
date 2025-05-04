@@ -1,14 +1,15 @@
 import React from 'react'
-import useCart from '../../hooks/useCart'
-import ButtonSocialShare from '../../buttons/ButtonSocialShare';
-import ButtonWishlist from '../../buttons/ButtonWishlist';
-import ButtonAddToCart from '../../buttons/ButtonAddToCart';
-import ButtonLink from '../../buttons/ButtonLink';
-import DisplayAttributes from '../../displays/DisplayAttributes';
 
-export default function ProductItem({ product }) {
-    const {  isInStock } = useCart()
-    
+import DisplayAttributes from '../../displays/DisplayAttributes'
+
+import ButtonSocialShare from '../../buttons/ButtonSocialShare'
+import ButtonWishlist from '../../buttons/ButtonWishlist'
+import ButtonAddToCart from '../../buttons/ButtonAddToCart'
+import ButtonLink from '../../buttons/ButtonLink'
+
+import { isInStock } from '../../utilities/helpers'
+
+export default function ProductItem({ product }) {    
     return (
         <div className='col-lg-4 col-md-6'>
             <div className="section-product-item">

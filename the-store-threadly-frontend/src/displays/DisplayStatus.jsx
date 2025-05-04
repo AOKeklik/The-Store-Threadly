@@ -1,8 +1,8 @@
 import React from 'react'
-import useCart from '../hooks/useCart'
+import { getItemDiscountPercent } from '../utilities/helpers'
+
 
 export default function DisplayStatus({product,news=false,sale=false,best=false}) {
-    const { getItemDiscountPercent } = useCart()
     
     return <>
         {

@@ -1,11 +1,11 @@
 import React from 'react'
 
 import HeroSlider from '../slider/hero-slider/HeroSlider'
-import HeadingPrimary from '../components/layouts/HeadingPrimary'
+import HeadingPrimary from '../heading/HeadingPrimary'
 import MasonryFilterGrid from '../components/products/MasonryFilterGrid'
 import Loader from '../components/layouts/Loader'
 
-import useProducts from '../hooks/useProducts'
+import useProducts from '../hooks/product/useProducts'
 import useFetch from '../hooks/useFetch'
 import useBlog from '../hooks/useBlog'
 

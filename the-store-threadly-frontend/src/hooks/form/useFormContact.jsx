@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import useForm from './useForm'
+import useForm from '../useForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { storeContact } from '../redux/formSlice'
+import { storeContact } from '../../redux/formSlice'
 import { toast } from 'react-toastify'
 
 const useFormContact = () => {

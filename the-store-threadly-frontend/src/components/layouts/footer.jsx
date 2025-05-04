@@ -1,5 +1,7 @@
 import React from 'react'
-import SectionTitle from './HeadingPrimary'
+import { Link, useLocation } from 'react-router-dom'
+
+import SectionTitle from '../../heading/HeadingPrimary'
 
 import img1 from "../../assets/payment/1.webp"
 import img2 from "../../assets/payment/2.webp"
@@ -8,7 +10,6 @@ import img4 from "../../assets/payment/4.webp"
 
 import SubscriberForm from '../../form/SubscriberForm'
 import { useSettings } from '../../context/settingContext'
-import { Link, useLocation } from 'react-router-dom'
 
 export default function Footer() {
     const location = useLocation();

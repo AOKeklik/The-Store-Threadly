@@ -9,11 +9,8 @@ import "swiper/css/thumbs";
 import "swiper/css/zoom";
 
 import Baner from '../../components/layouts/Baner'
-import HeadingPrimary from '../../components/layouts/HeadingPrimary'
+import HeadingPrimary from '../../heading/HeadingPrimary'
 import Loader from '../../components/layouts/Loader'
-
-import useCart from '../../hooks/useCart'
-import useProductFilter from '../../hooks/useProductSingleFilter'
 
 import ButtonWishlist from '../../buttons/ButtonWishlist'
 import ButtonSocialShare from '../../buttons/ButtonSocialShare'
@@ -21,7 +18,11 @@ import ButtonLink from '../../buttons/ButtonLink'
 import ButtonAddToCart from '../../buttons/ButtonAddToCart'
 
 import FeaturedProducts from '../../slider/FeaturedSlider'
-import useProducts from '../../hooks/useProducts';
+
+import useCart from '../../hooks/order/useCart'
+import useProductFilter from '../../hooks/product/useProductSingleFilter'
+import useProducts from '../../hooks/product/useProducts'
+import { getStockStatus, isInStock } from '../../utilities/helpers';
 
 export default function ProductSinglePage() {
     const { slug } = useParams()
@@ -55,12 +56,7 @@ export default function ProductSinglePage() {
 /* ////////// QUANTITY ////////// */
 
 /* ////////// CART ////////// */
-    const {
-        isInCart,
-        isInStock,
-        getQuantity,
-        getStockStatus,
-    } = useCart()
+    const { isInCart, getQuantity } = useCart()
 /* ////////// CART ////////// */
 
     if(loading) return <Loader />
@@ -257,7 +253,7 @@ export default function ProductSinglePage() {
                             <ButtonWishlist product={productDisplay} />
                             <ButtonSocialShare product={productDisplay} />
                             <ButtonLink product={productDisplay} />
-                            <ButtonAddToCart product={productDisplay} quantity={quantity} />
+                            <ButtonAddToCart product={productDisplay} quantity={quantity} cb={() => setQuantity(1)} />
                         </div>
                         {/* /////////// ADD TO CART BUTTONS /////////// */}
                     </div>

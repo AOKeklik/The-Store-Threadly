@@ -16,7 +16,7 @@ class AdminAuthenticate
     public function handle(Request $request, Closure $next): Response
     {
         if(
-            !auth()->check() &&
+            !auth()->check() ||
             auth()->user()?->role !== "admin"
         ){
             auth()->logout();

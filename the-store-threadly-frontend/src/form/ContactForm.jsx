@@ -1,9 +1,10 @@
 import React from 'react'
 
 import AnimateInView from '../hooks/AnimateInView'
-import HeadingPrimary from '../components/layouts/HeadingPrimary'
-import useFormContact from '../hooks/useFormContact'
+import HeadingPrimary from '../heading/HeadingPrimary'
 import ButtonPrimary from '../buttons/ButtonPrimary'
+
+import useFormContact from '../hooks/form/useFormContact'
 
 export default function ContactForm() {
     const {

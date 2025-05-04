@@ -4,8 +4,7 @@ import axiosClient from "../config"
 export const storeSubscriber = createAsyncThunk(
     "form/subscriber/store",
     async(formData, {rejectWithValue}) => {
-        try{
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try{            
             const res = await axiosClient.post(`/form/subscriber/store`, formData)
             return res.data
         }catch(err){
@@ -29,8 +28,7 @@ export const storeSubscriber = createAsyncThunk(
 export const storeContact = createAsyncThunk(
     "form/contact/store",
     async(formData, {rejectWithValue}) => {
-        try{
-            await new Promise(resolve => setTimeout(resolve, 1000))
+        try{            
             const res = await axiosClient.post(`/form/contact/store`, formData)
             return res.data
         }catch(err){
